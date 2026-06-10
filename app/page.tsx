@@ -106,7 +106,7 @@ const IconChevron = () => (
 
 const LogoMark = () => (
   <div className="w-8 h-8 rounded-lg bg-[#f5c518] flex items-center justify-center shrink-0">
-    <svg className="w-4.5 h-4.5 text-[#060b18]" fill="currentColor" viewBox="0 0 20 20" style={{ width: 18, height: 18 }}>
+    <svg className="w-4.5 h-4.5 text-[#000000]" fill="currentColor" viewBox="0 0 20 20" style={{ width: 18, height: 18 }}>
       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
     </svg>
   </div>
@@ -200,7 +200,7 @@ export default function Home() {
   return (
     <div
       className="min-h-screen text-[#eef2f9] relative overflow-hidden"
-      style={{ background: "#060b18" }}
+      style={{ background: "#000000" }}
     >
       {/* Static radial gradient — no animation, pure depth */}
       <div
@@ -208,8 +208,8 @@ export default function Home() {
         className="fixed inset-0 pointer-events-none z-0"
         style={{
           background:
-            "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(96,165,250,0.06) 0%, transparent 70%), " +
-            "radial-gradient(ellipse 60% 40% at 80% 100%, rgba(245,197,24,0.04) 0%, transparent 60%)",
+            "radial-gradient(ellipse 70% 45% at 50% 0%, rgba(245,197,24,0.07) 0%, transparent 70%), " +
+            "radial-gradient(ellipse 50% 35% at 90% 100%, rgba(96,165,250,0.05) 0%, transparent 60%)",
         }}
       />
 
@@ -259,7 +259,7 @@ export default function Home() {
                 <div
                   className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs"
                   style={{
-                    background: "rgba(17,30,54,0.8)",
+                    background: "rgba(13,13,13,0.8)",
                     border: "1px solid rgba(255,255,255,0.06)",
                   }}
                 >
@@ -288,7 +288,7 @@ export default function Home() {
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
                   style={{
                     background: "#f5c518",
-                    color: "#060b18",
+                    color: "#000000",
                     boxShadow: "0 1px 12px rgba(245,197,24,0.2)",
                     transition: "background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease",
                   }}
@@ -301,7 +301,7 @@ export default function Home() {
                   onClick={handleReset}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium active:scale-[0.97]"
                   style={{
-                    background: "rgba(17,30,54,0.6)",
+                    background: "rgba(13,13,13,0.6)",
                     border: "1px solid rgba(255,255,255,0.06)",
                     color: "#94a3b8",
                     transition: "color 150ms ease, background-color 150ms ease, transform 150ms ease",
@@ -346,7 +346,7 @@ export default function Home() {
             </div>
             {/* GhostCursor — smoky trail follows the cursor over the landing area */}
             <GhostCursor
-              color="#818cf8"
+              color="#f5c518"
               brightness={1.2}
               trailLength={60}
               inertia={0.55}
@@ -376,7 +376,7 @@ export default function Home() {
                       key={f.label}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold cursor-default select-none"
                       style={{
-                        background: "rgba(12,21,40,0.85)",
+                        background: "rgba(0,0,0,0.85)",
                         border: "1px solid rgba(255,255,255,0.09)",
                         color: "#94a3b8",
                         backdropFilter: "blur(8px)",
@@ -422,7 +422,7 @@ export default function Home() {
               <div
                 className="rounded-2xl p-5"
                 style={{
-                  background: "#0c1528",
+                  background: "#0d0d0d",
                   border: "1px solid rgba(255,255,255,0.06)",
                   boxShadow: "0 24px 64px rgba(0,0,0,0.4)",
                 }}
@@ -448,7 +448,7 @@ export default function Home() {
               <div
                 className="rounded-xl p-3 shrink-0 space-y-2.5"
                 style={{
-                  background: "#0c1528",
+                  background: "#0d0d0d",
                   border: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
@@ -456,7 +456,7 @@ export default function Home() {
                 <div
                   className="flex items-center gap-2.5 p-2.5 rounded-lg"
                   style={{
-                    background: "#111e36",
+                    background: "#141414",
                     border: "1px solid rgba(255,255,255,0.06)",
                   }}
                 >
@@ -481,7 +481,7 @@ export default function Home() {
                   <div
                     className="flex items-center gap-2.5 p-2.5 rounded-lg"
                     style={{
-                      background: "#111e36",
+                      background: "#141414",
                       border: "1px solid rgba(96,165,250,0.15)",
                     }}
                   >
@@ -547,7 +547,7 @@ export default function Home() {
               <div
                 className="flex-1 rounded-xl overflow-hidden flex flex-col min-h-0"
                 style={{
-                  background: "#0c1528",
+                  background: "#0d0d0d",
                   border: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
@@ -623,7 +623,7 @@ export default function Home() {
             <div
               className={`flex-1 flex flex-col rounded-xl overflow-hidden min-w-0 ${mobileShowRight ? "flex" : "hidden md:flex"}`}
               style={{
-                background: "#0c1528",
+                background: "#0d0d0d",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
             >
@@ -707,7 +707,7 @@ export default function Home() {
               className="fixed bottom-4 right-4 md:hidden z-20 w-12 h-12 rounded-full flex items-center justify-center active:scale-[0.97]"
               style={{
                 background: "#f5c518",
-                color: "#060b18",
+                color: "#000000",
                 boxShadow: "0 4px 20px rgba(245,197,24,0.35)",
                 transition: "transform 150ms ease",
               }}
@@ -722,13 +722,13 @@ export default function Home() {
       {leftMaximized && doc && (
         <div
           className="fixed inset-0 z-50 flex flex-col animate-fadeIn"
-          style={{ background: "#060b18" }}
+          style={{ background: "#000000" }}
         >
           {/* Fullscreen header */}
           <div
             className="flex items-center px-4 py-2 shrink-0 gap-2"
             style={{
-              background: "#0c1528",
+              background: "#0d0d0d",
               borderBottom: "1px solid rgba(255,255,255,0.06)",
             }}
           >
@@ -762,7 +762,7 @@ export default function Home() {
               title="Exit fullscreen"
               className="shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium active:scale-[0.97]"
               style={{
-                background: "#111e36",
+                background: "#141414",
                 border: "1px solid rgba(255,255,255,0.08)",
                 color: "#94a3b8",
                 transition: "color 150ms ease, border-color 150ms ease, transform 150ms ease",
@@ -785,7 +785,7 @@ export default function Home() {
               <kbd
                 className="px-1.5 py-0.5 rounded text-[10px] font-mono"
                 style={{
-                  background: "#111e36",
+                  background: "#141414",
                   border: "1px solid rgba(255,255,255,0.08)",
                 }}
               >

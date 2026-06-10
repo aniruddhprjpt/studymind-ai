@@ -2,10 +2,10 @@
 
 /* ─── Design Tokens ──────────────────────────────────────────── */
 :root {
-  --bg:           #060b18;
-  --surface:      #0c1528;
-  --surface-2:    #111e36;
-  --surface-3:    #18294a;
+  --bg:           #000000;
+  --surface:      #0d0d0d;
+  --surface-2:    #141414;
+  --surface-3:    #1c1c1c;
   --border:       rgba(255, 255, 255, 0.06);
   --border-gold:  rgba(245, 200, 66, 0.18);
   --gold:         #f5c518;
