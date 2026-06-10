@@ -43,41 +43,73 @@ function formatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function ParticleBackground() {
-  const particles = [
-    { w: 3, l: 12, t: 8, gold: true, delay: 0, dur: 14 },
-    { w: 2, l: 28, t: 35, gold: false, delay: 2.1, dur: 11 },
-    { w: 4, l: 45, t: 60, gold: true, delay: 1.3, dur: 16 },
-    { w: 2, l: 67, t: 20, gold: false, delay: 3.5, dur: 13 },
-    { w: 3, l: 82, t: 75, gold: true, delay: 0.8, dur: 18 },
-    { w: 2, l: 15, t: 88, gold: false, delay: 4.2, dur: 12 },
-    { w: 4, l: 55, t: 42, gold: true, delay: 1.9, dur: 15 },
-    { w: 2, l: 93, t: 55, gold: false, delay: 2.7, dur: 10 },
-    { w: 3, l: 38, t: 15, gold: true, delay: 5.1, dur: 17 },
-    { w: 2, l: 72, t: 90, gold: false, delay: 0.4, dur: 14 },
-    { w: 3, l: 5, t: 50, gold: true, delay: 3.3, dur: 11 },
-    { w: 2, l: 88, t: 30, gold: false, delay: 1.6, dur: 16 },
-  ];
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {particles.map((p, i) => (
-        <div
-          key={i}
-          className="particle absolute rounded-full opacity-25"
-          style={{
-            width: p.w + "px",
-            height: p.w + "px",
-            left: p.l + "%",
-            top: p.t + "%",
-            background: p.gold ? "#f5c842" : "#4fc3f7",
-            animationDelay: p.delay + "s",
-            animationDuration: p.dur + "s",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
+// ── Icons ────────────────────────────────────────────────────────────────────
+
+const IconDoc = () => (
+  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+  </svg>
+);
+
+const IconChat = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+  </svg>
+);
+
+const IconQuiz = () => (
+  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+  </svg>
+);
+
+const IconUpload = () => (
+  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+  </svg>
+);
+
+const IconExpand = () => (
+  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+  </svg>
+);
+
+const IconCompress = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+      d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M15 9h4.5M15 9V4.5M15 9l5.25-5.25M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 15h4.5M15 15v4.5M15 15l5.25 5.25" />
+  </svg>
+);
+
+const IconBack = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+  </svg>
+);
+
+const IconChevron = () => (
+  <svg className="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  </svg>
+);
+
+// ── Logo ─────────────────────────────────────────────────────────────────────
+
+const LogoMark = () => (
+  <div className="w-8 h-8 rounded-lg bg-[#f5c518] flex items-center justify-center shrink-0">
+    <svg className="w-4.5 h-4.5 text-[#060b18]" fill="currentColor" viewBox="0 0 20 20" style={{ width: 18, height: 18 }}>
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+    </svg>
+  </div>
+);
+
+// ── Main Component ────────────────────────────────────────────────────────────
 
 export default function Home() {
   const [doc, setDoc] = useState<DocumentState | null>(null);
@@ -105,7 +137,6 @@ export default function Home() {
     setLeftTab("notes");
     setMobileShowRight(true);
     setCompareMode(false);
-    // Save to library
     saveDocToLibrary(data);
     try {
       const prev = parseInt(localStorage.getItem("studymind_docs_count") ?? "0", 10);
@@ -164,42 +195,56 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f1e] text-[#f0f4ff] relative overflow-hidden">
-      <ParticleBackground />
+    <div
+      className="min-h-screen text-[#eef2f9] relative overflow-hidden"
+      style={{ background: "#060b18" }}
+    >
+      {/* Static radial gradient — no animation, pure depth */}
+      <div
+        aria-hidden
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(96,165,250,0.06) 0%, transparent 70%), " +
+            "radial-gradient(ellipse 60% 40% at 80% 100%, rgba(245,197,24,0.04) 0%, transparent 60%)",
+        }}
+      />
 
       {/* Focus mode backdrop */}
       {focusMode && (
         <div
-          className="fixed inset-0 z-30 bg-black/70 backdrop-blur-sm cursor-pointer"
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm cursor-pointer"
           onClick={() => setFocusMode(false)}
         />
       )}
 
-      {/* Top Bar */}
-      <header className="relative z-40 border-b border-[rgba(245,200,66,0.1)] bg-[#0a0f1e]/90 backdrop-blur-md">
-        <div className="max-w-screen-2xl mx-auto px-4 py-3 flex items-center gap-3">
+      {/* ── Top Bar ── */}
+      <header
+        className="relative z-40 border-b backdrop-blur-md"
+        style={{
+          borderColor: "rgba(255,255,255,0.06)",
+          background: "rgba(6,11,24,0.85)",
+        }}
+      >
+        <div className="max-w-screen-2xl mx-auto px-4 py-2.5 flex items-center gap-3">
+
           {/* Logo */}
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#f5c842] to-[#e0a800] flex items-center justify-center shadow-[0_0_20px_rgba(245,200,66,0.4)]">
-              <svg className="w-5 h-5 text-[#0a0f1e]" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            </div>
+          <div className="flex items-center gap-2.5 shrink-0">
+            <LogoMark />
             <div className="hidden sm:block">
-              <h1 className="text-[#f0f4ff] font-black text-lg leading-none tracking-tight">StudyMind AI</h1>
-              <p className="text-[#8892a4] text-xs">Powered by LLaMA 3.3-70B</p>
+              <h1 className="text-[#eef2f9] font-bold text-sm leading-none tracking-tight">StudyMind AI</h1>
+              <p className="text-[#475569] text-[11px] mt-0.5">Powered by LLaMA 3.3-70B</p>
             </div>
           </div>
 
           {/* Center widgets */}
-          <div className="flex items-center gap-2 flex-1 justify-center overflow-x-auto scrollbar-none">
+          <div className="flex items-center gap-2 flex-1 justify-center overflow-x-auto" style={{ scrollbarWidth: "none" }}>
             <PomodoroTimer focusMode={focusMode} onFocusToggle={() => setFocusMode(!focusMode)} />
             <ExamCountdown />
           </div>
 
           {/* Right actions */}
           <div className="flex items-center gap-2 shrink-0">
-            {/* Library always visible */}
             <DocumentLibrary
               onSelect={handleSelectFromLibrary}
               currentFilename={doc?.filename}
@@ -207,22 +252,29 @@ export default function Home() {
 
             {doc && (
               <>
-                <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 bg-[#111827] border border-[rgba(245,200,66,0.15)] rounded-lg">
-                  <svg className="w-3.5 h-3.5 text-[#f5c842]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <span className="text-[#f0f4ff] text-xs font-medium max-w-[120px] truncate">{doc.filename}</span>
-                  <span className="text-[#8892a4] text-xs">{formatBytes(doc.fileSize)}</span>
+                {/* Active file badge */}
+                <div
+                  className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs"
+                  style={{
+                    background: "rgba(17,30,54,0.8)",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <span className="text-[#f5c518]"><IconDoc /></span>
+                  <span className="text-[#eef2f9] font-medium max-w-[120px] truncate">{doc.filename}</span>
+                  <span className="text-[#475569]">{formatBytes(doc.fileSize)}</span>
                 </div>
 
                 {doc2 && (
                   <button
                     onClick={() => setCompareMode(!compareMode)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-[color,background-color,box-shadow] duration-150 active:scale-[0.97] ${
-                      compareMode
-                        ? "bg-[#4fc3f7] text-[#0a0f1e] shadow-[0_0_16px_rgba(79,195,247,0.3)]"
-                        : "bg-[#4fc3f7]/10 border border-[#4fc3f7]/30 text-[#4fc3f7] hover:bg-[#4fc3f7]/20"
-                    }`}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
+                    style={{
+                      transition: "background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
+                      background: compareMode ? "rgba(96,165,250,0.15)" : "rgba(96,165,250,0.08)",
+                      border: compareMode ? "1px solid rgba(96,165,250,0.4)" : "1px solid rgba(96,165,250,0.2)",
+                      color: "#60a5fa",
+                    }}
                   >
                     ⚖️ <span className="hidden sm:inline">{compareMode ? "Compare ON" : "Compare"}</span>
                   </button>
@@ -230,21 +282,31 @@ export default function Home() {
 
                 <button
                   onClick={() => { setQuizTopicFilter(undefined); setShowQuiz(true); }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#f5c842] text-[#0a0f1e] rounded-lg text-xs font-bold hover:bg-[#ffd84d] shadow-[0_0_16px_rgba(245,200,66,0.25)] transition-[background-color,box-shadow] duration-150 active:scale-[0.97]"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
+                  style={{
+                    background: "#f5c518",
+                    color: "#060b18",
+                    boxShadow: "0 1px 12px rgba(245,197,24,0.2)",
+                    transition: "background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease",
+                  }}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                  </svg>
+                  <IconQuiz />
                   <span className="hidden sm:inline">Mock Exam</span>
                 </button>
 
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1a2340] border border-[rgba(245,200,66,0.2)] text-[#8892a4] rounded-lg text-xs hover:text-[#f0f4ff] hover:border-[#f5c842]/40 transition-[color,border-color,background-color] duration-150 active:scale-[0.97]"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium active:scale-[0.97]"
+                  style={{
+                    background: "rgba(17,30,54,0.6)",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                    color: "#94a3b8",
+                    transition: "color 150ms ease, background-color 150ms ease, transform 150ms ease",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = "#eef2f9"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "#94a3b8"; }}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                  </svg>
+                  <IconUpload />
                   <span className="hidden sm:inline">New File</span>
                 </button>
               </>
@@ -253,29 +315,68 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main */}
-      <main className="relative z-10 max-w-screen-2xl mx-auto px-4 py-4 h-[calc(100vh-65px)]">
+      {/* ── Main ── */}
+      <main className="relative z-10 max-w-screen-2xl mx-auto px-4 py-4 h-[calc(100vh-53px)]">
+
         {!doc ? (
           /* ── Landing / Upload View ── */
           <div className="flex items-center justify-center h-full">
-            <div className="w-full max-w-2xl animate-fadeSlideUp">
-              <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#f5c842]/10 border border-[#f5c842]/30 rounded-full text-[#f5c842] text-xs font-semibold uppercase tracking-widest mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#f5c842] animate-pulse" />
-                  AI-Powered Study Assistant
+            <div className="w-full max-w-xl animate-fadeSlideUp">
+
+              {/* Hero */}
+              <div className="text-center mb-8">
+                {/* Badge row — replaces 3-card grid */}
+                <div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
+                  {[
+                    { icon: "💬", label: "Smart Chat" },
+                    { icon: "🧠", label: "Mind Maps" },
+                    { icon: "🃏", label: "Flashcards" },
+                    { icon: "📊", label: "Progress" },
+                  ].map((f, i) => (
+                    <span
+                      key={f.label}
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
+                      style={{
+                        background: "rgba(17,30,54,0.8)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        color: "#94a3b8",
+                        animation: `staggerFadeUp 280ms cubic-bezier(0.23,1,0.32,1) ${i * 50}ms both`,
+                      }}
+                    >
+                      <span>{f.icon}</span>
+                      {f.label}
+                    </span>
+                  ))}
                 </div>
-                <h2 className="text-4xl sm:text-5xl font-black text-[#f0f4ff] leading-tight mb-4">
+
+                <h2 className="text-[2.5rem] sm:text-[3rem] font-black leading-[1.1] tracking-tight mb-4"
+                  style={{ color: "#eef2f9" }}>
                   Study Smarter,{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f5c842] to-[#4fc3f7]">
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #f5c518 0%, #60a5fa 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
                     Not Harder
                   </span>
                 </h2>
-                <p className="text-[#8892a4] text-base leading-relaxed max-w-lg mx-auto">
-                  Upload your study material and let AI explain it, test you, generate mind maps, flashcards and more — powered by LLaMA 3.3-70B.
+                <p className="text-[#94a3b8] text-[15px] leading-relaxed max-w-sm mx-auto">
+                  Upload your study material and let AI explain it, test you, and generate mind maps — powered by LLaMA 3.3-70B.
                 </p>
               </div>
 
-              <div className="bg-[#111827] border border-[rgba(245,200,66,0.1)] rounded-2xl p-6 shadow-[0_0_40px_rgba(0,0,0,0.4)]">
+              {/* Upload card */}
+              <div
+                className="rounded-2xl p-5"
+                style={{
+                  background: "#0c1528",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  boxShadow: "0 24px 64px rgba(0,0,0,0.4)",
+                }}
+              >
                 <FileUpload
                   onUploadComplete={handleUploadComplete}
                   isUploading={isUploading}
@@ -283,68 +384,84 @@ export default function Home() {
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-3 mt-6">
-                {[
-                  { icon: "💬", label: "Smart Chat", desc: "Ask anything about your document" },
-                  { icon: "🧠", label: "Mind Map", desc: "Visual concept maps" },
-                  { icon: "🃏", label: "Flashcards", desc: "Spaced repetition study" },
-                ].map((f, i) => (
-                  <div
-                    key={f.label}
-                    className="bg-[#111827] border border-[rgba(245,200,66,0.08)] rounded-xl p-3 text-center hover:border-[rgba(245,200,66,0.2)] transition-[border-color] duration-200"
-                    style={{ animation: `staggerFadeUp 380ms cubic-bezier(0.23,1,0.32,1) ${120 + i * 70}ms both` }}
-                  >
-                    <div className="text-2xl mb-1.5">{f.icon}</div>
-                    <p className="text-[#f0f4ff] text-xs font-semibold">{f.label}</p>
-                    <p className="text-[#8892a4] text-xs mt-0.5 leading-tight">{f.desc}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
+
         ) : (
           /* ── Main App View ── */
-          <div className="flex h-full gap-4">
+          <div className="flex h-full gap-3">
 
             {/* ── Left Panel ── */}
             <div className={`flex flex-col gap-3 w-full md:w-[360px] lg:w-[400px] xl:w-[420px] shrink-0 ${mobileShowRight ? "hidden md:flex" : "flex"}`}>
 
-              {/* Document upload area */}
-              <div className="bg-[#111827] border border-[rgba(245,200,66,0.1)] rounded-2xl p-3 shrink-0 space-y-3">
+              {/* Document area */}
+              <div
+                className="rounded-xl p-3 shrink-0 space-y-2.5"
+                style={{
+                  background: "#0c1528",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
                 {/* Doc 1 info */}
-                <div className="flex items-center gap-2 p-2.5 bg-[#0d1526] rounded-xl border border-[rgba(245,200,66,0.1)]">
-                  <div className="w-7 h-7 rounded-lg bg-[#f5c842]/10 border border-[#f5c842]/20 flex items-center justify-center shrink-0">
-                    <svg className="w-3.5 h-3.5 text-[#f5c842]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
+                <div
+                  className="flex items-center gap-2.5 p-2.5 rounded-lg"
+                  style={{
+                    background: "#111e36",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                    style={{
+                      background: "rgba(245,197,24,0.1)",
+                      border: "1px solid rgba(245,197,24,0.2)",
+                    }}
+                  >
+                    <span style={{ color: "#f5c518" }}><IconDoc /></span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[#f0f4ff] text-xs font-medium truncate">{doc.filename}</p>
-                    <p className="text-[#8892a4] text-xs">{formatBytes(doc.fileSize)} · {doc.charCount.toLocaleString()} chars</p>
+                    <p className="text-[#eef2f9] text-xs font-medium truncate">{doc.filename}</p>
+                    <p className="text-[#475569] text-[11px] mt-0.5">{formatBytes(doc.fileSize)} · {doc.charCount.toLocaleString()} chars</p>
                   </div>
-                  <span className="text-[#4ade80] text-xs shrink-0">✓ Doc 1</span>
+                  <span className="text-[#34d399] text-[11px] shrink-0 font-medium">✓ Doc 1</span>
                 </div>
 
-                {/* Doc 2 — shown when uploaded or always-visible upload */}
+                {/* Doc 2 */}
                 {doc2 ? (
-                  <div className="flex items-center gap-2 p-2.5 bg-[#0d1526] rounded-xl border border-[rgba(79,195,247,0.2)]">
-                    <div className="w-7 h-7 rounded-lg bg-[#4fc3f7]/10 border border-[#4fc3f7]/20 flex items-center justify-center shrink-0">
-                      <svg className="w-3.5 h-3.5 text-[#4fc3f7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                  <div
+                    className="flex items-center gap-2.5 p-2.5 rounded-lg"
+                    style={{
+                      background: "#111e36",
+                      border: "1px solid rgba(96,165,250,0.15)",
+                    }}
+                  >
+                    <div
+                      className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                      style={{
+                        background: "rgba(96,165,250,0.1)",
+                        border: "1px solid rgba(96,165,250,0.2)",
+                      }}
+                    >
+                      <span style={{ color: "#60a5fa" }}><IconDoc /></span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[#f0f4ff] text-xs font-medium truncate">{doc2.filename}</p>
-                      <p className="text-[#8892a4] text-xs">{formatBytes(doc2.fileSize)}</p>
+                      <p className="text-[#eef2f9] text-xs font-medium truncate">{doc2.filename}</p>
+                      <p className="text-[#475569] text-[11px] mt-0.5">{formatBytes(doc2.fileSize)}</p>
                     </div>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <span className="text-[#4fc3f7] text-xs">✓ Doc 2</span>
-                      <button onClick={() => { setDoc2(null); setCompareMode(false); }} className="text-[#8892a4] hover:text-[#f87171] text-xs ml-1">✕</button>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-[#60a5fa] text-[11px] font-medium">✓ Doc 2</span>
+                      <button
+                        onClick={() => { setDoc2(null); setCompareMode(false); }}
+                        className="text-[#475569] hover:text-[#f87171] text-xs active:scale-[0.97]"
+                        style={{ transition: "color 150ms ease, transform 150ms ease" }}
+                      >
+                        ✕
+                      </button>
                     </div>
                   </div>
                 ) : (
                   <div>
-                    <p className="text-[#8892a4] text-xs mb-1.5 flex items-center gap-1">
+                    <p className="text-[#475569] text-[11px] mb-2 flex items-center gap-1">
                       <span>⚖️</span> Upload a 2nd doc to enable Compare Mode:
                     </p>
                     <FileUpload
@@ -355,12 +472,15 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Swap / replace doc 1 */}
+                {/* Replace doc 1 */}
                 <details className="group">
-                  <summary className="text-[#8892a4] text-xs cursor-pointer hover:text-[#f0f4ff] transition-colors select-none list-none flex items-center gap-1">
-                    <svg className="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                  <summary
+                    className="text-[#475569] text-[11px] cursor-pointer select-none list-none flex items-center gap-1.5"
+                    style={{ transition: "color 150ms ease" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = "#94a3b8"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = "#475569"; }}
+                  >
+                    <IconChevron />
                     Replace Doc 1
                   </summary>
                   <div className="mt-2">
@@ -373,37 +493,67 @@ export default function Home() {
                 </details>
               </div>
 
-              {/* Left tab panel — inline (non-maximised) */}
-              <div className="flex-1 bg-[#111827] border border-[rgba(245,200,66,0.1)] rounded-2xl overflow-hidden flex flex-col min-h-0">
+              {/* Left tab panel */}
+              <div
+                className="flex-1 rounded-xl overflow-hidden flex flex-col min-h-0"
+                style={{
+                  background: "#0c1528",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
                 {/* Tab bar */}
-                <div className="flex items-center border-b border-[rgba(245,200,66,0.08)] shrink-0">
-                  <div className="flex flex-1 overflow-x-auto scrollbar-none">
+                <div
+                  className="flex items-center shrink-0"
+                  style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+                >
+                  <div className="flex flex-1 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
                     {LEFT_TABS.map((tab) => (
                       <button
                         key={tab.id}
                         onClick={() => setLeftTab(tab.id)}
-                        className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold whitespace-nowrap border-b-2 transition-[color,background-color,border-color] duration-150 flex-1 justify-center active:scale-[0.97] ${
-                          leftTab === tab.id
-                            ? "border-[#f5c842] text-[#f5c842] bg-[#f5c842]/5"
-                            : "border-transparent text-[#8892a4] hover:text-[#f0f4ff] hover:bg-[#1a2340]/50"
-                        }`}
+                        className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium whitespace-nowrap border-b-2 flex-1 justify-center active:scale-[0.97]"
                         title={tab.label}
+                        style={{
+                          borderColor: leftTab === tab.id ? "#f5c518" : "transparent",
+                          color: leftTab === tab.id ? "#f5c518" : "#475569",
+                          background: leftTab === tab.id ? "rgba(245,197,24,0.04)" : "transparent",
+                          transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          if (leftTab !== tab.id) e.currentTarget.style.color = "#94a3b8";
+                        }}
+                        onMouseLeave={(e) => {
+                          if (leftTab !== tab.id) e.currentTarget.style.color = "#475569";
+                        }}
                       >
                         <span>{tab.icon}</span>
                         <span className="hidden lg:inline">{tab.label}</span>
                       </button>
                     ))}
                   </div>
+
                   {/* Fullscreen toggle */}
                   <button
                     onClick={() => setLeftMaximized(true)}
                     title="Fullscreen"
-                    className="shrink-0 w-8 h-8 mx-1.5 rounded-lg flex items-center justify-center text-[#8892a4] hover:text-[#f5c842] hover:bg-[#f5c842]/10 border border-transparent hover:border-[#f5c842]/20 transition-[color,background-color,border-color] duration-150 active:scale-[0.97]"
+                    className="shrink-0 w-8 h-8 mx-1.5 rounded-lg flex items-center justify-center active:scale-[0.97]"
+                    style={{
+                      color: "#475569",
+                      border: "1px solid transparent",
+                      transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "#f5c518";
+                      e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.08)";
+                      e.currentTarget.style.borderColor = "rgba(245,197,24,0.2)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "#475569";
+                      e.currentTarget.style.backgroundColor = "transparent";
+                      e.currentTarget.style.borderColor = "transparent";
+                    }}
                   >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                    </svg>
+                    <IconExpand />
                   </button>
                 </div>
 
@@ -420,27 +570,43 @@ export default function Home() {
             </div>
 
             {/* ── Right Panel — Chat ── */}
-            <div className={`flex-1 flex flex-col bg-[#111827] border border-[rgba(245,200,66,0.1)] rounded-2xl overflow-hidden min-w-0
-              ${mobileShowRight ? "flex" : "hidden md:flex"}
-            `}>
+            <div
+              className={`flex-1 flex flex-col rounded-xl overflow-hidden min-w-0 ${mobileShowRight ? "flex" : "hidden md:flex"}`}
+              style={{
+                background: "#0c1528",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
               {/* Chat header */}
-              <div className="flex items-center border-b border-[rgba(245,200,66,0.08)] px-4 py-2.5 shrink-0">
+              <div
+                className="flex items-center px-4 py-2.5 shrink-0"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+              >
                 <button
                   onClick={() => setMobileShowRight(false)}
-                  className="md:hidden mr-3 text-[#8892a4] hover:text-[#f0f4ff] transition-colors"
+                  className="md:hidden mr-3 active:scale-[0.97]"
+                  style={{
+                    color: "#475569",
+                    transition: "color 150ms ease, transform 150ms ease",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = "#eef2f9"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "#475569"; }}
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
+                  <IconBack />
                 </button>
 
                 <div className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-[#f5c842]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                  <span className="text-[#f5c842] text-sm font-semibold">AI Chat</span>
+                  <span style={{ color: "#f5c518" }}><IconChat /></span>
+                  <span className="text-[#eef2f9] text-sm font-semibold">AI Chat</span>
                   {compareMode && doc2 && (
-                    <span className="text-xs px-2 py-0.5 bg-[#4fc3f7]/10 border border-[#4fc3f7]/30 text-[#4fc3f7] rounded-full">
+                    <span
+                      className="text-xs px-2 py-0.5 rounded-full"
+                      style={{
+                        background: "rgba(96,165,250,0.1)",
+                        border: "1px solid rgba(96,165,250,0.25)",
+                        color: "#60a5fa",
+                      }}
+                    >
                       ⚖️ Compare
                     </span>
                   )}
@@ -448,11 +614,17 @@ export default function Home() {
 
                 <button
                   onClick={() => { setQuizTopicFilter(undefined); setShowQuiz(true); }}
-                  className="ml-auto flex items-center gap-1.5 px-3 py-1.5 bg-[#f5c842]/10 border border-[#f5c842]/30 text-[#f5c842] rounded-lg text-xs font-bold hover:bg-[#f5c842]/20 transition-[background-color] duration-150 active:scale-[0.97]"
+                  className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
+                  style={{
+                    background: "rgba(245,197,24,0.08)",
+                    border: "1px solid rgba(245,197,24,0.2)",
+                    color: "#f5c518",
+                    transition: "background-color 150ms ease, transform 150ms ease",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.14)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.08)"; }}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  </svg>
+                  <IconQuiz />
                   Take Exam
                 </button>
               </div>
@@ -471,7 +643,7 @@ export default function Home() {
                 />
               </div>
 
-              {/* Weak Area Tracker — lives at the bottom of the chat panel */}
+              {/* Weak Area Tracker */}
               <WeakAreaTracker
                 documentContent={doc.documentContent}
                 onRevise={handleRevise}
@@ -482,17 +654,15 @@ export default function Home() {
             {/* Mobile toggle button */}
             <button
               onClick={() => setMobileShowRight(!mobileShowRight)}
-              className="fixed bottom-4 right-4 md:hidden z-20 w-12 h-12 rounded-full bg-[#f5c842] text-[#0a0f1e] flex items-center justify-center shadow-[0_0_24px_rgba(245,200,66,0.5)]"
+              className="fixed bottom-4 right-4 md:hidden z-20 w-12 h-12 rounded-full flex items-center justify-center active:scale-[0.97]"
+              style={{
+                background: "#f5c518",
+                color: "#060b18",
+                boxShadow: "0 4px 20px rgba(245,197,24,0.35)",
+                transition: "transform 150ms ease",
+              }}
             >
-              {mobileShowRight ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-              )}
+              {mobileShowRight ? <IconDoc /> : <IconChat />}
             </button>
           </div>
         )}
@@ -500,49 +670,96 @@ export default function Home() {
 
       {/* ── Fullscreen Left Panel Overlay ── */}
       {leftMaximized && doc && (
-        <div className="fixed inset-0 z-50 bg-[#0a0f1e] flex flex-col animate-fadeIn">
-          {/* Fullscreen header bar */}
-          <div className="flex items-center border-b border-[rgba(245,200,66,0.1)] bg-[#111827] px-4 py-2 shrink-0 gap-3">
-            {/* Tabs */}
-            <div className="flex flex-1 overflow-x-auto scrollbar-none gap-1">
+        <div
+          className="fixed inset-0 z-50 flex flex-col animate-fadeIn"
+          style={{ background: "#060b18" }}
+        >
+          {/* Fullscreen header */}
+          <div
+            className="flex items-center px-4 py-2 shrink-0 gap-2"
+            style={{
+              background: "#0c1528",
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <div className="flex flex-1 overflow-x-auto gap-1" style={{ scrollbarWidth: "none" }}>
               {LEFT_TABS.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setLeftTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold whitespace-nowrap rounded-lg border transition-[color,background-color,border-color] duration-150 active:scale-[0.97] ${
-                    leftTab === tab.id
-                      ? "bg-[#f5c842]/10 border-[#f5c842]/40 text-[#f5c842]"
-                      : "border-transparent text-[#8892a4] hover:text-[#f0f4ff] hover:bg-[#1a2340]"
-                  }`}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium whitespace-nowrap rounded-lg active:scale-[0.97]"
+                  style={{
+                    background: leftTab === tab.id ? "rgba(245,197,24,0.08)" : "transparent",
+                    border: leftTab === tab.id ? "1px solid rgba(245,197,24,0.25)" : "1px solid transparent",
+                    color: leftTab === tab.id ? "#f5c518" : "#475569",
+                    transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (leftTab !== tab.id) e.currentTarget.style.color = "#94a3b8";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (leftTab !== tab.id) e.currentTarget.style.color = "#475569";
+                  }}
                 >
-                  <span className="text-base">{tab.icon}</span>
+                  <span>{tab.icon}</span>
                   <span>{tab.label}</span>
                 </button>
               ))}
             </div>
 
-            {/* Exit fullscreen button */}
             <button
               onClick={() => setLeftMaximized(false)}
               title="Exit fullscreen"
-              className="shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg bg-[#1a2340] border border-[rgba(245,200,66,0.2)] text-[#8892a4] hover:text-[#f5c842] hover:border-[#f5c842]/40 text-xs font-semibold transition-all"
+              className="shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium active:scale-[0.97]"
+              style={{
+                background: "#111e36",
+                border: "1px solid rgba(255,255,255,0.08)",
+                color: "#94a3b8",
+                transition: "color 150ms ease, border-color 150ms ease, transform 150ms ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#f5c518";
+                e.currentTarget.style.borderColor = "rgba(245,197,24,0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "#94a3b8";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              }}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M15 9h4.5M15 9V4.5M15 9l5.25-5.25M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 15h4.5M15 15v4.5M15 15l5.25 5.25" />
-              </svg>
+              <IconCompress />
               Exit Fullscreen
             </button>
 
-            {/* Esc hint */}
-            <span className="hidden md:block text-[#8892a4] text-xs shrink-0">Press <kbd className="px-1.5 py-0.5 bg-[#0d1526] border border-[rgba(245,200,66,0.2)] rounded text-[10px] font-mono">Esc</kbd> to exit</span>
+            <span className="hidden md:block text-[#475569] text-xs shrink-0">
+              Press{" "}
+              <kbd
+                className="px-1.5 py-0.5 rounded text-[10px] font-mono"
+                style={{
+                  background: "#111e36",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                Esc
+              </kbd>{" "}
+              to exit
+            </span>
           </div>
 
           {/* Fullscreen content */}
           <div className="flex-1 overflow-hidden p-4 min-h-0">
             {leftTab === "notes" && <NotesPanel documentContent={doc.documentContent} filename={doc.filename} />}
-            {leftTab === "mindmap" && <MindMap documentContent={doc.documentContent} onNodeClick={(label) => { handleMindMapNodeClick(label); setLeftMaximized(false); }} />}
-            {leftTab === "formulas" && <FormulaExtractor documentContent={doc.documentContent} onExplain={(text) => { handleFormulaExplain(text); setLeftMaximized(false); }} />}
+            {leftTab === "mindmap" && (
+              <MindMap
+                documentContent={doc.documentContent}
+                onNodeClick={(label) => { handleMindMapNodeClick(label); setLeftMaximized(false); }}
+              />
+            )}
+            {leftTab === "formulas" && (
+              <FormulaExtractor
+                documentContent={doc.documentContent}
+                onExplain={(text) => { handleFormulaExplain(text); setLeftMaximized(false); }}
+              />
+            )}
             {leftTab === "flashcards" && <FlashcardDeck documentContent={doc.documentContent} filename={doc.filename} />}
             {leftTab === "studyplan" && <StudyPlan documentContent={doc.documentContent} />}
             {leftTab === "dashboard" && <ProgressDashboard />}

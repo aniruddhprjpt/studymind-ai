@@ -1,136 +1,182 @@
 @import "tailwindcss";
 
-/* ─── Midnight Scholar Theme ─────────────────────────────── */
+/* ─── Design Tokens ──────────────────────────────────────────── */
 :root {
-  --bg:          #0a0f1e;
-  --surface:     #111827;
-  --surface-2:   #0d1526;
-  --border-gold: rgba(245, 200, 66, 0.15);
-  --gold:        #f5c842;
-  --sky:         #4fc3f7;
-  --text-primary:   #f0f4ff;
-  --text-muted:     #8892a4;
-  --success:     #4ade80;
-  --error:       #f87171;
+  --bg:           #060b18;
+  --surface:      #0c1528;
+  --surface-2:    #111e36;
+  --surface-3:    #18294a;
+  --border:       rgba(255, 255, 255, 0.06);
+  --border-gold:  rgba(245, 200, 66, 0.18);
+  --gold:         #f5c518;
+  --blue:         #60a5fa;
+  --green:        #34d399;
+  --red:          #f87171;
+  --text-1:       #eef2f9;
+  --text-2:       #94a3b8;
+  --text-3:       #475569;
+
+  /* Easing — Emil: always use custom curves */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-/* ─── Base ───────────────────────────────────────────────── */
+/* ─── Base ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body { height: 100%; }
 
 body {
   background: var(--bg);
-  color: var(--text-primary);
+  color: var(--text-1);
   font-family: var(--font-inter, Inter, system-ui, sans-serif);
-  line-height: 1.7;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─── Scrollbar ─────────────────────────────────────────── */
-.scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+.scrollbar-thin::-webkit-scrollbar { width: 3px; height: 3px; }
 .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(245, 200, 66, 0.2);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 99px;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(245, 200, 66, 0.4);
+  background: rgba(255, 255, 255, 0.14);
 }
 
-/* ─── Animations ────────────────────────────────────────── */
+/* ─── Animations ─────────────────────────────────────────────── */
+
+/* Modal entrance — from scale(0.95), never scale(0) */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Page/section entry */
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* Simple fade */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-/* Modal entrance — scale from 0.95 (not 0), combined with fade */
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.95) translateY(8px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-/* List item stagger — used for library doc rows, feature cards */
-@keyframes staggerFadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Tab content swap — subtle vertical slide */
+/* Tab content swap */
 @keyframes tabSlideIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px) scale(1); opacity: 0.25; }
-  50%       { transform: translateY(-30px) scale(1.2); opacity: 0.4; }
+/* List item stagger — only for infrequent reveals */
+@keyframes staggerFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes goldShimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
+/* Skeleton shimmer */
+@keyframes shimmerSlide {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
 }
 
-@keyframes goldPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 200, 66, 0); }
-  50%       { box-shadow: 0 0 0 6px rgba(245, 200, 66, 0.12); }
+/* ─── Animation utility classes ──────────────────────────────── */
+.animate-fadeSlideUp {
+  animation: fadeSlideUp 320ms var(--ease-out) both;
 }
 
-.animate-fadeSlideUp { animation: fadeSlideUp 0.38s cubic-bezier(0.23, 1, 0.32, 1) both; }
-.animate-fadeIn      { animation: fadeIn 0.2s ease both; }
-.animate-tabIn       { animation: tabSlideIn 180ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-.particle            { animation: float linear infinite; }
+.animate-fadeIn {
+  animation: fadeIn 180ms ease both;
+}
 
-/* ─── Skeleton shimmer ──────────────────────────────────── */
+.animate-tabIn {
+  animation: tabSlideIn 160ms var(--ease-out) both;
+}
+
+/* ─── Skeleton ───────────────────────────────────────────────── */
 .skeleton-shimmer {
   background: linear-gradient(
     90deg,
-    #1a2340 0%,
-    #253050 40%,
-    rgba(245, 200, 66, 0.08) 50%,
-    #253050 60%,
-    #1a2340 100%
+    var(--surface) 0%,
+    var(--surface-2) 40%,
+    rgba(255, 255, 255, 0.04) 50%,
+    var(--surface-2) 60%,
+    var(--surface) 100%
   );
   background-size: 300% 100%;
-  animation: goldShimmer 1.8s linear infinite;
+  animation: shimmerSlide 1.6s linear infinite;
 }
 
-/* ─── Upload zone glow pulse ────────────────────────────── */
-.upload-zone-glow {
-  animation: goldPulse 3s ease-in-out infinite;
-}
-
-/* ─── Prose overrides for chat / notes ──────────────────── */
-.prose h1 { color: #4fc3f7; }
-.prose h2 { color: #f5c842; }
-.prose h3 { color: #4fc3f7; }
-.prose p, .prose li { color: #f0f4ff; }
-.prose strong { color: #f5c842; }
-.prose code { color: #4fc3f7; background: #1a2340; padding: 0.1em 0.3em; border-radius: 4px; }
-.prose a { color: #4fc3f7; }
-.prose hr { border-color: rgba(245, 200, 66, 0.15); }
-
-/* ─── Focus ring ─────────────────────────────────────────── */
-textarea:focus, input:focus {
+/* ─── Focus ring ─────────────────────────────────────────────── */
+textarea:focus,
+input:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.12);
+  box-shadow: 0 0 0 2px rgba(245, 197, 24, 0.2);
 }
 
-/* ─── Print styles ───────────────────────────────────────── */
+/* ─── Prose overrides ────────────────────────────────────────── */
+.prose h1 { color: var(--blue); }
+.prose h2 { color: var(--gold); }
+.prose h3 { color: var(--text-1); }
+.prose p, .prose li { color: var(--text-1); }
+.prose strong { color: var(--gold); }
+.prose code {
+  color: var(--blue);
+  background: var(--surface-2);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+.prose a { color: var(--blue); }
+.prose hr { border-color: var(--border); }
+.prose blockquote {
+  border-left-color: var(--border-gold);
+  color: var(--text-2);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeSlideUp,
+  .animate-fadeIn,
+  .animate-tabIn {
+    animation: fadeIn 0.15s ease both;
+  }
+  .skeleton-shimmer {
+    animation: none;
+    background: var(--surface-2);
+  }
+}
+
+/* ─── Print ──────────────────────────────────────────────────── */
 @media print {
   body { background: #fff !important; color: #1a1a1a !important; }
   header, .no-print { display: none !important; }
 }
-
-/* ─── Button press feedback (global) ────────────────────── */
-/* Emil: buttons must feel responsive — scale(0.97) on :active */
-button:active {
-  /* individual components override with active:scale-[0.97] via Tailwind */
-}
-
