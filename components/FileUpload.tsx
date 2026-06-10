@@ -20,26 +20,20 @@ const MAX_PDF_MB = 15;    // PDFs parsed in browser — no server limit
 const MAX_OTHER_MB = 4;   // DOCX/PPTX go through server (Vercel 4.5MB cap)
 
 async function extractPDFText(file: File, onProgress: (p: number) => void): Promise<string> {
-  // Dynamic import — only runs in browser, avoids Next.js SSR issues
-  const pdfjsLib = await import("pdfjs-dist");
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+  // unpdf — lightweight, no canvas dependency, works in browser + edge
+  const { extractText, getDocumentProxy } = await import("unpdf");
 
+  onProgress(10);
   const arrayBuffer = await file.arrayBuffer();
-  const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
-  const pdf = await loadingTask.promise;
+  onProgress(25);
 
-  let text = "";
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pageText = content.items
-      .map((item: any) => ("str" in item ? item.str : ""))
-      .join(" ");
-    text += pageText + "\n";
-    onProgress(Math.round((i / pdf.numPages) * 50)); // 0–50%
-  }
-  return text.trim();
+  const pdf = await getDocumentProxy(new Uint8Array(arrayBuffer));
+  onProgress(35);
+
+  const { text } = await extractText(pdf, { mergePages: true });
+  onProgress(50);
+
+  return (text ?? "").trim();
 }
 
 export default function FileUpload({
