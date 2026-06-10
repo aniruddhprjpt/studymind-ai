@@ -1,6 +1,10 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import * as pdfjsLib from "pdfjs-dist";
+
+// Use CDN worker to avoid bundling issues on Vercel
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
 interface FileUploadProps {
   onUploadComplete: (data: {
@@ -16,7 +20,22 @@ interface FileUploadProps {
 }
 
 const ALLOWED_EXTS = ["pdf", "docx", "pptx"];
-const MAX_SIZE_MB = 4; // Vercel Hobby plan caps request body at 4.5MB
+const MAX_PDF_MB = 15;    // PDFs parsed in browser — no server limit
+const MAX_OTHER_MB = 4;   // DOCX/PPTX go through server (Vercel 4.5MB cap)
+
+async function extractPDFText(file: File, onProgress: (p: number) => void): Promise<string> {
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  let text = "";
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    text += content.items.map((item: any) => item.str ?? "").join(" ") + "\n";
+    onProgress(Math.round((i / pdf.numPages) * 50)); // 0–50%
+  }
+  return text.trim();
+}
 
 export default function FileUpload({
   onUploadComplete,
@@ -33,8 +52,9 @@ export default function FileUpload({
     if (!ALLOWED_EXTS.includes(ext)) {
       return "Only PDF, DOCX, and PPTX files are supported.";
     }
-    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-      return `File size must be under ${MAX_SIZE_MB}MB.`;
+    const maxMB = ext === "pdf" ? MAX_PDF_MB : MAX_OTHER_MB;
+    if (file.size > maxMB * 1024 * 1024) {
+      return `File too large. PDFs up to ${MAX_PDF_MB}MB, DOCX/PPTX up to ${MAX_OTHER_MB}MB.`;
     }
     return null;
   };
@@ -49,44 +69,76 @@ export default function FileUpload({
 
       setError(null);
       setIsUploading(true);
-      setProgress(10);
-      setStage("Parsing document...");
+      setProgress(5);
 
-      const formData = new FormData();
-      formData.append("file", file);
+      const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
+      const isPDF = ext === "pdf";
 
       try {
-        setProgress(30);
-        setStage("Extracting text...");
-
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        setProgress(70);
-        setStage("Generating summary with AI...");
-
-        // Guard against non-JSON responses (e.g. Vercel 413 body-size error)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let data: any;
-        try {
-          data = await res.json();
-        } catch {
-          if (res.status === 413 || !res.ok) {
-            throw new Error("File is too large. Please use a file under 4MB.");
-          }
-          throw new Error("Upload failed. Please try again.");
-        }
 
-        if (!res.ok) {
-          throw new Error(data.error ?? "Upload failed");
+        if (isPDF) {
+          // ── PDF: parse in browser, send only text to server ──
+          setStage("Reading PDF pages...");
+          const text = await extractPDFText(file, (p) => {
+            setProgress(5 + p); // 5–55%
+          });
+
+          if (!text || text.trim().length < 50) {
+            throw new Error(
+              "Could not extract text from this PDF. It may be scanned/image-only."
+            );
+          }
+
+          setProgress(60);
+          setStage("Generating summary with AI...");
+
+          const res = await fetch("/api/process-text", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text, filename: file.name, fileSize: file.size }),
+          });
+
+          data = await res.json();
+          if (!res.ok) throw new Error(data.error ?? "Processing failed");
+
+        } else {
+          // ── DOCX / PPTX: send to server (under 4MB) ──
+          setProgress(20);
+          setStage("Uploading document...");
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const res = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          setProgress(60);
+          setStage("Generating summary with AI...");
+
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          let parsed: any;
+          try {
+            parsed = await res.json();
+          } catch {
+            throw new Error(
+              res.status === 413
+                ? "File too large. Please use a file under 4MB."
+                : "Upload failed. Please try again."
+            );
+          }
+
+          if (!res.ok) throw new Error(parsed.error ?? "Upload failed");
+          data = parsed;
         }
 
         setProgress(100);
         setStage("Done!");
-
         onUploadComplete(data);
+
       } catch (err) {
         setError(err instanceof Error ? err.message : "Upload failed. Please try again.");
       } finally {
@@ -133,7 +185,7 @@ export default function FileUpload({
       >
         {isUploading ? (
           <div className="flex flex-col items-center gap-4 px-6 w-full">
-            <div className="shimmer-icon w-14 h-14 rounded-full bg-[#1a2340] flex items-center justify-center">
+            <div className="w-14 h-14 rounded-full bg-[#1a2340] flex items-center justify-center">
               <svg className="w-7 h-7 text-[#f5c842] animate-spin" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
@@ -172,7 +224,9 @@ export default function FileUpload({
                 </span>
               ))}
             </div>
-            <p className="text-[#8892a4] text-xs mt-1">Max 4MB per file</p>
+            <p className="text-[#8892a4] text-xs mt-1">
+              PDF up to <span className="text-[#f5c842] font-semibold">15MB</span> · DOCX/PPTX up to 4MB
+            </p>
           </div>
         )}
 
