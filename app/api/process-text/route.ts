@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { SUMMARY_SYSTEM_PROMPT, SUGGESTED_QUESTIONS_PROMPT } from "@/lib/prompts";
-import { truncateText } from "@/lib/parsers";
+
+// Inlined here to avoid importing @/lib/parsers which loads mammoth/pdf-parse/officeparser
+// at module level — those native deps can crash the Vercel function before try/catch runs.
+function truncateText(text: string, maxChars = 12000): string {
+  if (text.length <= maxChars) return text;
+  return text.slice(0, maxChars) + "\n\n[Document truncated for processing...]";
+}
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
