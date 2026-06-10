@@ -16,7 +16,7 @@ import DocumentLibrary, { saveDocToLibrary, type LibraryDoc } from "@/components
 const QuizModal = dynamic(() => import("@/components/QuizModal"), { ssr: false });
 const MindMap = dynamic(() => import("@/components/MindMap"), { ssr: false });
 const FlashcardDeck = dynamic(() => import("@/components/FlashcardDeck"), { ssr: false });
-const GhostCursor = dynamic(() => import("@/components/GhostCursor"), { ssr: false });
+const Lightfall = dynamic(() => import("@/components/Lightfall"), { ssr: false });
 import DecryptedText from "@/components/DecryptedText";
 
 interface DocumentState {
@@ -201,27 +201,35 @@ export default function Home() {
       className="min-h-screen text-[#eef2f9] relative overflow-hidden"
       style={{ background: "#000000" }}
     >
-      {/* GhostCursor — full-viewport nebula background, follows mouse globally */}
-      {/* Nebula palette: deep purple → hot magenta → electric cyan */}
-      <GhostCursor
-        global
-        color="#5B2D8E"
-        color2="#FF4DC4"
-        color3="#00D4FF"
-        brightness={4.0}
-        trailLength={80}
-        inertia={0.42}
-        grainIntensity={0.07}
-        bloomStrength={0.7}
-        bloomRadius={1.5}
-        bloomThreshold={0.01}
-        edgeIntensity={0.1}
-        fadeDelayMs={1500}
-        fadeDurationMs={2500}
-        scaleMultiplier={0.42}
-        mixBlendMode="screen"
-        zIndex={0}
-      />
+      {/* Lightfall — fixed full-viewport nebula streaks background */}
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      >
+        <Lightfall
+          colors={["#7B2FBE", "#C471ED", "#00D4FF", "#FF4DC4", "#4FACFE"]}
+          backgroundColor="#1a0033"
+          speed={0.6}
+          streakCount={6}
+          streakWidth={0.9}
+          streakLength={1.2}
+          glow={1.4}
+          density={0.7}
+          twinkle={0.8}
+          zoom={2.5}
+          backgroundGlow={0.4}
+          opacity={1}
+          mouseInteraction={true}
+          mouseStrength={0.8}
+          mouseRadius={0.7}
+          mouseDampening={0.2}
+        />
+      </div>
 
       {/* Focus mode backdrop */}
       {focusMode && (
