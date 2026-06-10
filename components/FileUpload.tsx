@@ -16,7 +16,7 @@ interface FileUploadProps {
 }
 
 const ALLOWED_EXTS = ["pdf", "docx", "pptx"];
-const MAX_SIZE_MB = 10;
+const MAX_SIZE_MB = 4; // Vercel Hobby plan caps request body at 4.5MB
 
 export default function FileUpload({
   onUploadComplete,
@@ -67,7 +67,16 @@ export default function FileUpload({
         setProgress(70);
         setStage("Generating summary with AI...");
 
-        const data = await res.json();
+        // Guard against non-JSON responses (e.g. Vercel 413 body-size error)
+        let data: Record<string, string>;
+        try {
+          data = await res.json();
+        } catch {
+          if (res.status === 413 || !res.ok) {
+            throw new Error("File is too large. Please use a file under 4MB.");
+          }
+          throw new Error("Upload failed. Please try again.");
+        }
 
         if (!res.ok) {
           throw new Error(data.error ?? "Upload failed");
@@ -162,7 +171,7 @@ export default function FileUpload({
                 </span>
               ))}
             </div>
-            <p className="text-[#8892a4] text-xs mt-1">Max 10MB per file</p>
+            <p className="text-[#8892a4] text-xs mt-1">Max 4MB per file</p>
           </div>
         )}
 

@@ -8,7 +8,7 @@ export const maxDuration = 60;
 
 const getGroq = () => new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB — Vercel Hobby plan limit is 4.5MB
 const ALLOWED_TYPES = [
   "application/pdf",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
