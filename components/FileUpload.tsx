@@ -68,7 +68,8 @@ export default function FileUpload({
         setStage("Generating summary with AI...");
 
         // Guard against non-JSON responses (e.g. Vercel 413 body-size error)
-        let data: Record<string, string>;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let data: any;
         try {
           data = await res.json();
         } catch {
