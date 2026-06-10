@@ -4,6 +4,8 @@
   pointer-events: none;
 }
 
+/* When rendered as fixed full-viewport (global mode), inline styles override above */
+
 .ghost-cursor > canvas {
   display: block;
   width: 100%;

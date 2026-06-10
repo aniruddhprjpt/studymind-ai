@@ -26,6 +26,10 @@ interface GhostCursorProps {
   fadeDelayMs?: number;
   fadeDurationMs?: number;
   zIndex?: number;
+  /** When true: fixed full-viewport overlay, listens to window mouse events */
+  global?: boolean;
+  /** Multiplier applied to the auto-calculated noise scale — lower = larger blobs */
+  scaleMultiplier?: number;
 }
 
 const GhostCursor = ({
@@ -46,6 +50,8 @@ const GhostCursor = ({
   fadeDelayMs,
   fadeDurationMs,
   zIndex = 10,
+  global: globalMode = false,
+  scaleMultiplier = 1.0,
 }: GhostCursorProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -76,9 +82,9 @@ const GhostCursor = ({
     []
   );
 
-  const pixelBudget = targetPixels ?? (isTouch ? 0.9e6 : 1.3e6);
-  const fadeDelay = fadeDelayMs ?? (isTouch ? 500 : 1000);
-  const fadeDuration = fadeDurationMs ?? (isTouch ? 1000 : 1500);
+  const pixelBudget = targetPixels ?? (isTouch ? 0.9e6 : 1.5e6);
+  const fadeDelay = fadeDelayMs ?? (isTouch ? 500 : 1200);
+  const fadeDuration = fadeDurationMs ?? (isTouch ? 1000 : 1800);
 
   const baseVertexShader = `
     varying vec2 vUv;
@@ -118,19 +124,19 @@ const GhostCursor = ({
       }
       return v;
     }
-    vec3 tint1(vec3 base){ return mix(base, vec3(1.0), 0.15); }
-    vec3 tint2(vec3 base){ return mix(base, vec3(0.8, 0.9, 1.0), 0.25); }
+    vec3 tint1(vec3 base){ return mix(base, vec3(1.0), 0.12); }
+    vec3 tint2(vec3 base){ return mix(base, vec3(0.9, 0.95, 1.0), 0.20); }
 
     vec4 blob(vec2 p, vec2 mousePos, float intensity, float activity) {
-      vec2 q = vec2(fbm(p * iScale + iTime * 0.1), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.1));
-      vec2 r = vec2(fbm(p * iScale + q * 1.5 + iTime * 0.15), fbm(p * iScale + q * 1.5 + vec2(8.3,2.8) + iTime * 0.15));
-      float smoke = fbm(p * iScale + r * 0.8);
-      float radius = 0.5 + 0.3 * (1.0 / iScale);
-      float distFactor = 1.0 - smoothstep(0.0, radius * activity, length(p - mousePos));
-      float alpha = pow(smoke, 2.5) * distFactor;
+      vec2 q = vec2(fbm(p * iScale + iTime * 0.08), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.08));
+      vec2 r = vec2(fbm(p * iScale + q * 1.8 + iTime * 0.12), fbm(p * iScale + q * 1.8 + vec2(8.3,2.8) + iTime * 0.12));
+      float smoke = fbm(p * iScale + r * 1.0);
+      float radius = 0.55 + 0.40 * (1.0 / max(iScale, 0.3));
+      float distFactor = 1.0 - smoothstep(0.0, radius * max(activity, 0.5), length(p - mousePos));
+      float alpha = pow(smoke, 2.0) * distFactor;
       vec3 c1 = tint1(iBaseColor);
       vec3 c2 = tint2(iBaseColor);
-      vec3 col = mix(c1, c2, sin(iTime * 0.5) * 0.5 + 0.5);
+      vec3 col = mix(c1, c2, sin(iTime * 0.4) * 0.5 + 0.5);
       return vec4(col * alpha * intensity, alpha * intensity);
     }
 
@@ -145,9 +151,9 @@ const GhostCursor = ({
       for (int i = 0; i < MAX_TRAIL_LENGTH; i++) {
         vec2 pm = (iPrevMouse[i] * 2.0 - 1.0) * vec2(iResolution.x / iResolution.y, 1.0);
         float t = 1.0 - float(i) / float(MAX_TRAIL_LENGTH);
-        t = pow(t, 2.0);
+        t = pow(t, 1.8);
         if (t > 0.01) {
-          vec4 bt = blob(uv, pm, t * 0.8, iOpacity);
+          vec4 bt = blob(uv, pm, t * 0.85, iOpacity);
           colorAcc += bt.rgb;
           alphaAcc += bt.a;
         }
@@ -210,22 +216,28 @@ const GhostCursor = ({
     []
   );
 
-  function calculateScale(el: HTMLElement) {
-    const r = el.getBoundingClientRect();
-    const base = 600;
-    const current = Math.min(Math.max(1, r.width), Math.max(1, r.height));
-    return Math.max(0.5, Math.min(2.0, current / base));
+  function calculateScale(w: number, h: number) {
+    const base = 700;
+    const current = Math.min(Math.max(1, w), Math.max(1, h));
+    return Math.max(0.3, Math.min(1.8, (current / base) * scaleMultiplier));
   }
 
   useEffect(() => {
     const host = containerRef.current;
-    const parent = host?.parentElement as HTMLElement | null;
-    if (!host || !parent) return;
+    if (!host) return;
+
+    // In global mode the host IS the full-viewport fixed div;
+    // in normal mode the parent provides the bounding box
+    const eventTarget = globalMode ? window : (host.parentElement as HTMLElement | null) ?? host;
+    const sizeSource = globalMode ? null : (host.parentElement as HTMLElement | null) ?? host;
 
     let active = true;
-    const prevParentPos = parent.style.position;
-    if (!prevParentPos || prevParentPos === "static") {
-      parent.style.position = "relative";
+    let prevParentPos = "";
+    if (!globalMode && sizeSource && sizeSource !== host) {
+      prevParentPos = (sizeSource as HTMLElement).style.position;
+      if (!prevParentPos || prevParentPos === "static") {
+        (sizeSource as HTMLElement).style.position = "relative";
+      }
     }
 
     const renderer = new THREE.WebGLRenderer({
@@ -291,11 +303,17 @@ const GhostCursor = ({
     composer.addPass(filmPass);
     composer.addPass(UnpremultiplyPass);
 
+    const getSize = () => {
+      if (globalMode) {
+        return { w: window.innerWidth, h: window.innerHeight };
+      }
+      const rect = host.getBoundingClientRect();
+      return { w: Math.floor(rect.width), h: Math.floor(rect.height) };
+    };
+
     const resize = () => {
       if (!active) return;
-      const rect = host.getBoundingClientRect();
-      const cssW = Math.floor(rect.width);
-      const cssH = Math.floor(rect.height);
+      const { w: cssW, h: cssH } = getSize();
       if (cssW <= 0 || cssH <= 0) { hasValidSizeRef.current = false; return; }
       const currentDPR = Math.min(
         typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
@@ -311,16 +329,21 @@ const GhostCursor = ({
       const wpx = Math.max(1, Math.floor(cssW * pixelRatio));
       const hpx = Math.max(1, Math.floor(cssH * pixelRatio));
       material.uniforms.iResolution.value.set(wpx, hpx, 1);
-      material.uniforms.iScale.value = calculateScale(host);
+      material.uniforms.iScale.value = calculateScale(cssW, cssH);
       bloomPass.setSize(wpx, hpx);
       hasValidSizeRef.current = true;
     };
 
     resize();
-    const ro = new ResizeObserver(() => { if (active) resize(); });
-    resizeObsRef.current = ro;
-    ro.observe(parent);
-    ro.observe(host);
+
+    if (globalMode) {
+      window.addEventListener("resize", resize, { passive: true });
+    } else {
+      const ro = new ResizeObserver(() => { if (active) resize(); });
+      resizeObsRef.current = ro;
+      if (sizeSource) ro.observe(sizeSource as HTMLElement);
+      ro.observe(host);
+    }
 
     const start = typeof performance !== "undefined" ? performance.now() : Date.now();
     const animate = () => {
@@ -379,10 +402,17 @@ const GhostCursor = ({
       }
     };
 
-    const onPointerMove = (e: PointerEvent) => {
-      const rect = parent.getBoundingClientRect();
-      const x = THREE.MathUtils.clamp((e.clientX - rect.left) / Math.max(1, rect.width), 0, 1);
-      const y = THREE.MathUtils.clamp(1 - (e.clientY - rect.top) / Math.max(1, rect.height), 0, 1);
+    const getBoundingRect = () => {
+      if (globalMode) return { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
+      const src = (sizeSource as HTMLElement | null) ?? host;
+      return src.getBoundingClientRect();
+    };
+
+    const onPointerMove = (e: Event) => {
+      const pe = e as PointerEvent;
+      const rect = getBoundingRect();
+      const x = THREE.MathUtils.clamp((pe.clientX - rect.left) / Math.max(1, rect.width), 0, 1);
+      const y = THREE.MathUtils.clamp(1 - (pe.clientY - rect.top) / Math.max(1, rect.height), 0, 1);
       currentMouseRef.current.set(x, y);
       pointerActiveRef.current = true;
       lastMoveTimeRef.current = performance.now();
@@ -391,9 +421,12 @@ const GhostCursor = ({
     const onPointerEnter = () => { pointerActiveRef.current = true; ensureLoop(); };
     const onPointerLeave = () => { pointerActiveRef.current = false; lastMoveTimeRef.current = performance.now(); ensureLoop(); };
 
-    parent.addEventListener("pointermove", onPointerMove, { passive: true });
-    parent.addEventListener("pointerenter", onPointerEnter, { passive: true });
-    parent.addEventListener("pointerleave", onPointerLeave, { passive: true });
+    const evtTarget = eventTarget as any;
+    evtTarget.addEventListener("pointermove", onPointerMove, { passive: true });
+    if (!globalMode) {
+      evtTarget.addEventListener("pointerenter", onPointerEnter, { passive: true });
+      evtTarget.addEventListener("pointerleave", onPointerLeave, { passive: true });
+    }
     ensureLoop();
 
     return () => {
@@ -402,10 +435,16 @@ const GhostCursor = ({
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       runningRef.current = false;
       rafRef.current = null;
-      parent.removeEventListener("pointermove", onPointerMove);
-      parent.removeEventListener("pointerenter", onPointerEnter);
-      parent.removeEventListener("pointerleave", onPointerLeave);
-      resizeObsRef.current?.disconnect();
+      evtTarget.removeEventListener("pointermove", onPointerMove);
+      if (!globalMode) {
+        evtTarget.removeEventListener("pointerenter", onPointerEnter);
+        evtTarget.removeEventListener("pointerleave", onPointerLeave);
+      }
+      if (globalMode) {
+        window.removeEventListener("resize", resize);
+      } else {
+        resizeObsRef.current?.disconnect();
+      }
       scene.clear();
       geom.dispose();
       material.dispose();
@@ -418,12 +457,14 @@ const GhostCursor = ({
       if (renderer.domElement?.parentElement) {
         renderer.domElement.parentElement.removeChild(renderer.domElement);
       }
-      if (!prevParentPos || prevParentPos === "static") {
-        parent.style.position = prevParentPos;
+      if (!globalMode && sizeSource && (sizeSource as HTMLElement).style) {
+        if (!prevParentPos || prevParentPos === "static") {
+          (sizeSource as HTMLElement).style.position = prevParentPos;
+        }
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trailLength, inertia, grainIntensity, bloomStrength, bloomRadius, bloomThreshold, pixelBudget, fadeDelay, fadeDuration, isTouch, color, brightness, mixBlendMode, edgeIntensity]);
+  }, [trailLength, inertia, grainIntensity, bloomStrength, bloomRadius, bloomThreshold, pixelBudget, fadeDelay, fadeDuration, isTouch, color, brightness, mixBlendMode, edgeIntensity, globalMode, scaleMultiplier]);
 
   useEffect(() => {
     if (materialRef.current) {
@@ -452,7 +493,13 @@ const GhostCursor = ({
     else el.style.removeProperty("mix-blend-mode");
   }, [mixBlendMode]);
 
-  const mergedStyle = useMemo(() => ({ zIndex, ...style }), [zIndex, style]);
+  const mergedStyle = useMemo(() => ({
+    zIndex,
+    ...(globalMode
+      ? { position: "fixed" as const, inset: 0, pointerEvents: "none" as const }
+      : {}),
+    ...style,
+  }), [zIndex, globalMode, style]);
 
   return (
     <div

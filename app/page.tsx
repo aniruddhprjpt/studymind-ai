@@ -201,15 +201,23 @@ export default function Home() {
       className="min-h-screen text-[#eef2f9] relative overflow-hidden"
       style={{ background: "#000000" }}
     >
-      {/* Static radial gradient — no animation, pure depth */}
-      <div
-        aria-hidden
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 45% at 50% 0%, rgba(245,197,24,0.07) 0%, transparent 70%), " +
-            "radial-gradient(ellipse 50% 35% at 90% 100%, rgba(96,165,250,0.05) 0%, transparent 60%)",
-        }}
+      {/* GhostCursor — full-viewport smoky cloud background, follows mouse globally */}
+      <GhostCursor
+        global
+        color="#B497CF"
+        brightness={3.5}
+        trailLength={80}
+        inertia={0.45}
+        grainIntensity={0.06}
+        bloomStrength={0.6}
+        bloomRadius={1.4}
+        bloomThreshold={0.01}
+        edgeIntensity={0.15}
+        fadeDelayMs={1500}
+        fadeDurationMs={2500}
+        scaleMultiplier={0.45}
+        mixBlendMode="screen"
+        zIndex={0}
       />
 
       {/* Focus mode backdrop */}
@@ -323,22 +331,6 @@ export default function Home() {
         {!doc ? (
           /* ── Landing / Upload View ── */
           <div className="flex items-center justify-center h-full relative">
-            {/* GhostCursor — smoky trail follows the cursor over the landing area */}
-            <GhostCursor
-              color="#f5c518"
-              brightness={1.2}
-              trailLength={60}
-              inertia={0.55}
-              grainIntensity={0.04}
-              bloomStrength={0.15}
-              bloomRadius={1.2}
-              bloomThreshold={0.02}
-              edgeIntensity={0.3}
-              fadeDelayMs={800}
-              fadeDurationMs={1200}
-              mixBlendMode="screen"
-              zIndex={1}
-            />
             <div className="w-full max-w-xl animate-fadeSlideUp relative z-10">
 
               {/* Hero */}
