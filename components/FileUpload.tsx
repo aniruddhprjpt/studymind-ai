@@ -80,27 +80,45 @@ export default function FileUpload({
         if (isPDF) {
           // ── PDF: parse in browser, send only text to server ──
           setStage("Reading PDF pages...");
-          const text = await extractPDFText(file, (p) => {
-            setProgress(5 + p); // 5–55%
-          });
+          let text = "";
+          try {
+            text = await extractPDFText(file, (p) => {
+              setProgress(5 + p); // 5–55%
+            });
+          } catch (pdfErr) {
+            throw new Error(
+              "Could not read this PDF. It may be password-protected or corrupted. Try another file."
+            );
+          }
 
           if (!text || text.trim().length < 50) {
             throw new Error(
-              "Could not extract text from this PDF. It may be scanned/image-only."
+              "No text found in this PDF. It may be a scanned/image-only document."
             );
           }
 
           setProgress(60);
           setStage("Generating summary with AI...");
 
+          // Truncate before sending — Vercel rejects request bodies over ~4MB
+          // 80,000 chars ≈ 80KB of JSON — well within limits, enough for AI
+          const truncatedText = text.slice(0, 80_000);
+
           const res = await fetch("/api/process-text", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text, filename: file.name, fileSize: file.size }),
+            body: JSON.stringify({ text: truncatedText, filename: file.name, fileSize: file.size }),
           });
 
-          data = await res.json();
-          if (!res.ok) throw new Error(data.error ?? "Processing failed");
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          let parsed: any;
+          try {
+            parsed = await res.json();
+          } catch {
+            throw new Error("Server error. Please try again.");
+          }
+          if (!res.ok) throw new Error(parsed.error ?? "Processing failed");
+          data = parsed;
 
         } else {
           // ── DOCX / PPTX: send to server (under 4MB) ──
