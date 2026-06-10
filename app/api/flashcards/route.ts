@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const content = truncateText(documentContent, 10000);
 
     const completion = await getGroq().chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: FLASHCARDS_PROMPT },
         { role: "user", content: `Create 15 flashcards from this document:\n\n${content}` },

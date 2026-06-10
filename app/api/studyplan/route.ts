@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       .replace("{daysAvailable}", String(daysAvailable)); // second occurrence
 
     const completion = await getGroq().chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: prompt },
         { role: "user", content: `Create a study plan for my "${examName}" exam on ${examDate}. Today is ${todayStr}. I have ${daysAvailable} days.` },

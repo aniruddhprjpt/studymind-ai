@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const content = truncateText(documentContent, 10000);
 
     const completion = await getGroq().chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: FORMULAS_PROMPT },
         { role: "user", content: `Extract all formulas, definitions, and facts from this document:\n\n${content}` },

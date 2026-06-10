@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       : `Create comprehensive, deeply explanatory study notes from this document. Follow every instruction in the format exactly — include all sections, full explanations, real-world examples, the definitions table, and the connections paragraph:\n\n${content}`;
 
     const completion = await getGroq().chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userMsg },

@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     const trimmedMessages = messages.slice(-6);
 
     const completion = await getGroq().chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: systemPrompt },
         ...trimmedMessages.map((m) => ({ role: m.role, content: m.content })),

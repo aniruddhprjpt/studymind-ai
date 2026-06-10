@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       : `Generate 10 exam questions based on this document:\n\n${content}`;
 
     const completion = await getGroq().chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userMsg },

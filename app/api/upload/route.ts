@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
 
     // Generate summary
     const summaryCompletion = await getGroq().chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: SUMMARY_SYSTEM_PROMPT },
         {
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     let suggestedQuestions: string[] = [];
     try {
       const sqCompletion = await getGroq().chat.completions.create({
-        model: "llama-3.3-70b-versatile",
+        model: "llama-3.1-8b-instant",
         messages: [
           {
             role: "user",
