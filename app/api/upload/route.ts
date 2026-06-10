@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { extractText, truncateText } from "@/lib/parsers";
+import { extractText } from "@/lib/parsers";
+import { truncateText } from "@/lib/truncate";
 import Groq from "groq-sdk";
 import { SUMMARY_SYSTEM_PROMPT, SUGGESTED_QUESTIONS_PROMPT } from "@/lib/prompts";
 

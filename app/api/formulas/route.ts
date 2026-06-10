@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { FORMULAS_PROMPT } from "@/lib/prompts";
-import { truncateText } from "@/lib/parsers";
+import { truncateText } from "@/lib/truncate";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
