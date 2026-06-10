@@ -1,10 +1,6 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import * as pdfjsLib from "pdfjs-dist";
-
-// Use local worker file (copied to /public) — reliable, no CDN dependency
-pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
 interface FileUploadProps {
   onUploadComplete: (data: {
@@ -24,14 +20,23 @@ const MAX_PDF_MB = 15;    // PDFs parsed in browser — no server limit
 const MAX_OTHER_MB = 4;   // DOCX/PPTX go through server (Vercel 4.5MB cap)
 
 async function extractPDFText(file: File, onProgress: (p: number) => void): Promise<string> {
+  // Dynamic import — only runs in browser, avoids Next.js SSR issues
+  const pdfjsLib = await import("pdfjs-dist");
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+
   const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+  const pdf = await loadingTask.promise;
+
   let text = "";
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    text += content.items.map((item: any) => item.str ?? "").join(" ") + "\n";
+    const pageText = content.items
+      .map((item: any) => ("str" in item ? item.str : ""))
+      .join(" ");
+    text += pageText + "\n";
     onProgress(Math.round((i / pdf.numPages) * 50)); // 0–50%
   }
   return text.trim();
