@@ -82,9 +82,10 @@ export async function POST(req: NextRequest) {
       suggestedQuestions,
     });
   } catch (error) {
-    console.error("process-text route error:", error);
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("process-text route error:", msg);
     return NextResponse.json(
-      { error: "Internal server error. Please try again." },
+      { error: `Server error: ${msg}` },
       { status: 500 }
     );
   }

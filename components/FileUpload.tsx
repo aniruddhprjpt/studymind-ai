@@ -115,9 +115,9 @@ export default function FileUpload({
           try {
             parsed = await res.json();
           } catch {
-            throw new Error("Server error. Please try again.");
+            throw new Error(`Server returned non-JSON (status ${res.status}). Please try again.`);
           }
-          if (!res.ok) throw new Error(parsed.error ?? "Processing failed");
+          if (!res.ok) throw new Error(parsed.error ?? `Processing failed (status ${res.status})`);
           data = parsed;
 
         } else {
