@@ -16,6 +16,7 @@ import DocumentLibrary, { saveDocToLibrary, type LibraryDoc } from "@/components
 const QuizModal = dynamic(() => import("@/components/QuizModal"), { ssr: false });
 const MindMap = dynamic(() => import("@/components/MindMap"), { ssr: false });
 const FlashcardDeck = dynamic(() => import("@/components/FlashcardDeck"), { ssr: false });
+const Antigravity = dynamic(() => import("@/components/Antigravity"), { ssr: false });
 
 interface DocumentState {
   filename: string;
@@ -320,8 +321,28 @@ export default function Home() {
 
         {!doc ? (
           /* ── Landing / Upload View ── */
-          <div className="flex items-center justify-center h-full">
-            <div className="w-full max-w-xl animate-fadeSlideUp">
+          <div className="flex items-center justify-center h-full relative">
+            {/* Antigravity background — full landing area, pointer-events none so upload still works */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+              <Antigravity
+                count={250}
+                magnetRadius={8}
+                ringRadius={6}
+                waveSpeed={0.35}
+                waveAmplitude={0.8}
+                particleSize={1.2}
+                lerpSpeed={0.04}
+                color="#f5c518"
+                autoAnimate={true}
+                particleVariance={0.8}
+                rotationSpeed={0.05}
+                depthFactor={0.6}
+                pulseSpeed={2}
+                particleShape="capsule"
+                fieldStrength={12}
+              />
+            </div>
+            <div className="w-full max-w-xl animate-fadeSlideUp relative z-10">
 
               {/* Hero */}
               <div className="text-center mb-8">
