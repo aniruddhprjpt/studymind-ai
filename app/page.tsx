@@ -201,21 +201,24 @@ export default function Home() {
       className="min-h-screen text-[#eef2f9] relative overflow-hidden"
       style={{ background: "#000000" }}
     >
-      {/* GhostCursor — full-viewport smoky cloud background, follows mouse globally */}
+      {/* GhostCursor — full-viewport nebula background, follows mouse globally */}
+      {/* Nebula palette: deep purple → hot magenta → electric cyan */}
       <GhostCursor
         global
-        color="#B497CF"
-        brightness={3.5}
+        color="#5B2D8E"
+        color2="#FF4DC4"
+        color3="#00D4FF"
+        brightness={4.0}
         trailLength={80}
-        inertia={0.45}
-        grainIntensity={0.06}
-        bloomStrength={0.6}
-        bloomRadius={1.4}
+        inertia={0.42}
+        grainIntensity={0.07}
+        bloomStrength={0.7}
+        bloomRadius={1.5}
         bloomThreshold={0.01}
-        edgeIntensity={0.15}
+        edgeIntensity={0.1}
         fadeDelayMs={1500}
         fadeDurationMs={2500}
-        scaleMultiplier={0.45}
+        scaleMultiplier={0.42}
         mixBlendMode="screen"
         zIndex={0}
       />

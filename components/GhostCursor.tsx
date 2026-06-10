@@ -19,6 +19,10 @@ interface GhostCursorProps {
   bloomThreshold?: number;
   brightness?: number;
   color?: string;
+  /** Second nebula color for multi-color blending */
+  color2?: string;
+  /** Third nebula color for multi-color blending */
+  color3?: string;
   mixBlendMode?: string;
   edgeIntensity?: number;
   maxDevicePixelRatio?: number;
@@ -43,6 +47,8 @@ const GhostCursor = ({
   bloomThreshold = 0.025,
   brightness = 1,
   color = "#B497CF",
+  color2,
+  color3,
   mixBlendMode = "screen",
   edgeIntensity = 0,
   maxDevicePixelRatio = 0.5,
@@ -102,6 +108,8 @@ const GhostCursor = ({
     uniform float iOpacity;
     uniform float iScale;
     uniform vec3  iBaseColor;
+    uniform vec3  iColor2;
+    uniform vec3  iColor3;
     uniform float iBrightness;
     uniform float iEdgeIntensity;
     varying vec2  vUv;
@@ -124,19 +132,30 @@ const GhostCursor = ({
       }
       return v;
     }
-    vec3 tint1(vec3 base){ return mix(base, vec3(1.0), 0.12); }
-    vec3 tint2(vec3 base){ return mix(base, vec3(0.9, 0.95, 1.0), 0.20); }
+
+    /* Nebula 3-color blend — position + time driven */
+    vec3 nebulaColor(vec2 p, float smoke) {
+      /* slow spatial + time gradient between the 3 nebula hues */
+      float n1 = fbm(p * 0.6 + vec2(iTime * 0.05, 0.0));
+      float n2 = fbm(p * 0.6 + vec2(0.0, iTime * 0.04) + vec2(3.7, 1.9));
+      float t1 = clamp(n1 * 1.8 - 0.3, 0.0, 1.0);
+      float t2 = clamp(n2 * 1.8 - 0.3, 0.0, 1.0);
+      /* blend: col1 → col2 → col3 across space/time */
+      vec3 ab  = mix(iBaseColor, iColor2, t1);
+      vec3 col = mix(ab, iColor3, t2 * 0.65);
+      /* subtle brightness pulse from smoke density */
+      col = mix(col * 0.7, col * 1.15, smoke);
+      return col;
+    }
 
     vec4 blob(vec2 p, vec2 mousePos, float intensity, float activity) {
-      vec2 q = vec2(fbm(p * iScale + iTime * 0.08), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.08));
-      vec2 r = vec2(fbm(p * iScale + q * 1.8 + iTime * 0.12), fbm(p * iScale + q * 1.8 + vec2(8.3,2.8) + iTime * 0.12));
-      float smoke = fbm(p * iScale + r * 1.0);
-      float radius = 0.55 + 0.40 * (1.0 / max(iScale, 0.3));
+      vec2 q = vec2(fbm(p * iScale + iTime * 0.07), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.07));
+      vec2 r = vec2(fbm(p * iScale + q * 2.0 + iTime * 0.11), fbm(p * iScale + q * 2.0 + vec2(8.3,2.8) + iTime * 0.11));
+      float smoke = fbm(p * iScale + r * 1.1);
+      float radius = 0.55 + 0.42 * (1.0 / max(iScale, 0.3));
       float distFactor = 1.0 - smoothstep(0.0, radius * max(activity, 0.5), length(p - mousePos));
-      float alpha = pow(smoke, 2.0) * distFactor;
-      vec3 c1 = tint1(iBaseColor);
-      vec3 c2 = tint2(iBaseColor);
-      vec3 col = mix(c1, c2, sin(iTime * 0.4) * 0.5 + 0.5);
+      float alpha = pow(smoke, 1.9) * distFactor;
+      vec3 col = nebulaColor(p + mousePos * 0.3, smoke);
       return vec4(col * alpha * intensity, alpha * intensity);
     }
 
@@ -262,7 +281,9 @@ const GhostCursor = ({
     trailBufRef.current = Array.from({ length: maxTrail }, () => new THREE.Vector2(0.5, 0.5));
     headRef.current = 0;
 
-    const baseColor = new THREE.Color(color);
+    const baseColor  = new THREE.Color(color);
+    const baseColor2 = new THREE.Color(color2 ?? color);
+    const baseColor3 = new THREE.Color(color3 ?? color);
     const material = new THREE.ShaderMaterial({
       defines: { MAX_TRAIL_LENGTH: maxTrail },
       uniforms: {
@@ -272,7 +293,9 @@ const GhostCursor = ({
         iPrevMouse: { value: trailBufRef.current.map((v) => v.clone()) },
         iOpacity: { value: 1.0 },
         iScale: { value: 1.0 },
-        iBaseColor: { value: new THREE.Vector3(baseColor.r, baseColor.g, baseColor.b) },
+        iBaseColor: { value: new THREE.Vector3(baseColor.r,  baseColor.g,  baseColor.b)  },
+        iColor2:    { value: new THREE.Vector3(baseColor2.r, baseColor2.g, baseColor2.b) },
+        iColor3:    { value: new THREE.Vector3(baseColor3.r, baseColor3.g, baseColor3.b) },
         iBrightness: { value: brightness },
         iEdgeIntensity: { value: edgeIntensity },
       },
@@ -464,7 +487,7 @@ const GhostCursor = ({
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trailLength, inertia, grainIntensity, bloomStrength, bloomRadius, bloomThreshold, pixelBudget, fadeDelay, fadeDuration, isTouch, color, brightness, mixBlendMode, edgeIntensity, globalMode, scaleMultiplier]);
+  }, [trailLength, inertia, grainIntensity, bloomStrength, bloomRadius, bloomThreshold, pixelBudget, fadeDelay, fadeDuration, isTouch, color, color2, color3, brightness, mixBlendMode, edgeIntensity, globalMode, scaleMultiplier]);
 
   useEffect(() => {
     if (materialRef.current) {
@@ -472,6 +495,20 @@ const GhostCursor = ({
       materialRef.current.uniforms.iBaseColor.value.set(c.r, c.g, c.b);
     }
   }, [color]);
+
+  useEffect(() => {
+    if (materialRef.current && color2) {
+      const c = new THREE.Color(color2);
+      materialRef.current.uniforms.iColor2.value.set(c.r, c.g, c.b);
+    }
+  }, [color2]);
+
+  useEffect(() => {
+    if (materialRef.current && color3) {
+      const c = new THREE.Color(color3);
+      materialRef.current.uniforms.iColor3.value.set(c.r, c.g, c.b);
+    }
+  }, [color3]);
 
   useEffect(() => {
     if (materialRef.current) materialRef.current.uniforms.iBrightness.value = brightness;
