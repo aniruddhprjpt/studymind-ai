@@ -243,8 +243,10 @@ export default function Home() {
       <header
         className="relative z-40 border-b backdrop-blur-md"
         style={{
-          borderColor: "rgba(255,255,255,0.06)",
-          background: "rgba(6,11,24,0.85)",
+          borderColor: "rgba(196,113,237,0.15)",
+          background: "rgba(2,0,8,0.72)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
         }}
       >
         <div className="max-w-screen-2xl mx-auto px-4 py-2.5 flex items-center gap-3">
@@ -254,7 +256,7 @@ export default function Home() {
             <LogoMark />
             <div className="hidden sm:block">
               <h1 className="text-[#eef2f9] font-bold text-sm leading-none tracking-tight">StudyMind AI</h1>
-              <p className="text-[#475569] text-[11px] mt-0.5">Powered by LLaMA 3.3-70B</p>
+              <p className="text-[11px] mt-0.5" style={{ color: "rgba(196,113,237,0.6)" }}>Powered by LLaMA 3</p>
             </div>
           </div>
 
@@ -342,12 +344,13 @@ export default function Home() {
         {!doc ? (
           /* ── Landing / Upload View ── */
           <div className="flex items-center justify-center h-full relative">
-            <div className="w-full max-w-xl animate-fadeSlideUp relative z-10">
+            <div className="w-full max-w-lg animate-fadeSlideUp relative z-10">
 
               {/* Hero */}
-              <div className="text-center mb-8">
-                {/* Feature badges with DecryptedText — hover to see the scramble effect */}
-                <div className="flex items-center justify-center gap-2 mb-8 flex-wrap">
+              <div className="text-center mb-7">
+
+                {/* Feature badges */}
+                <div className="flex items-center justify-center gap-2 mb-7 flex-wrap">
                   {[
                     { icon: "💬", label: "Smart Chat" },
                     { icon: "🧠", label: "Mind Maps" },
@@ -358,62 +361,80 @@ export default function Home() {
                       key={f.label}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold cursor-default select-none"
                       style={{
-                        background: "rgba(0,0,0,0.85)",
-                        border: "1px solid rgba(255,255,255,0.09)",
-                        color: "#94a3b8",
-                        backdropFilter: "blur(8px)",
-                        animation: `staggerFadeUp 300ms cubic-bezier(0.23,1,0.32,1) ${i * 60}ms both`,
+                        background: "rgba(0,0,0,0.45)",
+                        border: "1px solid rgba(196,113,237,0.35)",
+                        color: "#d8b4fe",
+                        backdropFilter: "blur(12px)",
+                        boxShadow: "0 0 12px rgba(196,113,237,0.12), inset 0 0 12px rgba(196,113,237,0.04)",
+                        animation: `staggerFadeUp 320ms cubic-bezier(0.23,1,0.32,1) ${i * 55}ms both`,
                       }}
                     >
                       <span>{f.icon}</span>
                       <DecryptedText
                         text={f.label}
                         animateOn="hover"
-                        speed={40}
+                        speed={38}
                         maxIterations={12}
                         sequential={true}
                         revealDirection="start"
                         characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$"
-                        className="text-[#e2e8f0]"
-                        encryptedClassName="text-[#f5c518]"
+                        className="text-[#f0e8ff]"
+                        encryptedClassName="text-[#C471ED]"
                       />
                     </span>
                   ))}
                 </div>
 
-                <h2 className="text-[2.5rem] sm:text-[3rem] font-black leading-[1.1] tracking-tight mb-4"
-                  style={{ color: "#eef2f9" }}>
-                  Study Smarter,{" "}
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #f5c518 0%, #60a5fa 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
+                {/* Heading */}
+                <h2 className="text-[2.6rem] sm:text-[3.2rem] font-black leading-[1.08] tracking-tight mb-4">
+                  <span style={{
+                    background: "linear-gradient(135deg, #ffffff 0%, #e9d5ff 40%, #C471ED 70%, #00D4FF 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}>
+                    Study Smarter,
+                  </span>
+                  <br />
+                  <span style={{
+                    background: "linear-gradient(135deg, #FF4DC4 0%, #C471ED 50%, #4FACFE 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}>
                     Not Harder
                   </span>
                 </h2>
-                <p className="text-[#94a3b8] text-[15px] leading-relaxed max-w-sm mx-auto">
-                  Upload your study material and let AI explain it, test you, and generate mind maps — powered by LLaMA 3.3-70B.
+
+                <p style={{ color: "rgba(224,210,255,0.72)", fontSize: 15, lineHeight: 1.65, maxWidth: 360, margin: "0 auto" }}>
+                  Upload your study material and let AI explain it, test you,
+                  and generate mind maps — powered by LLaMA 3.
                 </p>
               </div>
 
-              {/* Upload card */}
+              {/* Upload card — glassmorphism */}
               <div
-                className="rounded-2xl p-5"
+                className="rounded-2xl p-1"
                 style={{
-                  background: "#0d0d0d",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  boxShadow: "0 24px 64px rgba(0,0,0,0.4)",
+                  background: "linear-gradient(135deg, rgba(196,113,237,0.22) 0%, rgba(0,212,255,0.12) 100%)",
+                  padding: "1px",
                 }}
               >
-                <FileUpload
-                  onUploadComplete={handleUploadComplete}
-                  isUploading={isUploading}
-                  setIsUploading={setIsUploading}
-                />
+                <div
+                  className="rounded-2xl p-5"
+                  style={{
+                    background: "rgba(4,0,14,0.60)",
+                    backdropFilter: "blur(24px)",
+                    WebkitBackdropFilter: "blur(24px)",
+                    boxShadow: "0 32px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <FileUpload
+                    onUploadComplete={handleUploadComplete}
+                    isUploading={isUploading}
+                    setIsUploading={setIsUploading}
+                  />
+                </div>
               </div>
 
             </div>
