@@ -17,6 +17,8 @@ const QuizModal = dynamic(() => import("@/components/QuizModal"), { ssr: false }
 const MindMap = dynamic(() => import("@/components/MindMap"), { ssr: false });
 const FlashcardDeck = dynamic(() => import("@/components/FlashcardDeck"), { ssr: false });
 const Antigravity = dynamic(() => import("@/components/Antigravity"), { ssr: false });
+const GhostCursor = dynamic(() => import("@/components/GhostCursor"), { ssr: false });
+import DecryptedText from "@/components/DecryptedText";
 
 interface DocumentState {
   filename: string;
@@ -322,7 +324,7 @@ export default function Home() {
         {!doc ? (
           /* ── Landing / Upload View ── */
           <div className="flex items-center justify-center h-full relative">
-            {/* Antigravity background — full landing area, pointer-events none so upload still works */}
+            {/* Antigravity particles */}
             <div className="absolute inset-0 z-0 pointer-events-none">
               <Antigravity
                 count={250}
@@ -342,12 +344,28 @@ export default function Home() {
                 fieldStrength={12}
               />
             </div>
+            {/* GhostCursor — smoky trail follows the cursor over the landing area */}
+            <GhostCursor
+              color="#818cf8"
+              brightness={1.2}
+              trailLength={60}
+              inertia={0.55}
+              grainIntensity={0.04}
+              bloomStrength={0.15}
+              bloomRadius={1.2}
+              bloomThreshold={0.02}
+              edgeIntensity={0.3}
+              fadeDelayMs={800}
+              fadeDurationMs={1200}
+              mixBlendMode="screen"
+              zIndex={1}
+            />
             <div className="w-full max-w-xl animate-fadeSlideUp relative z-10">
 
               {/* Hero */}
               <div className="text-center mb-8">
-                {/* Badge row — replaces 3-card grid */}
-                <div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
+                {/* Feature badges with DecryptedText — hover to see the scramble effect */}
+                <div className="flex items-center justify-center gap-2 mb-8 flex-wrap">
                   {[
                     { icon: "💬", label: "Smart Chat" },
                     { icon: "🧠", label: "Mind Maps" },
@@ -356,16 +374,27 @@ export default function Home() {
                   ].map((f, i) => (
                     <span
                       key={f.label}
-                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold cursor-default select-none"
                       style={{
-                        background: "rgba(17,30,54,0.8)",
-                        border: "1px solid rgba(255,255,255,0.07)",
+                        background: "rgba(12,21,40,0.85)",
+                        border: "1px solid rgba(255,255,255,0.09)",
                         color: "#94a3b8",
-                        animation: `staggerFadeUp 280ms cubic-bezier(0.23,1,0.32,1) ${i * 50}ms both`,
+                        backdropFilter: "blur(8px)",
+                        animation: `staggerFadeUp 300ms cubic-bezier(0.23,1,0.32,1) ${i * 60}ms both`,
                       }}
                     >
                       <span>{f.icon}</span>
-                      {f.label}
+                      <DecryptedText
+                        text={f.label}
+                        animateOn="hover"
+                        speed={40}
+                        maxIterations={12}
+                        sequential={true}
+                        revealDirection="start"
+                        characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$"
+                        className="text-[#e2e8f0]"
+                        encryptedClassName="text-[#f5c518]"
+                      />
                     </span>
                   ))}
                 </div>
