@@ -3,8 +3,8 @@
 import { useCallback, useState } from "react";
 import * as pdfjsLib from "pdfjs-dist";
 
-// Use CDN worker to avoid bundling issues on Vercel
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+// Use local worker file (copied to /public) — reliable, no CDN dependency
+pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
 interface FileUploadProps {
   onUploadComplete: (data: {
