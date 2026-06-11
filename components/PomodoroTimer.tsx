@@ -125,7 +125,7 @@ export default function PomodoroTimer({ focusMode, onFocusToggle }: {
   const mins = String(Math.floor(timeLeft / 60)).padStart(2, "0");
   const secs = String(timeLeft % 60).padStart(2, "0");
 
-  const phaseColor = phase === "work" ? "#f5c842" : "#4fc3f7";
+  const phaseColor = phase === "work" ? "#c471ed" : "#4fc3f7";
   const phaseLabel = phase === "work" ? "Focus" : phase === "short_break" ? "Short Break" : "Long Break";
 
   return (
@@ -133,7 +133,7 @@ export default function PomodoroTimer({ focusMode, onFocusToggle }: {
       {/* Compact nav widget */}
       <button
         onClick={() => { setOpen(!open); requestNotificationPermission(); }}
-        className="flex items-center gap-2 px-3 py-1.5 bg-[#111827] border border-[rgba(245,200,66,0.2)] rounded-lg hover:border-[#f5c842]/40 transition-all"
+        className="flex items-center gap-2 px-3 py-1.5 bg-[#111827] border border-[rgba(196,113,237,0.2)] rounded-lg hover:border-[#c471ed]/40 transition-all"
       >
         <svg width="20" height="20" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="#1a2340" strokeWidth="8" />
@@ -153,7 +153,7 @@ export default function PomodoroTimer({ focusMode, onFocusToggle }: {
 
       {/* Expanded panel */}
       {open && (
-        <div className="absolute right-0 top-12 z-50 w-72 bg-[#111827] border border-[rgba(245,200,66,0.2)] rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.5)] p-5">
+        <div className="absolute right-0 top-12 z-50 w-72 bg-[#111827] border border-[rgba(196,113,237,0.2)] rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.5)] p-5">
           {/* Phase label */}
           <div className="flex items-center justify-between mb-4">
             <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: phaseColor }}>
@@ -162,7 +162,7 @@ export default function PomodoroTimer({ focusMode, onFocusToggle }: {
             <div className="flex gap-1">
               {Array.from({ length: SESSIONS_BEFORE_LONG }).map((_, i) => (
                 <div key={i} className="w-2 h-2 rounded-full" style={{
-                  background: i < (sessionCount % SESSIONS_BEFORE_LONG) ? "#f5c842" : "#1a2340"
+                  background: i < (sessionCount % SESSIONS_BEFORE_LONG) ? "#c471ed" : "#1a2340"
                 }} />
               ))}
             </div>
@@ -205,7 +205,7 @@ export default function PomodoroTimer({ focusMode, onFocusToggle }: {
             </button>
             <button
               onClick={reset}
-              className="px-3 py-2 bg-[#1a2340] border border-[rgba(245,200,66,0.2)] text-[#8892a4] rounded-lg text-sm hover:text-[#f0f4ff] hover:border-[#f5c842]/40 transition-all"
+              className="px-3 py-2 bg-[#1a2340] border border-[rgba(196,113,237,0.2)] text-[#8892a4] rounded-lg text-sm hover:text-[#f0f4ff] hover:border-[#c471ed]/40 transition-all"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -215,8 +215,8 @@ export default function PomodoroTimer({ focusMode, onFocusToggle }: {
               onClick={onFocusToggle}
               className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all border ${
                 focusMode
-                  ? "bg-[#f5c842]/20 border-[#f5c842] text-[#f5c842]"
-                  : "bg-[#1a2340] border-[rgba(245,200,66,0.2)] text-[#8892a4] hover:border-[#f5c842]/40"
+                  ? "bg-[#c471ed]/20 border-[#c471ed] text-[#c471ed]"
+                  : "bg-[#1a2340] border-[rgba(196,113,237,0.2)] text-[#8892a4] hover:border-[#c471ed]/40"
               }`}
             >
               {focusMode ? "Exit Focus" : "🎯 Focus"}
@@ -224,9 +224,9 @@ export default function PomodoroTimer({ focusMode, onFocusToggle }: {
           </div>
 
           {/* Stats */}
-          <div className="flex justify-between text-xs text-[#8892a4] border-t border-[rgba(245,200,66,0.08)] pt-3">
-            <span>🍅 Today: <span className="text-[#f5c842] font-bold">{completedToday}</span></span>
-            <span>Session: <span className="text-[#f5c842] font-bold">{(sessionCount % SESSIONS_BEFORE_LONG) + 1}/{SESSIONS_BEFORE_LONG}</span></span>
+          <div className="flex justify-between text-xs text-[#8892a4] border-t border-[rgba(196,113,237,0.08)] pt-3">
+            <span>🍅 Today: <span className="text-[#c471ed] font-bold">{completedToday}</span></span>
+            <span>Session: <span className="text-[#c471ed] font-bold">{(sessionCount % SESSIONS_BEFORE_LONG) + 1}/{SESSIONS_BEFORE_LONG}</span></span>
             <span>⏱ {completedToday * WORK_MINS}m focused</span>
           </div>
         </div>

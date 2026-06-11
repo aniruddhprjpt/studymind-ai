@@ -67,15 +67,15 @@ export default function ExamCountdown() {
       {/* Backdrop click to close */}
       <div className="absolute inset-0" onClick={() => setShowModal(false)} />
 
-      <div className="relative w-full max-w-sm bg-[#111827] border border-[rgba(245,200,66,0.25)] rounded-2xl shadow-[0_0_60px_rgba(245,200,66,0.15)] overflow-hidden">
+      <div className="relative w-full max-w-sm bg-[#111827] border border-[rgba(196,113,237,0.25)] rounded-2xl shadow-[0_0_60px_rgba(196,113,237,0.15)] overflow-hidden">
         {/* Gold top accent line */}
-        <div className="h-1 w-full bg-gradient-to-r from-[#f5c842] via-[#ffd84d] to-[#4fc3f7]" />
+        <div className="h-1 w-full bg-gradient-to-r from-[#c471ed] via-[#d08cf0] to-[#4fc3f7]" />
 
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#f5c842]/10 border border-[#f5c842]/30 flex items-center justify-center text-base">
+              <div className="w-8 h-8 rounded-lg bg-[#c471ed]/10 border border-[#c471ed]/30 flex items-center justify-center text-base">
                 📅
               </div>
               <h3 className="text-[#f0f4ff] font-bold text-lg">Set Exam Date</h3>
@@ -93,7 +93,7 @@ export default function ExamCountdown() {
           {/* Fields */}
           <div className="space-y-4">
             <div>
-              <label className="text-[#f5c842] text-xs font-semibold uppercase tracking-widest block mb-1.5">
+              <label className="text-[#c471ed] text-xs font-semibold uppercase tracking-widest block mb-1.5">
                 Exam / Subject Name
               </label>
               <input
@@ -103,11 +103,11 @@ export default function ExamCountdown() {
                 onKeyDown={(e) => { if (e.key === "Enter") saveExam(); }}
                 placeholder="e.g. Mathematics Final"
                 autoFocus
-                className="w-full bg-[#0d1526] border border-[rgba(245,200,66,0.2)] rounded-xl px-4 py-3 text-[#f0f4ff] text-sm placeholder-[#8892a4] focus:outline-none focus:border-[#f5c842] transition-colors"
+                className="w-full bg-[#0d1526] border border-[rgba(196,113,237,0.2)] rounded-xl px-4 py-3 text-[#f0f4ff] text-sm placeholder-[#8892a4] focus:outline-none focus:border-[#c471ed] transition-colors"
               />
             </div>
             <div>
-              <label className="text-[#f5c842] text-xs font-semibold uppercase tracking-widest block mb-1.5">
+              <label className="text-[#c471ed] text-xs font-semibold uppercase tracking-widest block mb-1.5">
                 Exam Date
               </label>
               <input
@@ -115,7 +115,7 @@ export default function ExamCountdown() {
                 value={form.date}
                 onChange={(e) => setForm({ ...form, date: e.target.value })}
                 min={new Date().toISOString().split("T")[0]}
-                className="w-full bg-[#0d1526] border border-[rgba(245,200,66,0.2)] rounded-xl px-4 py-3 text-[#f0f4ff] text-sm focus:outline-none focus:border-[#f5c842] transition-colors"
+                className="w-full bg-[#0d1526] border border-[rgba(196,113,237,0.2)] rounded-xl px-4 py-3 text-[#f0f4ff] text-sm focus:outline-none focus:border-[#c471ed] transition-colors"
               />
             </div>
           </div>
@@ -139,7 +139,7 @@ export default function ExamCountdown() {
             <button
               onClick={saveExam}
               disabled={!form.name.trim() || !form.date}
-              className="flex-1 py-2.5 bg-[#f5c842] text-[#0a0f1e] rounded-xl font-bold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#ffd84d] transition-all shadow-[0_0_20px_rgba(245,200,66,0.2)]"
+              className="flex-1 py-2.5 bg-[#c471ed] text-[#fff] rounded-xl font-bold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#d08cf0] transition-all shadow-[0_0_20px_rgba(196,113,237,0.2)]"
             >
               Save Exam
             </button>
@@ -154,7 +154,7 @@ export default function ExamCountdown() {
           </div>
 
           <p className="text-center text-[#8892a4] text-xs mt-4">
-            Press <kbd className="px-1.5 py-0.5 bg-[#0d1526] border border-[rgba(245,200,66,0.15)] rounded font-mono text-[10px]">Esc</kbd> to close
+            Press <kbd className="px-1.5 py-0.5 bg-[#0d1526] border border-[rgba(196,113,237,0.15)] rounded font-mono text-[10px]">Esc</kbd> to close
           </p>
         </div>
       </div>

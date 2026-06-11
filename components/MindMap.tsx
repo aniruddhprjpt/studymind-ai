@@ -41,9 +41,9 @@ interface Tooltip {
 }
 
 const NODE_COLORS = {
-  main: { fill: "#f5c842", stroke: "#e0a800", text: "#0a0f1e", r: 34 },
+  main: { fill: "#c471ed", stroke: "#e0a800", text: "#0a0f1e", r: 34 },
   sub: { fill: "#0d1835", stroke: "#4fc3f7", text: "#4fc3f7", r: 26 },
-  leaf: { fill: "#0d1835", stroke: "rgba(245,200,66,0.4)", text: "#8892a4", r: 18 },
+  leaf: { fill: "#0d1835", stroke: "rgba(196,113,237,0.4)", text: "#8892a4", r: 18 },
 };
 
 export default function MindMap({ documentContent, onNodeClick }: MindMapProps) {
@@ -129,7 +129,7 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
       .attr("orient", "auto")
       .append("path")
       .attr("d", "M0,-4L8,0L0,4")
-      .attr("fill", "rgba(245,200,66,0.4)");
+      .attr("fill", "rgba(196,113,237,0.4)");
 
     const g = svg.append("g");
 
@@ -164,7 +164,7 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
     const link = g.append("g").selectAll<SVGLineElement, D3Link>("line")
       .data(links)
       .join("line")
-      .attr("stroke", "rgba(245,200,66,0.25)")
+      .attr("stroke", "rgba(196,113,237,0.25)")
       .attr("stroke-width", 1.5)
       .attr("stroke-dasharray", "4,4")
       .attr("marker-end", "url(#arrow)");
@@ -182,7 +182,7 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
       // Glow filter
       el.append("circle")
         .attr("r", cfg.r + 6)
-        .attr("fill", d.type === "main" ? "rgba(245,200,66,0.08)" : "rgba(79,195,247,0.06)")
+        .attr("fill", d.type === "main" ? "rgba(196,113,237,0.08)" : "rgba(79,195,247,0.06)")
         .attr("class", "glow-ring");
 
       el.append("circle")
@@ -190,7 +190,7 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
         .attr("fill", cfg.fill)
         .attr("stroke", cfg.stroke)
         .attr("stroke-width", d.type === "main" ? 3 : 1.5)
-        .style("filter", d.type === "main" ? "drop-shadow(0 0 8px rgba(245,200,66,0.5))" : "none");
+        .style("filter", d.type === "main" ? "drop-shadow(0 0 8px rgba(196,113,237,0.5))" : "none");
 
       const words = d.label.split(" ");
       const lines: string[] = [];
@@ -263,8 +263,8 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
   if (!graphData && !loading) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-5 py-10">
-        <div className="w-20 h-20 rounded-2xl bg-[#1a2340] border border-[rgba(245,200,66,0.2)] flex items-center justify-center">
-          <svg className="w-10 h-10 text-[#f5c842]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-20 h-20 rounded-2xl bg-[#1a2340] border border-[rgba(196,113,237,0.2)] flex items-center justify-center">
+          <svg className="w-10 h-10 text-[#c471ed]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="3" strokeWidth={2} />
             <circle cx="4" cy="6" r="2" strokeWidth={2} />
             <circle cx="20" cy="6" r="2" strokeWidth={2} />
@@ -285,7 +285,7 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
         {error && (
           <p className="text-[#f87171] text-sm text-center max-w-xs">{error}</p>
         )}
-        <button onClick={generate} className="flex items-center gap-2 px-5 py-2.5 bg-[#f5c842] text-[#0a0f1e] rounded-xl font-bold text-sm hover:bg-[#ffd84d] shadow-[0_0_20px_rgba(245,200,66,0.3)] transition-all active:scale-95">
+        <button onClick={generate} className="flex items-center gap-2 px-5 py-2.5 bg-[#c471ed] text-[#fff] rounded-xl font-bold text-sm hover:bg-[#d08cf0] shadow-[0_0_20px_rgba(196,113,237,0.3)] transition-all active:scale-95">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
@@ -299,10 +299,10 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
     return (
       <div className="flex flex-col items-center justify-center h-full gap-5">
         <div className="relative w-14 h-14">
-          <div className="absolute inset-0 rounded-full border-2 border-[#f5c842]/20" />
-          <div className="absolute inset-0 rounded-full border-2 border-t-[#f5c842] animate-spin" />
+          <div className="absolute inset-0 rounded-full border-2 border-[#c471ed]/20" />
+          <div className="absolute inset-0 rounded-full border-2 border-t-[#c471ed] animate-spin" />
         </div>
-        <p className="text-[#f5c842] font-semibold text-sm">Building mind map...</p>
+        <p className="text-[#c471ed] font-semibold text-sm">Building mind map...</p>
         <div className="flex gap-3 mt-2">
           {["Main Topic", "Subtopics", "Connections"].map((t, i) => (
             <div key={i} className="skeleton-shimmer h-7 rounded-lg bg-[#1a2340] px-3 text-transparent text-xs">{t}</div>
@@ -317,7 +317,7 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
       <div className="flex items-center justify-between px-1 pb-3 shrink-0">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-[#f5c842]" />
+            <span className="w-3 h-3 rounded-full bg-[#c471ed]" />
             <span className="text-[#8892a4] text-xs">Main topic</span>
           </div>
           <div className="flex items-center gap-2">
@@ -325,15 +325,15 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
             <span className="text-[#8892a4] text-xs">Subtopic</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full border border-[rgba(245,200,66,0.4)] bg-[#0d1835]" />
+            <span className="w-2.5 h-2.5 rounded-full border border-[rgba(196,113,237,0.4)] bg-[#0d1835]" />
             <span className="text-[#8892a4] text-xs">Detail</span>
           </div>
         </div>
         <div className="flex gap-2">
-          <button onClick={generate} title="Regenerate" className="w-7 h-7 rounded-lg bg-[#1a2340] border border-[rgba(245,200,66,0.15)] text-[#8892a4] hover:text-[#f0f4ff] hover:border-[rgba(245,200,66,0.3)] flex items-center justify-center transition-all text-xs">
+          <button onClick={generate} title="Regenerate" className="w-7 h-7 rounded-lg bg-[#1a2340] border border-[rgba(196,113,237,0.15)] text-[#8892a4] hover:text-[#f0f4ff] hover:border-[rgba(196,113,237,0.3)] flex items-center justify-center transition-all text-xs">
             ↺
           </button>
-          <button onClick={exportPNG} className="flex items-center gap-1.5 px-3 py-1 bg-[#f5c842] text-[#0a0f1e] rounded-lg text-xs font-bold hover:bg-[#ffd84d] transition-all">
+          <button onClick={exportPNG} className="flex items-center gap-1.5 px-3 py-1 bg-[#c471ed] text-[#fff] rounded-lg text-xs font-bold hover:bg-[#d08cf0] transition-all">
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
@@ -342,16 +342,16 @@ export default function MindMap({ documentContent, onNodeClick }: MindMapProps) 
         </div>
       </div>
 
-      <div ref={containerRef} className="flex-1 relative overflow-hidden rounded-xl bg-[#060d1a] border border-[rgba(245,200,66,0.08)]">
+      <div ref={containerRef} className="flex-1 relative overflow-hidden rounded-xl bg-[#060d1a] border border-[rgba(196,113,237,0.08)]">
         <svg ref={svgRef} className="w-full h-full" style={{ userSelect: "none" }} />
 
         {/* Tooltip */}
         {tooltip.visible && (
           <div
-            className="absolute pointer-events-none z-10 max-w-[200px] bg-[#111827] border border-[rgba(245,200,66,0.3)] rounded-lg px-3 py-2 shadow-xl"
+            className="absolute pointer-events-none z-10 max-w-[200px] bg-[#111827] border border-[rgba(196,113,237,0.3)] rounded-lg px-3 py-2 shadow-xl"
             style={{ left: tooltip.x + 14, top: tooltip.y - 40, transform: "translateY(-50%)" }}
           >
-            <p className="text-[#f5c842] text-xs font-bold mb-0.5">{tooltip.label}</p>
+            <p className="text-[#c471ed] text-xs font-bold mb-0.5">{tooltip.label}</p>
             <p className="text-[#f0f4ff] text-xs leading-relaxed">{tooltip.text}</p>
           </div>
         )}

@@ -173,7 +173,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
         confetti({
           particleCount: 120,
           spread: 80,
-          colors: ["#f5c842", "#4fc3f7", "#ffffff"],
+          colors: ["#c471ed", "#4fc3f7", "#ffffff"],
           origin: { y: 0.6 },
         });
       }, 300);
@@ -203,12 +203,12 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-2xl bg-[#0d1526] border border-[rgba(245,200,66,0.2)] rounded-2xl shadow-[0_0_60px_rgba(245,200,66,0.1)] max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-2xl bg-[#0d1526] border border-[rgba(196,113,237,0.2)] rounded-2xl shadow-[0_0_60px_rgba(196,113,237,0.1)] max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[rgba(245,200,66,0.1)] shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[rgba(196,113,237,0.1)] shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#f5c842]/10 border border-[#f5c842]/30 flex items-center justify-center">
-              <svg className="w-4 h-4 text-[#f5c842]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-8 h-8 rounded-lg bg-[#c471ed]/10 border border-[#c471ed]/30 flex items-center justify-center">
+              <svg className="w-4 h-4 text-[#c471ed]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
@@ -230,11 +230,11 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
           {phase === "loading" && (
             <div className="flex flex-col items-center justify-center py-20 gap-6">
               <div className="relative w-16 h-16">
-                <div className="absolute inset-0 rounded-full border-2 border-[#f5c842]/20" />
-                <div className="absolute inset-0 rounded-full border-2 border-t-[#f5c842] animate-spin" />
+                <div className="absolute inset-0 rounded-full border-2 border-[#c471ed]/20" />
+                <div className="absolute inset-0 rounded-full border-2 border-t-[#c471ed] animate-spin" />
               </div>
               <div className="text-center">
-                <p className="text-[#f5c842] font-semibold">Generating your exam...</p>
+                <p className="text-[#c471ed] font-semibold">Generating your exam...</p>
                 <p className="text-[#8892a4] text-sm mt-1">Creating questions from your document</p>
               </div>
               <div className="flex gap-2">
@@ -254,7 +254,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                 </svg>
               </div>
               <p className="text-[#f87171] text-center">{error}</p>
-              <button onClick={fetchQuiz} className="px-4 py-2 bg-[#f5c842] text-[#0a0f1e] rounded-lg font-semibold text-sm hover:bg-[#ffd84d] transition-colors">
+              <button onClick={fetchQuiz} className="px-4 py-2 bg-[#c471ed] text-[#fff] rounded-lg font-semibold text-sm hover:bg-[#d08cf0] transition-colors">
                 Try Again
               </button>
             </div>
@@ -271,7 +271,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                 </div>
                 <div className="w-full bg-[#1a2340] rounded-full h-1.5">
                   <div
-                    className="bg-gradient-to-r from-[#f5c842] to-[#4fc3f7] h-1.5 rounded-full transition-all duration-300"
+                    className="bg-gradient-to-r from-[#c471ed] to-[#4fc3f7] h-1.5 rounded-full transition-all duration-300"
                     style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }}
                   />
                 </div>
@@ -283,7 +283,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                       onClick={() => setCurrentQ(i)}
                       className={`w-6 h-6 rounded-full text-xs font-bold transition-all duration-200 ${
                         i === currentQ
-                          ? "bg-[#f5c842] text-[#0a0f1e] scale-110"
+                          ? "bg-[#c471ed] text-[#fff] scale-110"
                           : isAnswered(q.id)
                           ? "bg-[#4ade80]/20 border border-[#4ade80]/50 text-[#4ade80]"
                           : "bg-[#1a2340] text-[#8892a4] hover:bg-[#253050]"
@@ -303,7 +303,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                       currentQuestion.type === "mcq"
                         ? "bg-[#4fc3f7]/10 text-[#4fc3f7] border-[#4fc3f7]/30"
                         : currentQuestion.type === "truefalse"
-                        ? "bg-[#f5c842]/10 text-[#f5c842] border-[#f5c842]/30"
+                        ? "bg-[#c471ed]/10 text-[#c471ed] border-[#c471ed]/30"
                         : "bg-purple-500/10 text-purple-400 border-purple-500/30"
                     }`}>
                       {currentQuestion.type === "mcq" ? "Multiple Choice" :
@@ -326,8 +326,8 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                             onClick={() => handleAnswer(option)}
                             className={`w-full text-left px-4 py-3 rounded-xl border transition-all duration-200 text-sm ${
                               selected
-                                ? "bg-[#f5c842]/15 border-[#f5c842] text-[#f5c842] shadow-[0_0_12px_rgba(245,200,66,0.15)]"
-                                : "bg-[#111827] border-[rgba(245,200,66,0.1)] text-[#f0f4ff] hover:border-[rgba(245,200,66,0.3)] hover:bg-[#f5c842]/5"
+                                ? "bg-[#c471ed]/15 border-[#c471ed] text-[#c471ed] shadow-[0_0_12px_rgba(196,113,237,0.15)]"
+                                : "bg-[#111827] border-[rgba(196,113,237,0.1)] text-[#f0f4ff] hover:border-[rgba(196,113,237,0.3)] hover:bg-[#c471ed]/5"
                             }`}
                           >
                             {option}
@@ -341,12 +341,12 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                           onChange={(e) => setShortAnswerInput(e.target.value)}
                           placeholder="Type your answer here..."
                           rows={3}
-                          className="w-full bg-[#111827] border border-[rgba(245,200,66,0.2)] rounded-xl px-4 py-3 text-[#f0f4ff] text-sm placeholder-[#8892a4] focus:outline-none focus:border-[#f5c842] resize-none"
+                          className="w-full bg-[#111827] border border-[rgba(196,113,237,0.2)] rounded-xl px-4 py-3 text-[#f0f4ff] text-sm placeholder-[#8892a4] focus:outline-none focus:border-[#c471ed] resize-none"
                         />
                         <button
                           onClick={handleShortAnswerSubmit}
                           disabled={!shortAnswerInput.trim()}
-                          className="px-4 py-2 bg-[#f5c842] text-[#0a0f1e] rounded-lg font-semibold text-sm disabled:opacity-40 hover:bg-[#ffd84d] transition-colors"
+                          className="px-4 py-2 bg-[#c471ed] text-[#fff] rounded-lg font-semibold text-sm disabled:opacity-40 hover:bg-[#d08cf0] transition-colors"
                         >
                           Save Answer
                         </button>
@@ -366,7 +366,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                 <button
                   onClick={goPrev}
                   disabled={currentQ === 0}
-                  className="px-4 py-2 bg-[#1a2340] border border-[rgba(245,200,66,0.2)] text-[#f0f4ff] rounded-lg text-sm font-medium disabled:opacity-30 hover:border-[#f5c842]/50 transition-all"
+                  className="px-4 py-2 bg-[#1a2340] border border-[rgba(196,113,237,0.2)] text-[#f0f4ff] rounded-lg text-sm font-medium disabled:opacity-30 hover:border-[#c471ed]/50 transition-all"
                 >
                   ← Previous
                 </button>
@@ -375,14 +375,14 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                   <button
                     onClick={submitQuiz}
                     disabled={answeredCount < questions.length}
-                    className="px-6 py-2 bg-[#f5c842] text-[#0a0f1e] rounded-lg text-sm font-bold shadow-[0_0_20px_rgba(245,200,66,0.3)] hover:bg-[#ffd84d] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="px-6 py-2 bg-[#c471ed] text-[#fff] rounded-lg text-sm font-bold shadow-[0_0_20px_rgba(196,113,237,0.3)] hover:bg-[#d08cf0] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     Submit Exam ({answeredCount}/{questions.length})
                   </button>
                 ) : (
                   <button
                     onClick={goNext}
-                    className="px-4 py-2 bg-[#f5c842] text-[#0a0f1e] rounded-lg text-sm font-bold hover:bg-[#ffd84d] transition-all"
+                    className="px-4 py-2 bg-[#c471ed] text-[#fff] rounded-lg text-sm font-bold hover:bg-[#d08cf0] transition-all"
                   >
                     Next →
                   </button>
@@ -395,10 +395,10 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
           {phase === "results" && (
             <div className="p-6 space-y-6">
               {/* Score card */}
-              <div className="text-center py-6 bg-[#111827] border border-[rgba(245,200,66,0.15)] rounded-2xl">
+              <div className="text-center py-6 bg-[#111827] border border-[rgba(196,113,237,0.15)] rounded-2xl">
                 <div className={`text-6xl font-black mb-2 ${
                   percentage >= 80 ? "text-[#4ade80]" :
-                  percentage >= 60 ? "text-[#f5c842]" : "text-[#f87171]"
+                  percentage >= 60 ? "text-[#c471ed]" : "text-[#f87171]"
                 }`}>
                   {percentage}%
                 </div>
@@ -407,7 +407,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                 </p>
                 <p className={`text-sm mt-2 ${
                   percentage >= 80 ? "text-[#4ade80]" :
-                  percentage >= 60 ? "text-[#f5c842]" : "text-[#f87171]"
+                  percentage >= 60 ? "text-[#c471ed]" : "text-[#f87171]"
                 }`}>
                   {percentage >= 80 ? "🎉 Excellent! You've mastered this material!" :
                    percentage >= 60 ? "📚 Good effort! Review the weak areas below." :
@@ -420,7 +420,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
                 <div
                   className={`h-3 rounded-full transition-all duration-1000 ${
                     percentage >= 80 ? "bg-gradient-to-r from-[#4ade80] to-[#22c55e]" :
-                    percentage >= 60 ? "bg-gradient-to-r from-[#f5c842] to-[#ffd84d]" :
+                    percentage >= 60 ? "bg-gradient-to-r from-[#c471ed] to-[#d08cf0]" :
                     "bg-gradient-to-r from-[#f87171] to-[#ef4444]"
                   }`}
                   style={{ width: `${percentage}%` }}
@@ -501,7 +501,7 @@ export default function QuizModal({ documentContent, onClose, topicFilter }: Qui
               {/* Retry */}
               <button
                 onClick={fetchQuiz}
-                className="w-full py-3 bg-[#f5c842] text-[#0a0f1e] rounded-xl font-bold text-sm hover:bg-[#ffd84d] transition-all shadow-[0_0_20px_rgba(245,200,66,0.2)]"
+                className="w-full py-3 bg-[#c471ed] text-[#fff] rounded-xl font-bold text-sm hover:bg-[#d08cf0] transition-all shadow-[0_0_20px_rgba(196,113,237,0.2)]"
               >
                 Generate New Quiz
               </button>

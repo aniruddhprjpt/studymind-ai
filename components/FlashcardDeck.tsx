@@ -153,10 +153,10 @@ export default function FlashcardDeck({ documentContent, filename }: Props) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-4">
         <div className="relative w-12 h-12">
-          <div className="absolute inset-0 rounded-full border-2 border-[#f5c842]/20" />
-          <div className="absolute inset-0 rounded-full border-2 border-t-[#f5c842] animate-spin" />
+          <div className="absolute inset-0 rounded-full border-2 border-[#c471ed]/20" />
+          <div className="absolute inset-0 rounded-full border-2 border-t-[#c471ed] animate-spin" />
         </div>
-        <p className="text-[#f5c842] font-semibold text-sm">Generating flashcards...</p>
+        <p className="text-[#c471ed] font-semibold text-sm">Generating flashcards...</p>
       </div>
     );
   }
@@ -174,7 +174,7 @@ export default function FlashcardDeck({ documentContent, filename }: Props) {
         {error && <p className="text-[#f87171] text-sm text-center">{error}</p>}
         <button
           onClick={generate}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#f5c842] text-[#0a0f1e] rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(245,200,66,0.25)] hover:bg-[#ffd84d] transition-all"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#c471ed] text-[#fff] rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(196,113,237,0.25)] hover:bg-[#d08cf0] transition-all"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -194,13 +194,13 @@ export default function FlashcardDeck({ documentContent, filename }: Props) {
           <h3 className="text-[#f0f4ff] font-bold text-lg">Deck Complete!</h3>
           <p className="text-[#8892a4] text-sm mt-1">
             <span className="text-[#4ade80] font-bold">{mastered.length}</span> mastered ·{" "}
-            <span className="text-[#f5c842] font-bold">{allCards.length - mastered.length}</span> remaining
+            <span className="text-[#c471ed] font-bold">{allCards.length - mastered.length}</span> remaining
           </p>
         </div>
         <div className="w-full max-w-xs bg-[#1a2340] rounded-full h-2">
           <div className="h-2 bg-[#4ade80] rounded-full" style={{ width: `${(mastered.length / allCards.length) * 100}%` }} />
         </div>
-        <button onClick={resetDeck} className="px-5 py-2.5 bg-[#f5c842] text-[#0a0f1e] rounded-xl font-bold text-sm hover:bg-[#ffd84d] transition-all">
+        <button onClick={resetDeck} className="px-5 py-2.5 bg-[#c471ed] text-[#fff] rounded-xl font-bold text-sm hover:bg-[#d08cf0] transition-all">
           Restart Deck
         </button>
         <button onClick={generate} className="text-[#8892a4] text-xs underline">Regenerate cards</button>
@@ -233,7 +233,7 @@ export default function FlashcardDeck({ documentContent, filename }: Props) {
         >
           {/* Front */}
           <div className="absolute inset-0 rounded-2xl flex flex-col items-center justify-center p-6 text-center border"
-            style={{ backfaceVisibility: "hidden", background: "linear-gradient(135deg, #f5c842, #e0a800)", borderColor: "#f5c842" }}>
+            style={{ backfaceVisibility: "hidden", background: "linear-gradient(135deg, #c471ed, #e0a800)", borderColor: "#c471ed" }}>
             <p className="text-[#0a0f1e] font-bold text-base leading-relaxed">{card.front}</p>
             <p className="text-[#0a0f1e]/50 text-xs mt-3 font-medium">Tap to reveal</p>
           </div>
@@ -265,42 +265,42 @@ export default function FlashcardDeck({ documentContent, filename }: Props) {
         ) : (
           <button
             onClick={() => setFlipped(true)}
-            className="w-full py-3 bg-[#f5c842]/10 border border-[#f5c842]/30 text-[#f5c842] rounded-xl font-bold text-sm hover:bg-[#f5c842]/20 transition-all"
+            className="w-full py-3 bg-[#c471ed]/10 border border-[#c471ed]/30 text-[#c471ed] rounded-xl font-bold text-sm hover:bg-[#c471ed]/20 transition-all"
           >
             Reveal Answer
           </button>
         )}
 
         <div className="flex gap-2">
-          <button onClick={shuffle} className="flex-1 py-2 bg-[#1a2340] border border-[rgba(245,200,66,0.15)] text-[#8892a4] rounded-xl text-xs hover:text-[#f0f4ff] hover:border-[#f5c842]/30 transition-all">
+          <button onClick={shuffle} className="flex-1 py-2 bg-[#1a2340] border border-[rgba(196,113,237,0.15)] text-[#8892a4] rounded-xl text-xs hover:text-[#f0f4ff] hover:border-[#c471ed]/30 transition-all">
             🔀 Shuffle
           </button>
-          <button onClick={() => setShowCustom(!showCustom)} className="flex-1 py-2 bg-[#1a2340] border border-[rgba(245,200,66,0.15)] text-[#8892a4] rounded-xl text-xs hover:text-[#f0f4ff] hover:border-[#f5c842]/30 transition-all">
+          <button onClick={() => setShowCustom(!showCustom)} className="flex-1 py-2 bg-[#1a2340] border border-[rgba(196,113,237,0.15)] text-[#8892a4] rounded-xl text-xs hover:text-[#f0f4ff] hover:border-[#c471ed]/30 transition-all">
             ✏️ Add Card
           </button>
-          <button onClick={resetDeck} className="flex-1 py-2 bg-[#1a2340] border border-[rgba(245,200,66,0.15)] text-[#8892a4] rounded-xl text-xs hover:text-[#f0f4ff] hover:border-[#f5c842]/30 transition-all">
+          <button onClick={resetDeck} className="flex-1 py-2 bg-[#1a2340] border border-[rgba(196,113,237,0.15)] text-[#8892a4] rounded-xl text-xs hover:text-[#f0f4ff] hover:border-[#c471ed]/30 transition-all">
             🔁 Reset
           </button>
         </div>
 
         {/* Custom card form */}
         {showCustom && (
-          <div className="p-3 bg-[#0d1526] border border-[rgba(245,200,66,0.15)] rounded-xl space-y-2">
+          <div className="p-3 bg-[#0d1526] border border-[rgba(196,113,237,0.15)] rounded-xl space-y-2">
             <input
               value={customFront} onChange={(e) => setCustomFront(e.target.value)}
               placeholder="Front (question or term)"
-              className="w-full bg-[#1a2340] border border-[rgba(245,200,66,0.15)] rounded-lg px-3 py-2 text-[#f0f4ff] text-xs placeholder-[#8892a4] focus:outline-none focus:border-[#f5c842]"
+              className="w-full bg-[#1a2340] border border-[rgba(196,113,237,0.15)] rounded-lg px-3 py-2 text-[#f0f4ff] text-xs placeholder-[#8892a4] focus:outline-none focus:border-[#c471ed]"
             />
             <textarea
               value={customBack} onChange={(e) => setCustomBack(e.target.value)}
               placeholder="Back (answer or definition)"
               rows={2}
-              className="w-full bg-[#1a2340] border border-[rgba(245,200,66,0.15)] rounded-lg px-3 py-2 text-[#f0f4ff] text-xs placeholder-[#8892a4] focus:outline-none focus:border-[#f5c842] resize-none"
+              className="w-full bg-[#1a2340] border border-[rgba(196,113,237,0.15)] rounded-lg px-3 py-2 text-[#f0f4ff] text-xs placeholder-[#8892a4] focus:outline-none focus:border-[#c471ed] resize-none"
             />
             <button
               onClick={addCustomCard}
               disabled={!customFront.trim() || !customBack.trim()}
-              className="w-full py-2 bg-[#f5c842] text-[#0a0f1e] rounded-lg font-bold text-xs disabled:opacity-40 hover:bg-[#ffd84d] transition-all"
+              className="w-full py-2 bg-[#c471ed] text-[#fff] rounded-lg font-bold text-xs disabled:opacity-40 hover:bg-[#d08cf0] transition-all"
             >
               Add to Deck
             </button>

@@ -44,7 +44,7 @@ function StarRating({
   }
   if (action === "example") {
     return (
-      <p className="text-[#f5c518] text-xs mt-2 flex items-center gap-1 animate-fadeSlideUp">
+      <p className="text-[#c471ed] text-xs mt-2 flex items-center gap-1 animate-fadeSlideUp">
         💡 Sending an example...
       </p>
     );
@@ -77,7 +77,7 @@ function StarRating({
               display: "inline-block",
             }}
           >
-            <span style={{ color: star <= (hovered || selected) ? "#f5c518" : "#1e2d4a" }}>★</span>
+            <span style={{ color: star <= (hovered || selected) ? "#c471ed" : "#1e2d4a" }}>★</span>
           </button>
         ))}
       </div>
@@ -259,12 +259,12 @@ export default function ChatPanel({
         <div
           className="mx-4 mt-3 px-3 py-2 rounded-xl flex items-center gap-2 shrink-0"
           style={{
-            background: "rgba(245,197,24,0.07)",
-            border: "1px solid rgba(245,197,24,0.2)",
+            background: "rgba(196,113,237,0.07)",
+            border: "1px solid rgba(196,113,237,0.2)",
           }}
         >
           <span className="text-base">🧒</span>
-          <p className="text-[#f5c518] text-xs font-medium flex-1">
+          <p className="text-[#c471ed] text-xs font-medium flex-1">
             ELI5 Mode Active — Explaining everything like you&apos;re 5
           </p>
           <button
@@ -291,7 +291,7 @@ export default function ChatPanel({
               style={
                 msg.role === "user"
                   ? {
-                      background: "#f5c518",
+                      background: "#c471ed",
                       color: "#060b18",
                       fontWeight: 500,
                       borderBottomRightRadius: 6,
@@ -306,7 +306,7 @@ export default function ChatPanel({
             >
               {msg.role === "assistant" ? (
                 <>
-                  <div className="prose prose-invert prose-sm max-w-none prose-headings:text-[#60a5fa] prose-strong:text-[#f5c518] prose-code:text-[#60a5fa] prose-a:text-[#60a5fa]">
+                  <div className="prose prose-invert prose-sm max-w-none prose-headings:text-[#60a5fa] prose-strong:text-[#c471ed] prose-code:text-[#60a5fa] prose-a:text-[#60a5fa]">
                     <ReactMarkdown>{msg.content}</ReactMarkdown>
                   </div>
                   {i > 0 && (
@@ -327,14 +327,14 @@ export default function ChatPanel({
                 className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-1"
                 style={{
                   background: "#111e36",
-                  border: "1px solid rgba(245,197,24,0.2)",
+                  border: "1px solid rgba(196,113,237,0.2)",
                 }}
               >
                 <svg
                   className="w-3.5 h-3.5"
                   fill="currentColor"
                   viewBox="0 0 20 20"
-                  style={{ color: "#f5c518" }}
+                  style={{ color: "#c471ed" }}
                 >
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
                 </svg>
@@ -412,9 +412,9 @@ export default function ChatPanel({
             onClick={() => setEli5Mode(!eli5Mode)}
             className="text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 active:scale-[0.97]"
             style={{
-              background: eli5Mode ? "rgba(245,197,24,0.12)" : "rgba(17,30,54,0.8)",
-              border: eli5Mode ? "1px solid rgba(245,197,24,0.4)" : "1px solid rgba(245,197,24,0.15)",
-              color: "#f5c518",
+              background: eli5Mode ? "rgba(196,113,237,0.12)" : "rgba(17,30,54,0.8)",
+              border: eli5Mode ? "1px solid rgba(196,113,237,0.4)" : "1px solid rgba(196,113,237,0.15)",
+              color: "#c471ed",
               transition: "background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
             }}
           >
@@ -427,16 +427,16 @@ export default function ChatPanel({
             className="text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 disabled:opacity-40 active:scale-[0.97]"
             style={{
               background: "rgba(17,30,54,0.8)",
-              border: "1px solid rgba(245,197,24,0.15)",
-              color: "#f5c518",
+              border: "1px solid rgba(196,113,237,0.15)",
+              color: "#c471ed",
               transition: "background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(245,197,24,0.35)";
-              e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.06)";
+              e.currentTarget.style.borderColor = "rgba(196,113,237,0.35)";
+              e.currentTarget.style.backgroundColor = "rgba(196,113,237,0.06)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(245,197,24,0.15)";
+              e.currentTarget.style.borderColor = "rgba(196,113,237,0.15)";
               e.currentTarget.style.backgroundColor = "rgba(17,30,54,0.8)";
             }}
           >
@@ -449,16 +449,16 @@ export default function ChatPanel({
             className="text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 disabled:opacity-40 active:scale-[0.97]"
             style={{
               background: "rgba(17,30,54,0.8)",
-              border: "1px solid rgba(245,197,24,0.15)",
-              color: "#f5c518",
+              border: "1px solid rgba(196,113,237,0.15)",
+              color: "#c471ed",
               transition: "background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(245,197,24,0.35)";
-              e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.06)";
+              e.currentTarget.style.borderColor = "rgba(196,113,237,0.35)";
+              e.currentTarget.style.backgroundColor = "rgba(196,113,237,0.06)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(245,197,24,0.15)";
+              e.currentTarget.style.borderColor = "rgba(196,113,237,0.15)";
               e.currentTarget.style.backgroundColor = "rgba(17,30,54,0.8)";
             }}
           >
@@ -489,7 +489,7 @@ export default function ChatPanel({
               transition: "border-color 150ms ease, box-shadow 150ms ease",
             }}
             onFocus={(e) => {
-              e.currentTarget.style.borderColor = "rgba(245,197,24,0.3)";
+              e.currentTarget.style.borderColor = "rgba(196,113,237,0.3)";
             }}
             onBlur={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
@@ -506,18 +506,18 @@ export default function ChatPanel({
             disabled={isLoading || !input.trim()}
             className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 disabled:opacity-30 disabled:cursor-not-allowed active:scale-[0.97]"
             style={{
-              background: "#f5c518",
+              background: "#c471ed",
               color: "#060b18",
-              boxShadow: "0 1px 12px rgba(245,197,24,0.2)",
+              boxShadow: "0 1px 12px rgba(196,113,237,0.2)",
               transition: "background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease",
             }}
             onMouseEnter={(e) => {
               if (!e.currentTarget.disabled) {
-                e.currentTarget.style.boxShadow = "0 2px 18px rgba(245,197,24,0.35)";
+                e.currentTarget.style.boxShadow = "0 2px 18px rgba(196,113,237,0.35)";
               }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "0 1px 12px rgba(245,197,24,0.2)";
+              e.currentTarget.style.boxShadow = "0 1px 12px rgba(196,113,237,0.2)";
             }}
           >
             <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ width: 18, height: 18 }}>

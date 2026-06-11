@@ -465,7 +465,7 @@ export default function Home() {
                       border: "1px solid rgba(255,255,255,0.06)",
                     }}
                   >
-                    <span className="text-[#f5c518]"><IconDoc /></span>
+                    <span className="text-[#c471ed]"><IconDoc /></span>
                     <span className="text-[#eef2f9] font-medium max-w-[120px] truncate">{doc.filename}</span>
                     <span className="text-[#475569]">{formatBytes(doc.fileSize)}</span>
                   </div>
@@ -489,9 +489,9 @@ export default function Home() {
                     onClick={() => { setQuizTopicFilter(undefined); setShowQuiz(true); }}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
                     style={{
-                      background: "#f5c518",
-                      color: "#000000",
-                      boxShadow: "0 1px 12px rgba(245,197,24,0.2)",
+                      background: "#c471ed",
+                      color: "#fff",
+                      boxShadow: "0 1px 12px rgba(196,113,237,0.3)",
                       transition: "background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease",
                     }}
                   >
@@ -666,11 +666,11 @@ export default function Home() {
                 <div
                   className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
                   style={{
-                    background: "rgba(245,197,24,0.1)",
-                    border: "1px solid rgba(245,197,24,0.2)",
+                    background: "rgba(196,113,237,0.1)",
+                    border: "1px solid rgba(196,113,237,0.2)",
                   }}
                 >
-                  <span style={{ color: "#f5c518" }}><IconDoc /></span>
+                  <span style={{ color: "#c471ed" }}><IconDoc /></span>
                 </div>
                 <span className="text-[#eef2f9] text-xs font-medium max-w-[160px] truncate">{doc.filename}</span>
                 <span className="text-[#34d399] text-[11px] font-medium shrink-0">✓ Doc 1</span>
@@ -739,9 +739,9 @@ export default function Home() {
                 onClick={() => setShowDocPanel(!showDocPanel)}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium active:scale-[0.97]"
                 style={{
-                  background: showDocPanel ? "rgba(245,197,24,0.08)" : "rgba(13,13,13,0.6)",
-                  border: showDocPanel ? "1px solid rgba(245,197,24,0.2)" : "1px solid rgba(255,255,255,0.06)",
-                  color: showDocPanel ? "#f5c518" : "#475569",
+                  background: showDocPanel ? "rgba(196,113,237,0.08)" : "rgba(13,13,13,0.6)",
+                  border: showDocPanel ? "1px solid rgba(196,113,237,0.2)" : "1px solid rgba(255,255,255,0.06)",
+                  color: showDocPanel ? "#c471ed" : "#475569",
                   transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
                 }}
               >
@@ -835,7 +835,7 @@ export default function Home() {
                         color: "#475569",
                         transition: "color 150ms ease, background-color 150ms ease, transform 150ms ease",
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.color = "#f5c518"; e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.08)"; }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = "#c471ed"; e.currentTarget.style.backgroundColor = "rgba(196,113,237,0.08)"; }}
                       onMouseLeave={(e) => { e.currentTarget.style.color = "#475569"; e.currentTarget.style.backgroundColor = "transparent"; }}
                     >
                       <IconExpand />
@@ -878,7 +878,7 @@ export default function Home() {
                   </button>
 
                   <div className="flex items-center gap-2">
-                    <span style={{ color: "#f5c518" }}><IconChat /></span>
+                    <span style={{ color: "#c471ed" }}><IconChat /></span>
                     <span className="text-[#eef2f9] text-sm font-semibold">AI Chat</span>
                     {compareMode && doc2 && (
                       <span
@@ -898,13 +898,13 @@ export default function Home() {
                     onClick={() => { setQuizTopicFilter(undefined); setShowQuiz(true); }}
                     className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
                     style={{
-                      background: "rgba(245,197,24,0.08)",
-                      border: "1px solid rgba(245,197,24,0.2)",
-                      color: "#f5c518",
+                      background: "rgba(196,113,237,0.08)",
+                      border: "1px solid rgba(196,113,237,0.2)",
+                      color: "#c471ed",
                       transition: "background-color 150ms ease, transform 150ms ease",
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.14)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.08)"; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(196,113,237,0.14)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(196,113,237,0.08)"; }}
                   >
                     <IconQuiz />
                     Take Exam
@@ -939,9 +939,9 @@ export default function Home() {
               onClick={() => setMobileShowRight(!mobileShowRight)}
               className="fixed bottom-4 right-4 md:hidden z-20 w-12 h-12 rounded-full flex items-center justify-center active:scale-[0.97]"
               style={{
-                background: "#f5c518",
-                color: "#000000",
-                boxShadow: "0 4px 20px rgba(245,197,24,0.35)",
+                background: "#c471ed",
+                color: "#fff",
+                boxShadow: "0 4px 20px rgba(196,113,237,0.4)",
                 transition: "transform 150ms ease",
               }}
             >
@@ -972,9 +972,9 @@ export default function Home() {
                   onClick={() => setLeftTab(tab.id)}
                   className="flex items-center gap-2 px-4 py-2 text-sm font-medium whitespace-nowrap rounded-lg active:scale-[0.97]"
                   style={{
-                    background: leftTab === tab.id ? "rgba(245,197,24,0.08)" : "transparent",
-                    border: leftTab === tab.id ? "1px solid rgba(245,197,24,0.25)" : "1px solid transparent",
-                    color: leftTab === tab.id ? "#f5c518" : "#475569",
+                    background: leftTab === tab.id ? "rgba(196,113,237,0.08)" : "transparent",
+                    border: leftTab === tab.id ? "1px solid rgba(196,113,237,0.25)" : "1px solid transparent",
+                    color: leftTab === tab.id ? "#c471ed" : "#475569",
                     transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
                   }}
                   onMouseEnter={(e) => {
@@ -1001,8 +1001,8 @@ export default function Home() {
                 transition: "color 150ms ease, border-color 150ms ease, transform 150ms ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = "#f5c518";
-                e.currentTarget.style.borderColor = "rgba(245,197,24,0.3)";
+                e.currentTarget.style.color = "#c471ed";
+                e.currentTarget.style.borderColor = "rgba(196,113,237,0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.color = "#94a3b8";

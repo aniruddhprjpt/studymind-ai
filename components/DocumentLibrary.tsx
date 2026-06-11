@@ -122,7 +122,7 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
     return (
       <button
         disabled
-        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1a2340] border border-[rgba(245,200,66,0.2)] text-[#8892a4] rounded-lg text-xs opacity-50"
+        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1a2340] border border-[rgba(196,113,237,0.2)] text-[#8892a4] rounded-lg text-xs opacity-50"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414A1 1 0 0120 8.414V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
@@ -136,14 +136,14 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
     <button
       onClick={openModal}
       title="Document Library"
-      className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1a2340] border border-[rgba(245,200,66,0.2)] text-[#8892a4] rounded-lg text-xs hover:text-[#f5c842] hover:border-[#f5c842]/40 transition-[color,border-color,background-color] duration-150 active:scale-[0.97]"
+      className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1a2340] border border-[rgba(196,113,237,0.2)] text-[#8892a4] rounded-lg text-xs hover:text-[#c471ed] hover:border-[#c471ed]/40 transition-[color,border-color,background-color] duration-150 active:scale-[0.97]"
     >
       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414A1 1 0 0120 8.414V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
       </svg>
       <span className="hidden sm:inline">Library</span>
       {count > 0 && (
-        <span className="hidden sm:inline ml-0.5 text-[#f5c842] font-bold tabular-nums">
+        <span className="hidden sm:inline ml-0.5 text-[#c471ed] font-bold tabular-nums">
           ({count})
         </span>
       )}
@@ -161,14 +161,14 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
       onClick={closeModal}
     >
       <div
-        className="bg-[#111827] border border-[rgba(245,200,66,0.15)] rounded-2xl w-full max-w-lg max-h-[80vh] flex flex-col shadow-[0_24px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(245,200,66,0.05)]"
+        className="bg-[#111827] border border-[rgba(196,113,237,0.15)] rounded-2xl w-full max-w-lg max-h-[80vh] flex flex-col shadow-[0_24px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(196,113,237,0.05)]"
         style={{ animation: "modalIn 220ms cubic-bezier(0.23,1,0.32,1) both" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-[rgba(245,200,66,0.08)] shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-[#f5c842]/10 border border-[#f5c842]/20 flex items-center justify-center">
-            <svg className="w-4 h-4 text-[#f5c842]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-[rgba(196,113,237,0.08)] shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-[#c471ed]/10 border border-[#c471ed]/20 flex items-center justify-center">
+            <svg className="w-4 h-4 text-[#c471ed]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414A1 1 0 0120 8.414V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
             </svg>
           </div>
@@ -192,7 +192,7 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
         <div className="flex-1 overflow-y-auto p-3 space-y-2 scrollbar-thin">
           {docs.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-14 text-center">
-              <div className="w-16 h-16 rounded-2xl bg-[#1a2340] border border-[rgba(245,200,66,0.1)] flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-2xl bg-[#1a2340] border border-[rgba(196,113,237,0.1)] flex items-center justify-center mb-4">
                 <svg className="w-7 h-7 text-[#8892a4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414A1 1 0 0120 8.414V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
                 </svg>
@@ -210,8 +210,8 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
                   key={d.id}
                   className={`group flex items-center gap-3 p-3 rounded-xl border transition-[border-color,background-color] duration-150 ${
                     isActive
-                      ? "bg-[#f5c842]/5 border-[#f5c842]/25"
-                      : "bg-[#0d1526] border-[rgba(245,200,66,0.06)] hover:border-[rgba(245,200,66,0.2)]"
+                      ? "bg-[#c471ed]/5 border-[#c471ed]/25"
+                      : "bg-[#0d1526] border-[rgba(196,113,237,0.06)] hover:border-[rgba(196,113,237,0.2)]"
                   }`}
                   style={{ animation: `staggerFadeUp 240ms cubic-bezier(0.23,1,0.32,1) ${i * 40}ms both` }}
                 >
@@ -219,12 +219,12 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
                   <div
                     className={`w-9 h-9 rounded-lg border flex items-center justify-center shrink-0 ${
                       isActive
-                        ? "bg-[#f5c842]/15 border-[#f5c842]/30"
-                        : "bg-[#1a2340] border-[rgba(245,200,66,0.1)]"
+                        ? "bg-[#c471ed]/15 border-[#c471ed]/30"
+                        : "bg-[#1a2340] border-[rgba(196,113,237,0.1)]"
                     }`}
                   >
                     <svg
-                      className={`w-4 h-4 ${isActive ? "text-[#f5c842]" : "text-[#8892a4]"}`}
+                      className={`w-4 h-4 ${isActive ? "text-[#c471ed]" : "text-[#8892a4]"}`}
                       fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -246,14 +246,14 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
                           if (e.key === "Enter") confirmRename(d.id);
                           if (e.key === "Escape") setRenaming(null);
                         }}
-                        className="w-full bg-[#0a0f1e] border border-[#f5c842]/40 rounded-lg px-2 py-1 text-[#f0f4ff] text-xs focus:outline-none focus:border-[#f5c842]"
+                        className="w-full bg-[#0a0f1e] border border-[#c471ed]/40 rounded-lg px-2 py-1 text-[#f0f4ff] text-xs focus:outline-none focus:border-[#c471ed]"
                         onClick={(e) => e.stopPropagation()}
                       />
                     ) : (
                       <>
                         <p
                           className={`text-xs font-medium truncate ${
-                            isActive ? "text-[#f5c842]" : "text-[#f0f4ff] cursor-pointer"
+                            isActive ? "text-[#c471ed]" : "text-[#f0f4ff] cursor-pointer"
                           }`}
                         >
                           {d.filename}
@@ -279,7 +279,7 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
                           setRenameVal(d.filename);
                         }}
                         title="Rename"
-                        className="w-7 h-7 rounded-lg flex items-center justify-center text-[#8892a4] hover:text-[#f5c842] hover:bg-[#f5c842]/10 transition-[color,background-color] duration-150 active:scale-[0.97]"
+                        className="w-7 h-7 rounded-lg flex items-center justify-center text-[#8892a4] hover:text-[#c471ed] hover:bg-[#c471ed]/10 transition-[color,background-color] duration-150 active:scale-[0.97]"
                       >
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -296,7 +296,7 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
                       </button>
                       <button
                         onClick={() => { onSelect(d); closeModal(); }}
-                        className="px-2.5 py-1 bg-[#f5c842]/10 border border-[#f5c842]/25 text-[#f5c842] rounded-lg text-xs font-semibold hover:bg-[#f5c842]/20 transition-[background-color] duration-150 active:scale-[0.97]"
+                        className="px-2.5 py-1 bg-[#c471ed]/10 border border-[#c471ed]/25 text-[#c471ed] rounded-lg text-xs font-semibold hover:bg-[#c471ed]/20 transition-[background-color] duration-150 active:scale-[0.97]"
                       >
                         Open
                       </button>
@@ -308,7 +308,7 @@ export default function DocumentLibrary({ onSelect, currentFilename }: Props) {
           )}
         </div>
 
-        <div className="px-5 py-3 border-t border-[rgba(245,200,66,0.08)] shrink-0">
+        <div className="px-5 py-3 border-t border-[rgba(196,113,237,0.08)] shrink-0">
           <p className="text-[#8892a4] text-xs text-center">
             Stored in your browser · max {MAX_DOCS} documents
           </p>

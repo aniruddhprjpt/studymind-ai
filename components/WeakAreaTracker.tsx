@@ -41,7 +41,7 @@ export default function WeakAreaTracker({ onRevise, onRetryQuiz }: WeakAreaTrack
   const maxWrong = Math.max(...areas.map((a) => a.wrongCount), 1);
 
   return (
-    <div className="border-t border-[rgba(245,200,66,0.08)] mt-auto shrink-0">
+    <div className="border-t border-[rgba(196,113,237,0.08)] mt-auto shrink-0">
       <button
         onClick={() => setCollapsed(!collapsed)}
         className="w-full flex items-center justify-between px-4 py-3 hover:bg-[#f87171]/5 transition-colors"
@@ -103,7 +103,7 @@ export default function WeakAreaTracker({ onRevise, onRetryQuiz }: WeakAreaTrack
                 </button>
                 <button
                   onClick={() => onRetryQuiz(area.topic)}
-                  className="flex-1 py-1.5 text-xs bg-[#f5c842]/10 border border-[#f5c842]/30 text-[#f5c842] rounded-lg hover:bg-[#f5c842]/20 transition-all font-medium"
+                  className="flex-1 py-1.5 text-xs bg-[#c471ed]/10 border border-[#c471ed]/30 text-[#c471ed] rounded-lg hover:bg-[#c471ed]/20 transition-all font-medium"
                 >
                   🔄 Retry Quiz
                 </button>
