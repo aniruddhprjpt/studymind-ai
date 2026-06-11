@@ -394,43 +394,40 @@ export default function Home() {
                   ))}
                 </div>
 
-                {/* Display headline — Space Grotesk, display scale */}
+                {/* Display headline — Sora, display scale, solid colors */}
                 <h1
-                  className="font-bold tracking-[-0.03em] leading-[1.05] mb-5"
+                  className="font-extrabold leading-[1.05] mb-5"
                   style={{
-                    fontFamily: "var(--font-space, 'Space Grotesk', system-ui)",
+                    fontFamily: "var(--font-sora, 'Sora', system-ui)",
                     fontSize: "clamp(2.8rem, 6vw, 4.5rem)",
+                    letterSpacing: "-0.03em",
+                    textWrap: "balance",
+                    textShadow: "0 2px 24px rgba(0,0,0,0.7)",
                   }}
                 >
-                  <span style={{
-                    background: "linear-gradient(160deg, #ffffff 0%, #e9d5ff 35%, #C471ED 65%, #00D4FF 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    display: "block",
-                  }}>
+                  {/* "Study Smarter." — pure white, high contrast always */}
+                  <span style={{ color: "#ffffff", display: "block" }}>
                     Study Smarter.
                   </span>
-                  <span style={{
-                    background: "linear-gradient(160deg, #FF4DC4 0%, #C471ED 45%, #4FACFE 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    display: "block",
-                  }}>
+                  {/* "Not Harder." — nebula accent, still solid + readable */}
+                  <span style={{ color: "#C471ED", display: "block" }}>
                     Not Harder.
                   </span>
                 </h1>
 
-                {/* Subtitle — max 18 words, no em-dash */}
+                {/* Subtitle — high contrast, dark shadow halo for any bg frame */}
                 <p
                   className="mx-auto"
                   style={{
-                    color: "rgba(216, 195, 255, 0.75)",
-                    fontSize: "clamp(0.9rem, 1.8vw, 1.05rem)",
-                    lineHeight: 1.7,
-                    maxWidth: 420,
+                    color: "#f0eaff",
+                    fontSize: "clamp(0.95rem, 1.8vw, 1.08rem)",
+                    lineHeight: 1.75,
+                    maxWidth: 400,
                     fontWeight: 400,
+                    letterSpacing: "0.005em",
+                    /* Dark halo ensures legibility over ANY animated frame */
+                    textShadow:
+                      "0 1px 2px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.5)",
                   }}
                 >
                   Upload any study material. AI explains it, quizzes you,

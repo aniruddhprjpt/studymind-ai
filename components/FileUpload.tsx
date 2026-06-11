@@ -242,7 +242,7 @@ export default function FileUpload({ onUploadComplete, isUploading, setIsUploadi
             {/* Copy */}
             <div style={{ textAlign: "center" }}>
               <p style={{
-                fontFamily: "var(--font-space, 'Space Grotesk', system-ui)",
+                fontFamily: "var(--font-sora, 'Sora', system-ui)",
                 color: "#f0e8ff",
                 fontSize: 16,
                 fontWeight: 600,
