@@ -1,4 +1,4 @@
-/* ── StudyMind MagicBento — sidebar 2×3 grid ── */
+/* ── StudyMind MagicBento — full-page responsive grid ── */
 
 .smb-section {
   position: relative;
@@ -7,9 +7,27 @@
 
 .smb-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  gap: 10px;
   width: 100%;
+}
+
+/* 2 cols on tablet */
+@media (min-width: 640px) {
+  .smb-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 3 cols on medium desktop */
+@media (min-width: 900px) {
+  .smb-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* 4-col bento layout on large screens */
+@media (min-width: 1280px) {
+  .smb-grid { grid-template-columns: repeat(4, 1fr); }
+
+  .smb-card:nth-child(3) { grid-column: span 2; grid-row: span 2; }
+  .smb-card:nth-child(4) { grid-column: 1 / span 2; grid-row: 2 / span 2; }
+  .smb-card:nth-child(6) { grid-column: 4; grid-row: 3; }
 }
 
 .smb-card {
@@ -26,7 +44,7 @@
   transition: transform 0.25s cubic-bezier(0.23,1,0.32,1),
               box-shadow 0.25s ease,
               border-color 0.2s ease;
-  min-height: 86px;
+  min-height: 120px;
 
   --smb-glow-x: 50%;
   --smb-glow-y: 50%;

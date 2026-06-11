@@ -142,6 +142,7 @@ export default function Home() {
   const [focusMode, setFocusMode] = useState(false);
   const [preFillMessage, setPreFillMessage] = useState("");
   const [leftMaximized, setLeftMaximized] = useState(false);
+  const [showDocPanel, setShowDocPanel] = useState(false);
 
   // Escape key exits fullscreen
   useEffect(() => {
@@ -573,77 +574,118 @@ export default function Home() {
 
         ) : (
           /* ── Main App View ── */
-          <div className="flex h-full gap-3">
+          <div className="flex flex-col h-full gap-2">
 
-            {/* ── Left Panel ── */}
-            <div className={`flex flex-col gap-3 w-full md:w-[360px] lg:w-[400px] xl:w-[420px] shrink-0 ${mobileShowRight ? "hidden md:flex" : "flex"}`}>
-
-              {/* Document area */}
+            {/* ── Doc info strip ── */}
+            <div
+              className="shrink-0 rounded-xl px-3 py-2 flex items-center gap-2 flex-wrap"
+              style={{
+                background: "#0d0d0d",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              {/* Doc 1 badge */}
               <div
-                className="rounded-xl p-3 shrink-0 space-y-2.5"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg"
                 style={{
-                  background: "#0d0d0d",
+                  background: "#141414",
                   border: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                {/* Doc 1 info */}
                 <div
-                  className="flex items-center gap-2.5 p-2.5 rounded-lg"
+                  className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+                  style={{
+                    background: "rgba(245,197,24,0.1)",
+                    border: "1px solid rgba(245,197,24,0.2)",
+                  }}
+                >
+                  <span style={{ color: "#f5c518" }}><IconDoc /></span>
+                </div>
+                <span className="text-[#eef2f9] text-xs font-medium max-w-[160px] truncate">{doc.filename}</span>
+                <span className="text-[#34d399] text-[11px] font-medium shrink-0">✓ Doc 1</span>
+                <span className="text-[#475569] text-[11px] shrink-0">{formatBytes(doc.fileSize)}</span>
+              </div>
+
+              {/* Doc 2 badge or add button */}
+              {doc2 ? (
+                <div
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg"
                   style={{
                     background: "#141414",
-                    border: "1px solid rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(96,165,250,0.15)",
                   }}
                 >
                   <div
-                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                    className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
                     style={{
-                      background: "rgba(245,197,24,0.1)",
-                      border: "1px solid rgba(245,197,24,0.2)",
+                      background: "rgba(96,165,250,0.1)",
+                      border: "1px solid rgba(96,165,250,0.2)",
                     }}
                   >
-                    <span style={{ color: "#f5c518" }}><IconDoc /></span>
+                    <span style={{ color: "#60a5fa" }}><IconDoc /></span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[#eef2f9] text-xs font-medium truncate">{doc.filename}</p>
-                    <p className="text-[#475569] text-[11px] mt-0.5">{formatBytes(doc.fileSize)} · {doc.charCount.toLocaleString()} chars</p>
-                  </div>
-                  <span className="text-[#34d399] text-[11px] shrink-0 font-medium">✓ Doc 1</span>
+                  <span className="text-[#eef2f9] text-xs font-medium max-w-[160px] truncate">{doc2.filename}</span>
+                  <button
+                    onClick={() => { setDoc2(null); setCompareMode(false); }}
+                    className="text-[#475569] hover:text-[#f87171] text-xs active:scale-[0.97] shrink-0"
+                    style={{ transition: "color 150ms ease, transform 150ms ease" }}
+                  >
+                    ✕
+                  </button>
+                  <button
+                    onClick={() => setCompareMode(!compareMode)}
+                    className="flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold active:scale-[0.97] shrink-0"
+                    style={{
+                      transition: "background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
+                      background: compareMode ? "rgba(96,165,250,0.15)" : "rgba(96,165,250,0.08)",
+                      border: compareMode ? "1px solid rgba(96,165,250,0.4)" : "1px solid rgba(96,165,250,0.2)",
+                      color: "#60a5fa",
+                    }}
+                  >
+                    ⚖ {compareMode ? "Compare ON" : "Compare"}
+                  </button>
                 </div>
+              ) : (
+                <button
+                  onClick={() => setShowDocPanel(!showDocPanel)}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium active:scale-[0.97]"
+                  style={{
+                    background: showDocPanel ? "rgba(96,165,250,0.1)" : "rgba(13,13,13,0.6)",
+                    border: showDocPanel ? "1px solid rgba(96,165,250,0.3)" : "1px solid rgba(255,255,255,0.06)",
+                    color: showDocPanel ? "#60a5fa" : "#475569",
+                    transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
+                  }}
+                >
+                  ⚖ Add Doc 2
+                </button>
+              )}
 
-                {/* Doc 2 */}
-                {doc2 ? (
-                  <div
-                    className="flex items-center gap-2.5 p-2.5 rounded-lg"
-                    style={{
-                      background: "#141414",
-                      border: "1px solid rgba(96,165,250,0.15)",
-                    }}
-                  >
-                    <div
-                      className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                      style={{
-                        background: "rgba(96,165,250,0.1)",
-                        border: "1px solid rgba(96,165,250,0.2)",
-                      }}
-                    >
-                      <span style={{ color: "#60a5fa" }}><IconDoc /></span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[#eef2f9] text-xs font-medium truncate">{doc2.filename}</p>
-                      <p className="text-[#475569] text-[11px] mt-0.5">{formatBytes(doc2.fileSize)}</p>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-[#60a5fa] text-[11px] font-medium">✓ Doc 2</span>
-                      <button
-                        onClick={() => { setDoc2(null); setCompareMode(false); }}
-                        className="text-[#475569] hover:text-[#f87171] text-xs active:scale-[0.97]"
-                        style={{ transition: "color 150ms ease, transform 150ms ease" }}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-                ) : (
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Replace Doc 1 toggle */}
+              <button
+                onClick={() => setShowDocPanel(!showDocPanel)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium active:scale-[0.97]"
+                style={{
+                  background: showDocPanel ? "rgba(245,197,24,0.08)" : "rgba(13,13,13,0.6)",
+                  border: showDocPanel ? "1px solid rgba(245,197,24,0.2)" : "1px solid rgba(255,255,255,0.06)",
+                  color: showDocPanel ? "#f5c518" : "#475569",
+                  transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
+                }}
+              >
+                <IconChevron />
+                Replace Doc 1
+              </button>
+            </div>
+
+            {/* Collapsible doc management panel */}
+            {showDocPanel && (
+              <div
+                className="shrink-0 rounded-xl p-3 space-y-2.5"
+                style={{ background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.05)" }}
+              >
+                {!doc2 && (
                   <div>
                     <p className="text-[#475569] text-[11px] mb-2 flex items-center gap-1">
                       <span>⚖️</span> Upload a 2nd doc to enable Compare Mode:
@@ -655,8 +697,6 @@ export default function Home() {
                     />
                   </div>
                 )}
-
-                {/* Replace doc 1 */}
                 <details className="group">
                   <summary
                     className="text-[#475569] text-[11px] cursor-pointer select-none list-none flex items-center gap-1.5"
@@ -676,20 +716,18 @@ export default function Home() {
                   </div>
                 </details>
               </div>
+            )}
 
-              {/* Left panel — MagicBento nav + tab content */}
-              <div className="flex-1 flex flex-col gap-3 min-h-0 overflow-hidden">
+            {/* ── Content row ── */}
+            <div className="flex-1 flex gap-3 min-h-0">
 
-                {/* MagicBento feature grid */}
-                <div
-                  className="shrink-0 rounded-xl p-3"
-                  style={{
-                    background: "#000000",
-                    border: "1px solid rgba(255,255,255,0.05)",
-                  }}
-                >
+              {/* ── Main area — MagicBento + tab content ── */}
+              <div className={`flex-1 flex flex-col gap-2 min-h-0 ${mobileShowRight ? "hidden md:flex" : "flex"}`}>
+
+                {/* MagicBento feature grid — full width */}
+                <div className="shrink-0">
                   <MagicBento
-                    onSelect={(action) => setLeftTab(action)}
+                    onSelect={(action) => setLeftTab(action as LeftTab)}
                     activeTab={leftTab}
                     textAutoHide={false}
                     enableStars={true}
@@ -698,8 +736,8 @@ export default function Home() {
                     enableTilt={true}
                     enableMagnetism={true}
                     clickEffect={true}
-                    spotlightRadius={220}
-                    particleCount={8}
+                    spotlightRadius={300}
+                    particleCount={12}
                     glowColor="196, 113, 237"
                   />
                 </div>
@@ -708,7 +746,7 @@ export default function Home() {
                 <div
                   className="flex-1 rounded-xl overflow-hidden flex flex-col min-h-0"
                   style={{
-                    background: "#000000",
+                    background: "#080808",
                     border: "1px solid rgba(255,255,255,0.05)",
                   }}
                 >
@@ -747,88 +785,88 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* ── Right Panel — Chat ── */}
-            <div
-              className={`flex-1 flex flex-col rounded-xl overflow-hidden min-w-0 ${mobileShowRight ? "flex" : "hidden md:flex"}`}
-              style={{
-                background: "#0d0d0d",
-                border: "1px solid rgba(255,255,255,0.06)",
-              }}
-            >
-              {/* Chat header */}
+              {/* ── Chat panel ── */}
               <div
-                className="flex items-center px-4 py-2.5 shrink-0"
-                style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+                className={`w-full md:w-[380px] xl:w-[400px] shrink-0 flex flex-col rounded-xl overflow-hidden ${mobileShowRight ? "flex" : "hidden md:flex"}`}
+                style={{
+                  background: "#0d0d0d",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
               >
-                <button
-                  onClick={() => setMobileShowRight(false)}
-                  className="md:hidden mr-3 active:scale-[0.97]"
-                  style={{
-                    color: "#475569",
-                    transition: "color 150ms ease, transform 150ms ease",
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = "#eef2f9"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = "#475569"; }}
+                {/* Chat header */}
+                <div
+                  className="flex items-center px-4 py-2.5 shrink-0"
+                  style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
                 >
-                  <IconBack />
-                </button>
+                  <button
+                    onClick={() => setMobileShowRight(false)}
+                    className="md:hidden mr-3 active:scale-[0.97]"
+                    style={{
+                      color: "#475569",
+                      transition: "color 150ms ease, transform 150ms ease",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = "#eef2f9"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = "#475569"; }}
+                  >
+                    <IconBack />
+                  </button>
 
-                <div className="flex items-center gap-2">
-                  <span style={{ color: "#f5c518" }}><IconChat /></span>
-                  <span className="text-[#eef2f9] text-sm font-semibold">AI Chat</span>
-                  {compareMode && doc2 && (
-                    <span
-                      className="text-xs px-2 py-0.5 rounded-full"
-                      style={{
-                        background: "rgba(96,165,250,0.1)",
-                        border: "1px solid rgba(96,165,250,0.25)",
-                        color: "#60a5fa",
-                      }}
-                    >
-                      ⚖️ Compare
-                    </span>
-                  )}
+                  <div className="flex items-center gap-2">
+                    <span style={{ color: "#f5c518" }}><IconChat /></span>
+                    <span className="text-[#eef2f9] text-sm font-semibold">AI Chat</span>
+                    {compareMode && doc2 && (
+                      <span
+                        className="text-xs px-2 py-0.5 rounded-full"
+                        style={{
+                          background: "rgba(96,165,250,0.1)",
+                          border: "1px solid rgba(96,165,250,0.25)",
+                          color: "#60a5fa",
+                        }}
+                      >
+                        ⚖️ Compare
+                      </span>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => { setQuizTopicFilter(undefined); setShowQuiz(true); }}
+                    className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
+                    style={{
+                      background: "rgba(245,197,24,0.08)",
+                      border: "1px solid rgba(245,197,24,0.2)",
+                      color: "#f5c518",
+                      transition: "background-color 150ms ease, transform 150ms ease",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.14)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.08)"; }}
+                  >
+                    <IconQuiz />
+                    Take Exam
+                  </button>
                 </div>
 
-                <button
-                  onClick={() => { setQuizTopicFilter(undefined); setShowQuiz(true); }}
-                  className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
-                  style={{
-                    background: "rgba(245,197,24,0.08)",
-                    border: "1px solid rgba(245,197,24,0.2)",
-                    color: "#f5c518",
-                    transition: "background-color 150ms ease, transform 150ms ease",
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.14)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.08)"; }}
-                >
-                  <IconQuiz />
-                  Take Exam
-                </button>
-              </div>
+                {/* Chat panel */}
+                <div className="flex-1 overflow-hidden min-h-0">
+                  <ChatPanel
+                    documentContent={doc.documentContent}
+                    documentContent2={compareMode && doc2 ? doc2.documentContent : undefined}
+                    compareMode={compareMode && !!doc2}
+                    filename={doc.filename}
+                    filename2={doc2?.filename}
+                    summary={doc.summary}
+                    suggestedQuestions={doc.suggestedQuestions}
+                    preFillMessage={preFillMessage}
+                  />
+                </div>
 
-              {/* Chat panel */}
-              <div className="flex-1 overflow-hidden min-h-0">
-                <ChatPanel
+                {/* Weak Area Tracker */}
+                <WeakAreaTracker
                   documentContent={doc.documentContent}
-                  documentContent2={compareMode && doc2 ? doc2.documentContent : undefined}
-                  compareMode={compareMode && !!doc2}
-                  filename={doc.filename}
-                  filename2={doc2?.filename}
-                  summary={doc.summary}
-                  suggestedQuestions={doc.suggestedQuestions}
-                  preFillMessage={preFillMessage}
+                  onRevise={handleRevise}
+                  onRetryQuiz={handleRetryQuiz}
                 />
               </div>
-
-              {/* Weak Area Tracker */}
-              <WeakAreaTracker
-                documentContent={doc.documentContent}
-                onRevise={handleRevise}
-                onRetryQuiz={handleRetryQuiz}
-              />
             </div>
 
             {/* Mobile toggle button */}
