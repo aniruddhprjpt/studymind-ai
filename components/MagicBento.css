@@ -155,3 +155,47 @@
   z-index: 200 !important;
   pointer-events: none;
 }
+
+/* ── smb-panel: bento visual DNA for full panels ─────────────────────
+   Same border-glow as smb-card, but no fixed dimensions / cursor / padding.
+   Apply to any panel div + add onMouseMove/Enter/Leave handlers.        */
+.smb-panel {
+  position: relative;
+  border-radius: 14px;
+  border: 1px solid #1a1726;
+  background: #080810;
+  overflow: hidden;
+
+  --smb-glow-x: 50%;
+  --smb-glow-y: 50%;
+  --smb-glow-i: 0;
+  --smb-glow-r: 260px;
+
+  transition: border-color 0.2s ease, box-shadow 0.25s ease;
+}
+
+/* Cursor-tracking border glow */
+.smb-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 4px;
+  background: radial-gradient(
+    var(--smb-glow-r) circle at var(--smb-glow-x) var(--smb-glow-y),
+    rgba(196, 113, 237, calc(var(--smb-glow-i) * 0.75)) 0%,
+    rgba(196, 113, 237, calc(var(--smb-glow-i) * 0.35)) 32%,
+    transparent 64%
+  );
+  border-radius: inherit;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.smb-panel:hover {
+  border-color: rgba(196, 113, 237, 0.18);
+  box-shadow: 0 4px 32px rgba(40, 10, 70, 0.45), 0 0 24px rgba(196,113,237,0.10);
+}

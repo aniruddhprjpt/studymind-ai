@@ -127,6 +127,26 @@ const LogoMark = ({ size = 36 }: { size?: number }) => (
   </div>
 );
 
+// ── Bento panel glow — shared cursor-tracking handler ────────────────────────
+
+function onPanelMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+  const el = e.currentTarget;
+  const rect = el.getBoundingClientRect();
+  el.style.setProperty("--smb-glow-x", `${e.clientX - rect.left}px`);
+  el.style.setProperty("--smb-glow-y", `${e.clientY - rect.top}px`);
+}
+function onPanelMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
+  e.currentTarget.style.setProperty("--smb-glow-i", "1");
+}
+function onPanelMouseLeave(e: React.MouseEvent<HTMLDivElement>) {
+  e.currentTarget.style.setProperty("--smb-glow-i", "0");
+}
+const bentoPanel = {
+  onMouseMove: onPanelMouseMove,
+  onMouseEnter: onPanelMouseEnter,
+  onMouseLeave: onPanelMouseLeave,
+};
+
 // ── Session persistence helpers ───────────────────────────────────────────────
 
 const SESSION_KEY = "studymind_session";
@@ -626,11 +646,8 @@ export default function Home() {
 
             {/* ── Doc info strip ── */}
             <div
-              className="shrink-0 rounded-xl px-3 py-2 flex items-center gap-2 flex-wrap"
-              style={{
-                background: "#0d0d0d",
-                border: "1px solid rgba(255,255,255,0.06)",
-              }}
+              className="smb-panel shrink-0 px-3 py-2 flex items-center gap-2 flex-wrap"
+              {...bentoPanel}
             >
               {/* Doc 1 badge */}
               <div
@@ -730,8 +747,8 @@ export default function Home() {
             {/* Collapsible doc management panel */}
             {showDocPanel && (
               <div
-                className="shrink-0 rounded-xl p-3 space-y-2.5 animate-panelSlideDown"
-                style={{ background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.05)" }}
+                className="smb-panel shrink-0 p-3 space-y-2.5 animate-panelSlideDown"
+                {...bentoPanel}
               >
                 {!doc2 && (
                   <div>
@@ -792,16 +809,13 @@ export default function Home() {
 
                 {/* Tab content panel */}
                 <div
-                  className="flex-1 rounded-xl overflow-hidden flex flex-col min-h-0"
-                  style={{
-                    background: "#080808",
-                    border: "1px solid rgba(255,255,255,0.05)",
-                  }}
+                  className="smb-panel flex-1 flex flex-col min-h-0"
+                  {...bentoPanel}
                 >
                   {/* Content header */}
                   <div
                     className="flex items-center justify-between px-3 py-2 shrink-0"
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+                    style={{ borderBottom: "1px solid #1a1726" }}
                   >
                     <span className="text-xs font-medium" style={{ color: "#94a3b8" }}>
                       {LEFT_TABS.find(t => t.id === leftTab)?.icon}{" "}
@@ -836,16 +850,13 @@ export default function Home() {
 
               {/* ── Chat panel ── */}
               <div
-                className={`w-full md:w-[380px] xl:w-[400px] shrink-0 flex flex-col rounded-xl overflow-hidden ${mobileShowRight ? "flex" : "hidden md:flex"}`}
-                style={{
-                  background: "#0d0d0d",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
+                className={`smb-panel w-full md:w-[380px] xl:w-[400px] shrink-0 flex flex-col ${mobileShowRight ? "flex" : "hidden md:flex"}`}
+                {...bentoPanel}
               >
                 {/* Chat header */}
                 <div
                   className="flex items-center px-4 py-2.5 shrink-0"
-                  style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+                  style={{ borderBottom: "1px solid #1a1726" }}
                 >
                   <button
                     onClick={() => setMobileShowRight(false)}
