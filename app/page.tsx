@@ -127,6 +127,28 @@ const LogoMark = ({ size = 36 }: { size?: number }) => (
   </div>
 );
 
+// ── Session persistence helpers ───────────────────────────────────────────────
+
+const SESSION_KEY = "studymind_session";
+
+function saveSession(doc: DocumentState | null, doc2: DocumentState | null, leftTab: LeftTab, compareMode: boolean) {
+  try {
+    if (doc) {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ doc, doc2, leftTab, compareMode }));
+    } else {
+      sessionStorage.removeItem(SESSION_KEY);
+    }
+  } catch { /* quota exceeded or SSR — ignore */ }
+}
+
+function loadSession(): { doc: DocumentState; doc2: DocumentState | null; leftTab: LeftTab; compareMode: boolean } | null {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch { return null; }
+}
+
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export default function Home() {
@@ -143,6 +165,27 @@ export default function Home() {
   const [preFillMessage, setPreFillMessage] = useState("");
   const [leftMaximized, setLeftMaximized] = useState(false);
   const [showDocPanel, setShowDocPanel] = useState(false);
+  const [sessionRestored, setSessionRestored] = useState(false);
+
+  // ── Restore session on mount (before first paint shows landing page) ──
+  useEffect(() => {
+    const saved = loadSession();
+    if (saved) {
+      setDoc(saved.doc);
+      if (saved.doc2) setDoc2(saved.doc2);
+      setLeftTab(saved.leftTab);
+      setCompareMode(saved.compareMode);
+      setMobileShowRight(true);
+    }
+    setSessionRestored(true);
+  }, []);
+
+  // ── Auto-save tab / compareMode changes to session ──
+  useEffect(() => {
+    if (sessionRestored && doc) {
+      saveSession(doc, doc2, leftTab, compareMode);
+    }
+  }, [leftTab, compareMode, doc, doc2, sessionRestored]);
 
   // Escape key exits fullscreen
   useEffect(() => {
@@ -157,6 +200,7 @@ export default function Home() {
     setMobileShowRight(true);
     setCompareMode(false);
     saveDocToLibrary(data);
+    saveSession(data, doc2, "notes", false);
     try {
       const prev = parseInt(localStorage.getItem("studymind_docs_count") ?? "0", 10);
       localStorage.setItem("studymind_docs_count", String(prev + 1));
@@ -166,6 +210,7 @@ export default function Home() {
   const handleUpload2Complete = (data: DocumentState) => {
     setDoc2(data);
     saveDocToLibrary(data);
+    saveSession(doc, data, leftTab, compareMode);
     try {
       const prev = parseInt(localStorage.getItem("studymind_docs_count") ?? "0", 10);
       localStorage.setItem("studymind_docs_count", String(prev + 1));
@@ -180,6 +225,7 @@ export default function Home() {
     setDoc2(null);
     setShowQuiz(false);
     setPreFillMessage("");
+    saveSession(libDoc, null, "notes", false);
   };
 
   const handleReset = () => {
@@ -191,6 +237,7 @@ export default function Home() {
     setPreFillMessage("");
     setLeftTab("notes");
     setQuizTopicFilter(undefined);
+    saveSession(null, null, "notes", false);
   };
 
   const handleRevise = (topic: string) => {
@@ -451,7 +498,8 @@ export default function Home() {
       {/* ── Main ── */}
       <main className={`relative z-10 max-w-screen-2xl mx-auto px-4 py-4 ${doc ? "h-[calc(100vh-53px)]" : "h-screen"}`}>
 
-        {!doc ? (
+        {/* Prevent flash of landing page while session is being restored */}
+        {!sessionRestored ? null : !doc ? (
           /* ── Landing / Upload View ── */
           <div className="flex items-center justify-center h-full px-4">
             <div
