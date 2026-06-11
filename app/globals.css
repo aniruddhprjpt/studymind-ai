@@ -29,7 +29,7 @@ html, body { height: 100%; }
 body {
   background: var(--bg);
   color: var(--text-1);
-  font-family: var(--font-inter, Inter, system-ui, sans-serif);
+  font-family: var(--font-space, "Space Grotesk", system-ui, sans-serif);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -100,6 +100,12 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* Skeleton shimmer */

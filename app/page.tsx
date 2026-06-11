@@ -18,6 +18,9 @@ const MindMap = dynamic(() => import("@/components/MindMap"), { ssr: false });
 const FlashcardDeck = dynamic(() => import("@/components/FlashcardDeck"), { ssr: false });
 const Lightfall = dynamic(() => import("@/components/Lightfall"), { ssr: false });
 import DecryptedText from "@/components/DecryptedText";
+import {
+  ChatCircle, Brain, Cards, ChartBar, Upload, ArrowUp,
+} from "@phosphor-icons/react";
 
 interface DocumentState {
   filename: string;
@@ -343,90 +346,115 @@ export default function Home() {
 
         {!doc ? (
           /* ── Landing / Upload View ── */
-          <div className="flex items-center justify-center h-full relative">
-            <div className="w-full max-w-lg animate-fadeSlideUp relative z-10">
+          <div className="flex items-center justify-center h-full px-4">
+            <div
+              className="w-full animate-fadeSlideUp relative z-10"
+              style={{ maxWidth: 560 }}
+            >
 
-              {/* Hero */}
-              <div className="text-center mb-7">
+              {/* ── Hero ── */}
+              <div className="text-center mb-8">
 
-                {/* Feature badges */}
-                <div className="flex items-center justify-center gap-2 mb-7 flex-wrap">
-                  {[
-                    { icon: "💬", label: "Smart Chat" },
-                    { icon: "🧠", label: "Mind Maps" },
-                    { icon: "🃏", label: "Flashcards" },
-                    { icon: "📊", label: "Progress" },
-                  ].map((f, i) => (
+                {/* Feature pills — single row */}
+                <div className="flex items-center justify-center gap-2 mb-8 flex-wrap">
+                  {([
+                    { Icon: ChatCircle,  label: "Smart Chat"  },
+                    { Icon: Brain,       label: "Mind Maps"   },
+                    { Icon: Cards,       label: "Flashcards"  },
+                    { Icon: ChartBar,    label: "Progress"    },
+                  ] as const).map(({ Icon, label }, i) => (
                     <span
-                      key={f.label}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold cursor-default select-none"
+                      key={label}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full cursor-default select-none"
                       style={{
-                        background: "rgba(0,0,0,0.45)",
-                        border: "1px solid rgba(196,113,237,0.35)",
-                        color: "#d8b4fe",
-                        backdropFilter: "blur(12px)",
-                        boxShadow: "0 0 12px rgba(196,113,237,0.12), inset 0 0 12px rgba(196,113,237,0.04)",
-                        animation: `staggerFadeUp 320ms cubic-bezier(0.23,1,0.32,1) ${i * 55}ms both`,
+                        background: "rgba(0,0,0,0.50)",
+                        border: "1px solid rgba(196,113,237,0.30)",
+                        backdropFilter: "blur(14px)",
+                        WebkitBackdropFilter: "blur(14px)",
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)",
+                        animation: `staggerFadeUp 340ms cubic-bezier(0.23,1,0.32,1) ${i * 60}ms both`,
+                        fontSize: 12,
+                        fontWeight: 500,
+                        letterSpacing: "0.01em",
                       }}
                     >
-                      <span>{f.icon}</span>
+                      <Icon size={13} weight="fill" color="#C471ED" />
                       <DecryptedText
-                        text={f.label}
+                        text={label}
                         animateOn="hover"
-                        speed={38}
-                        maxIterations={12}
+                        speed={35}
+                        maxIterations={10}
                         sequential={true}
                         revealDirection="start"
                         characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$"
-                        className="text-[#f0e8ff]"
+                        className="text-[#e2d9f3]"
                         encryptedClassName="text-[#C471ED]"
                       />
                     </span>
                   ))}
                 </div>
 
-                {/* Heading */}
-                <h2 className="text-[2.6rem] sm:text-[3.2rem] font-black leading-[1.08] tracking-tight mb-4">
+                {/* Display headline — Space Grotesk, display scale */}
+                <h1
+                  className="font-bold tracking-[-0.03em] leading-[1.05] mb-5"
+                  style={{
+                    fontFamily: "var(--font-space, 'Space Grotesk', system-ui)",
+                    fontSize: "clamp(2.8rem, 6vw, 4.5rem)",
+                  }}
+                >
                   <span style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #e9d5ff 40%, #C471ED 70%, #00D4FF 100%)",
+                    background: "linear-gradient(160deg, #ffffff 0%, #e9d5ff 35%, #C471ED 65%, #00D4FF 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
+                    display: "block",
                   }}>
-                    Study Smarter,
+                    Study Smarter.
                   </span>
-                  <br />
                   <span style={{
-                    background: "linear-gradient(135deg, #FF4DC4 0%, #C471ED 50%, #4FACFE 100%)",
+                    background: "linear-gradient(160deg, #FF4DC4 0%, #C471ED 45%, #4FACFE 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
+                    display: "block",
                   }}>
-                    Not Harder
+                    Not Harder.
                   </span>
-                </h2>
+                </h1>
 
-                <p style={{ color: "rgba(224,210,255,0.72)", fontSize: 15, lineHeight: 1.65, maxWidth: 360, margin: "0 auto" }}>
-                  Upload your study material and let AI explain it, test you,
-                  and generate mind maps — powered by LLaMA 3.
+                {/* Subtitle — max 18 words, no em-dash */}
+                <p
+                  className="mx-auto"
+                  style={{
+                    color: "rgba(216, 195, 255, 0.75)",
+                    fontSize: "clamp(0.9rem, 1.8vw, 1.05rem)",
+                    lineHeight: 1.7,
+                    maxWidth: 420,
+                    fontWeight: 400,
+                  }}
+                >
+                  Upload any study material. AI explains it, quizzes you,
+                  and builds mind maps in seconds.
                 </p>
               </div>
 
-              {/* Upload card — glassmorphism */}
+              {/* ── Upload card ── */}
+              {/* Gradient border wrapper — 1px */}
               <div
-                className="rounded-2xl p-1"
                 style={{
-                  background: "linear-gradient(135deg, rgba(196,113,237,0.22) 0%, rgba(0,212,255,0.12) 100%)",
+                  borderRadius: 20,
                   padding: "1px",
+                  background: "linear-gradient(135deg, rgba(196,113,237,0.50) 0%, rgba(79,172,254,0.28) 50%, rgba(255,77,196,0.30) 100%)",
+                  boxShadow: "0 0 60px rgba(196,113,237,0.18), 0 24px 80px rgba(0,0,0,0.5)",
                 }}
               >
                 <div
-                  className="rounded-2xl p-5"
                   style={{
-                    background: "rgba(4,0,14,0.60)",
-                    backdropFilter: "blur(24px)",
-                    WebkitBackdropFilter: "blur(24px)",
-                    boxShadow: "0 32px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)",
+                    borderRadius: 19,
+                    background: "rgba(3,0,12,0.68)",
+                    backdropFilter: "blur(28px)",
+                    WebkitBackdropFilter: "blur(28px)",
+                    padding: "28px 28px 24px",
                   }}
                 >
                   <FileUpload
