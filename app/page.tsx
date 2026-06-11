@@ -268,94 +268,81 @@ export default function Home() {
             pointerEvents: "none",
           }}
         >
-          {/* Glass pill wordmark — gradient border + frosted glass interior */}
+          {/* Logo block — stacked vertical, gradient border, frosted glass */}
           <div
             style={{
               pointerEvents: "auto",
               width: "fit-content",
-              /* Outer gradient border — 1px nebula sweep */
               padding: "1px",
-              borderRadius: 20,
-              background: "linear-gradient(135deg, rgba(196,113,237,0.55) 0%, rgba(79,172,254,0.30) 55%, rgba(255,77,196,0.35) 100%)",
+              borderRadius: 18,
+              background: "linear-gradient(145deg, rgba(196,113,237,0.55) 0%, rgba(79,172,254,0.28) 55%, rgba(255,77,196,0.32) 100%)",
               animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) both",
-              boxShadow: "0 8px 48px rgba(0,0,0,0.45), 0 0 0 0 rgba(196,113,237,0)",
+              boxShadow: "0 8px 40px rgba(0,0,0,0.5), 0 0 0 0 rgba(196,113,237,0)",
               transition: "box-shadow 220ms ease",
               cursor: "default",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow =
-                "0 8px 48px rgba(0,0,0,0.45), 0 0 32px rgba(196,113,237,0.22)";
+              e.currentTarget.style.boxShadow = "0 8px 40px rgba(0,0,0,0.5), 0 0 28px rgba(196,113,237,0.25)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow =
-                "0 8px 48px rgba(0,0,0,0.45), 0 0 0 0 rgba(196,113,237,0)";
+              e.currentTarget.style.boxShadow = "0 8px 40px rgba(0,0,0,0.5), 0 0 0 0 rgba(196,113,237,0)";
             }}
           >
-            {/* Inner frosted glass */}
+            {/* Inner glass block */}
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection: "column",
+                alignItems: "flex-start",
                 gap: 0,
-                padding: "9px 18px 9px 9px",
-                borderRadius: 19,
-                background: "rgba(4,0,16,0.62)",
+                padding: "12px 16px 12px 12px",
+                borderRadius: 17,
+                background: "rgba(4,0,16,0.65)",
                 backdropFilter: "blur(28px)",
                 WebkitBackdropFilter: "blur(28px)",
               }}
             >
-              {/* Logo mark — scales on hover with golden bloom */}
+              {/* Logo mark */}
               <div
                 style={{
-                  transition: "transform 160ms cubic-bezier(0.23,1,0.32,1)",
                   animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) both",
+                  transition: "transform 160ms cubic-bezier(0.23,1,0.32,1)",
+                  marginBottom: 10,
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.08)"; }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.07)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
               >
-                <LogoMark size={38} />
+                <LogoMark size={40} />
               </div>
 
-              {/* Vertical divider */}
-              <div
+              {/* Brand name */}
+              <p
                 style={{
-                  width: 1,
-                  height: 26,
-                  margin: "0 13px",
-                  background: "rgba(196,113,237,0.22)",
-                  borderRadius: 99,
-                  flexShrink: 0,
-                  animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 60ms both",
+                  fontFamily: "var(--font-sora, 'Sora', system-ui)",
+                  color: "#ffffff",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1,
+                  animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 70ms both",
                 }}
-              />
+              >
+                StudyMind AI
+              </p>
 
-              {/* Text block — staggered */}
-              <div style={{ animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 80ms both" }}>
-                <p
-                  style={{
-                    fontFamily: "var(--font-sora, 'Sora', system-ui)",
-                    color: "#ffffff",
-                    fontWeight: 700,
-                    fontSize: 15.5,
-                    letterSpacing: "-0.028em",
-                    lineHeight: 1,
-                  }}
-                >
-                  StudyMind AI
-                </p>
-                <p
-                  style={{
-                    fontSize: 10.5,
-                    color: "rgba(196,113,237,0.78)",
-                    marginTop: 4,
-                    letterSpacing: "0.02em",
-                    fontWeight: 500,
-                    animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 130ms both",
-                  }}
-                >
-                  Powered by LLaMA 3
-                </p>
-              </div>
+              {/* Subtitle */}
+              <p
+                style={{
+                  fontSize: 10,
+                  color: "rgba(196,113,237,0.75)",
+                  marginTop: 4,
+                  letterSpacing: "0.015em",
+                  fontWeight: 500,
+                  animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 130ms both",
+                }}
+              >
+                Powered by LLaMA 3
+              </p>
             </div>
           </div>
 
