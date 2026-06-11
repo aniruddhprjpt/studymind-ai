@@ -682,7 +682,7 @@ export default function Home() {
             {/* Collapsible doc management panel */}
             {showDocPanel && (
               <div
-                className="shrink-0 rounded-xl p-3 space-y-2.5"
+                className="shrink-0 rounded-xl p-3 space-y-2.5 animate-panelSlideDown"
                 style={{ background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.05)" }}
               >
                 {!doc2 && (
