@@ -346,20 +346,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Decorative nebula line — Emil clip-path left-to-right reveal */}
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: 1,
-              background:
-                "linear-gradient(90deg, transparent 0%, rgba(123,47,190,0.6) 15%, rgba(196,113,237,0.7) 35%, rgba(0,212,255,0.55) 60%, rgba(255,77,196,0.45) 80%, transparent 100%)",
-              animation: "lineReveal 1000ms cubic-bezier(0.23,1,0.32,1) 180ms both",
-            }}
-          />
         </header>
       ) : (
         /* App view — full sticky header */
