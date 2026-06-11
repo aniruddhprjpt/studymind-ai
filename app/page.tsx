@@ -256,7 +256,7 @@ export default function Home() {
 
       {/* ── Top Bar ── */}
       {!doc ? (
-        /* Landing — minimal floating wordmark, Emil-styled entrance + gradient line */
+        /* Landing — floating wordmark only, no border, no bg */
         <header
           style={{
             position: "fixed",
@@ -264,39 +264,42 @@ export default function Home() {
             left: 0,
             right: 0,
             zIndex: 50,
-            padding: "20px 28px 18px",
+            padding: "18px 24px",
             pointerEvents: "none",
+            border: "none",
+            background: "none",
+            outline: "none",
           }}
         >
-          {/* Logo block — stacked vertical, gradient border, frosted glass */}
+          {/* Glass pill — gradient border + frosted glass, horizontal layout */}
           <div
             style={{
               pointerEvents: "auto",
               width: "fit-content",
               padding: "1px",
-              borderRadius: 18,
-              background: "linear-gradient(145deg, rgba(196,113,237,0.55) 0%, rgba(79,172,254,0.28) 55%, rgba(255,77,196,0.32) 100%)",
+              borderRadius: 16,
+              background: "linear-gradient(135deg, rgba(196,113,237,0.50) 0%, rgba(79,172,254,0.25) 55%, rgba(255,77,196,0.30) 100%)",
               animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) both",
-              boxShadow: "0 8px 40px rgba(0,0,0,0.5), 0 0 0 0 rgba(196,113,237,0)",
+              boxShadow: "0 6px 32px rgba(0,0,0,0.5), 0 0 0 0 rgba(196,113,237,0)",
               transition: "box-shadow 220ms ease",
               cursor: "default",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = "0 8px 40px rgba(0,0,0,0.5), 0 0 28px rgba(196,113,237,0.25)";
+              e.currentTarget.style.boxShadow = "0 6px 32px rgba(0,0,0,0.5), 0 0 24px rgba(196,113,237,0.22)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "0 8px 40px rgba(0,0,0,0.5), 0 0 0 0 rgba(196,113,237,0)";
+              e.currentTarget.style.boxShadow = "0 6px 32px rgba(0,0,0,0.5), 0 0 0 0 rgba(196,113,237,0)";
             }}
           >
-            {/* Inner glass block */}
+            {/* Inner frosted glass — row layout */}
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
+                flexDirection: "row",
+                alignItems: "center",
                 gap: 0,
-                padding: "12px 16px 12px 12px",
-                borderRadius: 17,
+                padding: "8px 14px 8px 8px",
+                borderRadius: 15,
                 background: "rgba(4,0,16,0.65)",
                 backdropFilter: "blur(28px)",
                 WebkitBackdropFilter: "blur(28px)",
@@ -307,45 +310,40 @@ export default function Home() {
                 style={{
                   animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) both",
                   transition: "transform 160ms cubic-bezier(0.23,1,0.32,1)",
-                  marginBottom: 10,
+                  flexShrink: 0,
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.07)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
               >
-                <LogoMark size={40} />
+                <LogoMark size={36} />
               </div>
 
-              {/* Brand name */}
-              <p
-                style={{
-                  fontFamily: "var(--font-sora, 'Sora', system-ui)",
-                  color: "#ffffff",
-                  fontWeight: 700,
-                  fontSize: 14,
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1,
-                  animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 70ms both",
-                }}
-              >
-                StudyMind AI
-              </p>
+              {/* Divider */}
+              <div style={{
+                width: 1, height: 24, margin: "0 11px",
+                background: "rgba(196,113,237,0.22)", borderRadius: 99, flexShrink: 0,
+                animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 55ms both",
+              }} />
 
-              {/* Subtitle */}
-              <p
-                style={{
-                  fontSize: 10,
-                  color: "rgba(196,113,237,0.75)",
-                  marginTop: 4,
-                  letterSpacing: "0.015em",
-                  fontWeight: 500,
-                  animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 130ms both",
-                }}
-              >
-                Powered by LLaMA 3
-              </p>
+              {/* Text */}
+              <div style={{ animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 80ms both" }}>
+                <p style={{
+                  fontFamily: "var(--font-sora, 'Sora', system-ui)",
+                  color: "#ffffff", fontWeight: 700, fontSize: 14.5,
+                  letterSpacing: "-0.025em", lineHeight: 1,
+                }}>
+                  StudyMind AI
+                </p>
+                <p style={{
+                  fontSize: 10.5, color: "rgba(196,113,237,0.75)", marginTop: 3.5,
+                  letterSpacing: "0.01em", fontWeight: 500,
+                  animation: "headerIn 500ms cubic-bezier(0.23,1,0.32,1) 120ms both",
+                }}>
+                  Powered by LLaMA 3
+                </p>
+              </div>
             </div>
           </div>
-
         </header>
       ) : (
         /* App view — full sticky header */
