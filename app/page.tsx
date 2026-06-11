@@ -427,14 +427,20 @@ export default function Home() {
         >
           <div className="max-w-screen-2xl mx-auto px-4 py-2.5 flex items-center gap-3">
 
-            {/* Logo */}
-            <div className="flex items-center gap-2.5 shrink-0">
+            {/* Logo — click to go home */}
+            <button
+              onClick={handleReset}
+              className="flex items-center gap-2.5 shrink-0 active:scale-[0.97]"
+              style={{ transition: "opacity 150ms ease, transform 150ms ease" }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.8"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
+            >
               <LogoMark />
-              <div className="hidden sm:block">
+              <div className="hidden sm:block text-left">
                 <p className="text-[#eef2f9] font-bold text-sm leading-none tracking-tight">StudyMind AI</p>
                 <p className="text-[11px] mt-0.5" style={{ color: "rgba(196,113,237,0.6)" }}>Powered by LLaMA 3</p>
               </div>
-            </div>
+            </button>
 
             {/* Center widgets */}
             <div className="flex items-center gap-2 flex-1 justify-center overflow-x-auto" style={{ scrollbarWidth: "none" }}>
