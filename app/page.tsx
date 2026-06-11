@@ -243,106 +243,199 @@ export default function Home() {
       )}
 
       {/* ── Top Bar ── */}
-      <header
-        className="relative z-40 border-b backdrop-blur-md"
-        style={{
-          borderColor: "rgba(196,113,237,0.15)",
-          background: "rgba(2,0,8,0.72)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-        }}
-      >
-        <div className="max-w-screen-2xl mx-auto px-4 py-2.5 flex items-center gap-3">
+      {!doc ? (
+        /* Landing — minimal floating wordmark, Emil-styled entrance + gradient line */
+        <header
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 50,
+            padding: "20px 28px 18px",
+            pointerEvents: "none",
+          }}
+        >
+          {/* Wordmark — staggered slide-in from top */}
+          <div
+            className="flex items-center gap-3"
+            style={{
+              pointerEvents: "auto",
+              width: "fit-content",
+            }}
+          >
+            {/* Logo mark — entrance + hover glow */}
+            <div
+              style={{
+                animation: "headerIn 480ms cubic-bezier(0.23,1,0.32,1) both",
+                transition: "transform 160ms cubic-bezier(0.23,1,0.32,1), box-shadow 160ms ease",
+                borderRadius: 10,
+                cursor: "default",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.07)";
+                e.currentTarget.style.boxShadow = "0 0 24px rgba(245,197,24,0.40)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <LogoMark />
+            </div>
 
-          {/* Logo */}
-          <div className="flex items-center gap-2.5 shrink-0">
-            <LogoMark />
-            <div className="hidden sm:block">
-              <h1 className="text-[#eef2f9] font-bold text-sm leading-none tracking-tight">StudyMind AI</h1>
-              <p className="text-[11px] mt-0.5" style={{ color: "rgba(196,113,237,0.6)" }}>Powered by LLaMA 3</p>
+            {/* Text block — 60 ms stagger after mark */}
+            <div
+              style={{
+                animation: "headerIn 480ms cubic-bezier(0.23,1,0.32,1) 60ms both",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-sora, 'Sora', system-ui)",
+                  color: "#ffffff",
+                  fontWeight: 700,
+                  fontSize: 15,
+                  letterSpacing: "-0.025em",
+                  lineHeight: 1,
+                  textShadow: "0 1px 14px rgba(0,0,0,0.8)",
+                }}
+              >
+                StudyMind AI
+              </p>
+              <p
+                style={{
+                  fontSize: 11,
+                  color: "rgba(196,113,237,0.80)",
+                  marginTop: 3,
+                  letterSpacing: "0.01em",
+                  textShadow: "0 1px 6px rgba(0,0,0,0.7)",
+                  animation: "headerIn 480ms cubic-bezier(0.23,1,0.32,1) 120ms both",
+                }}
+              >
+                Powered by LLaMA 3
+              </p>
             </div>
           </div>
 
-          {/* Center widgets */}
-          <div className="flex items-center gap-2 flex-1 justify-center overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-            <PomodoroTimer focusMode={focusMode} onFocusToggle={() => setFocusMode(!focusMode)} />
-            <ExamCountdown />
-          </div>
+          {/* Decorative nebula line — Emil clip-path left-to-right reveal */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 1,
+              background:
+                "linear-gradient(90deg, transparent 0%, rgba(123,47,190,0.6) 15%, rgba(196,113,237,0.7) 35%, rgba(0,212,255,0.55) 60%, rgba(255,77,196,0.45) 80%, transparent 100%)",
+              animation: "lineReveal 1000ms cubic-bezier(0.23,1,0.32,1) 180ms both",
+            }}
+          />
+        </header>
+      ) : (
+        /* App view — full sticky header */
+        <header
+          className="relative z-40 border-b backdrop-blur-md"
+          style={{
+            borderColor: "rgba(196,113,237,0.15)",
+            background: "rgba(2,0,8,0.72)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+          }}
+        >
+          <div className="max-w-screen-2xl mx-auto px-4 py-2.5 flex items-center gap-3">
 
-          {/* Right actions */}
-          <div className="flex items-center gap-2 shrink-0">
-            <DocumentLibrary
-              onSelect={handleSelectFromLibrary}
-              currentFilename={doc?.filename}
-            />
+            {/* Logo */}
+            <div className="flex items-center gap-2.5 shrink-0">
+              <LogoMark />
+              <div className="hidden sm:block">
+                <p className="text-[#eef2f9] font-bold text-sm leading-none tracking-tight">StudyMind AI</p>
+                <p className="text-[11px] mt-0.5" style={{ color: "rgba(196,113,237,0.6)" }}>Powered by LLaMA 3</p>
+              </div>
+            </div>
 
-            {doc && (
-              <>
-                {/* Active file badge */}
-                <div
-                  className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs"
-                  style={{
-                    background: "rgba(13,13,13,0.8)",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                  }}
-                >
-                  <span className="text-[#f5c518]"><IconDoc /></span>
-                  <span className="text-[#eef2f9] font-medium max-w-[120px] truncate">{doc.filename}</span>
-                  <span className="text-[#475569]">{formatBytes(doc.fileSize)}</span>
-                </div>
+            {/* Center widgets */}
+            <div className="flex items-center gap-2 flex-1 justify-center overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+              <PomodoroTimer focusMode={focusMode} onFocusToggle={() => setFocusMode(!focusMode)} />
+              <ExamCountdown />
+            </div>
 
-                {doc2 && (
-                  <button
-                    onClick={() => setCompareMode(!compareMode)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
+            {/* Right actions */}
+            <div className="flex items-center gap-2 shrink-0">
+              <DocumentLibrary
+                onSelect={handleSelectFromLibrary}
+                currentFilename={doc?.filename}
+              />
+
+              {doc && (
+                <>
+                  {/* Active file badge */}
+                  <div
+                    className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs"
                     style={{
-                      transition: "background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
-                      background: compareMode ? "rgba(96,165,250,0.15)" : "rgba(96,165,250,0.08)",
-                      border: compareMode ? "1px solid rgba(96,165,250,0.4)" : "1px solid rgba(96,165,250,0.2)",
-                      color: "#60a5fa",
+                      background: "rgba(13,13,13,0.8)",
+                      border: "1px solid rgba(255,255,255,0.06)",
                     }}
                   >
-                    ⚖️ <span className="hidden sm:inline">{compareMode ? "Compare ON" : "Compare"}</span>
+                    <span className="text-[#f5c518]"><IconDoc /></span>
+                    <span className="text-[#eef2f9] font-medium max-w-[120px] truncate">{doc.filename}</span>
+                    <span className="text-[#475569]">{formatBytes(doc.fileSize)}</span>
+                  </div>
+
+                  {doc2 && (
+                    <button
+                      onClick={() => setCompareMode(!compareMode)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
+                      style={{
+                        transition: "background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
+                        background: compareMode ? "rgba(96,165,250,0.15)" : "rgba(96,165,250,0.08)",
+                        border: compareMode ? "1px solid rgba(96,165,250,0.4)" : "1px solid rgba(96,165,250,0.2)",
+                        color: "#60a5fa",
+                      }}
+                    >
+                      ⚖️ <span className="hidden sm:inline">{compareMode ? "Compare ON" : "Compare"}</span>
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => { setQuizTopicFilter(undefined); setShowQuiz(true); }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
+                    style={{
+                      background: "#f5c518",
+                      color: "#000000",
+                      boxShadow: "0 1px 12px rgba(245,197,24,0.2)",
+                      transition: "background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease",
+                    }}
+                  >
+                    <IconQuiz />
+                    <span className="hidden sm:inline">Mock Exam</span>
                   </button>
-                )}
 
-                <button
-                  onClick={() => { setQuizTopicFilter(undefined); setShowQuiz(true); }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold active:scale-[0.97]"
-                  style={{
-                    background: "#f5c518",
-                    color: "#000000",
-                    boxShadow: "0 1px 12px rgba(245,197,24,0.2)",
-                    transition: "background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease",
-                  }}
-                >
-                  <IconQuiz />
-                  <span className="hidden sm:inline">Mock Exam</span>
-                </button>
-
-                <button
-                  onClick={handleReset}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium active:scale-[0.97]"
-                  style={{
-                    background: "rgba(13,13,13,0.6)",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    color: "#94a3b8",
-                    transition: "color 150ms ease, background-color 150ms ease, transform 150ms ease",
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = "#eef2f9"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = "#94a3b8"; }}
-                >
-                  <IconUpload />
-                  <span className="hidden sm:inline">New File</span>
-                </button>
-              </>
-            )}
+                  <button
+                    onClick={handleReset}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium active:scale-[0.97]"
+                    style={{
+                      background: "rgba(13,13,13,0.6)",
+                      border: "1px solid rgba(255,255,255,0.06)",
+                      color: "#94a3b8",
+                      transition: "color 150ms ease, background-color 150ms ease, transform 150ms ease",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = "#eef2f9"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = "#94a3b8"; }}
+                  >
+                    <IconUpload />
+                    <span className="hidden sm:inline">New File</span>
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+      )}
 
       {/* ── Main ── */}
-      <main className="relative z-10 max-w-screen-2xl mx-auto px-4 py-4 h-[calc(100vh-53px)]">
+      <main className={`relative z-10 max-w-screen-2xl mx-auto px-4 py-4 ${doc ? "h-[calc(100vh-53px)]" : "h-screen"}`}>
 
         {!doc ? (
           /* ── Landing / Upload View ── */
