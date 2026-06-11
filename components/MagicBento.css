@@ -1,0 +1,139 @@
+/* ── StudyMind MagicBento — sidebar 2×3 grid ── */
+
+.smb-section {
+  position: relative;
+  user-select: none;
+}
+
+.smb-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.smb-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #1a1726;
+  background: #080810;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.23,1,0.32,1),
+              box-shadow 0.25s ease,
+              border-color 0.2s ease;
+  min-height: 86px;
+
+  --smb-glow-x: 50%;
+  --smb-glow-y: 50%;
+  --smb-glow-i: 0;
+  --smb-glow-r: 140px;
+}
+
+.smb-card:hover {
+  transform: translateY(-2px);
+}
+
+.smb-card--active {
+  border-color: rgba(196, 113, 237, 0.45) !important;
+  background: rgba(8, 4, 18, 1);
+  box-shadow: 0 0 0 1px rgba(196,113,237,0.15), 0 0 20px rgba(196,113,237,0.10);
+}
+
+/* ── Border glow (cursor-tracking) ── */
+.smb-card--glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 4px;
+  background: radial-gradient(
+    var(--smb-glow-r) circle at var(--smb-glow-x) var(--smb-glow-y),
+    rgba(196, 113, 237, calc(var(--smb-glow-i) * 0.80)) 0%,
+    rgba(196, 113, 237, calc(var(--smb-glow-i) * 0.38)) 30%,
+    transparent 62%
+  );
+  border-radius: inherit;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.smb-card--glow:hover {
+  box-shadow:
+    0 4px 24px rgba(40, 10, 70, 0.55),
+    0 0 28px rgba(196,113,237,0.18);
+}
+
+/* ── Card text ── */
+.smb-card__header {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  color: #eef2f9;
+}
+
+.smb-card__label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(196, 113, 237, 0.78);
+  letter-spacing: 0.02em;
+}
+
+.smb-card__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #eef2f9;
+}
+
+.smb-card__title {
+  font-family: var(--font-sora, "Sora", system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 13px;
+  margin: 0 0 4px;
+  color: #eef2f9;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.smb-card__desc {
+  font-size: 10px;
+  line-height: 1.35;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+/* Auto-hide overflow */
+.smb-card--autohide .smb-card__title,
+.smb-card--autohide .smb-card__desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.smb-card--autohide .smb-card__title { -webkit-line-clamp: 1; line-clamp: 1; }
+.smb-card--autohide .smb-card__desc  { -webkit-line-clamp: 2; line-clamp: 2; }
+
+/* ── Particles ── */
+.smb-particle-container { position: relative; overflow: hidden; }
+
+.smb-particle-container:hover {
+  box-shadow:
+    0 4px 20px rgba(40, 10, 70, 0.35),
+    0 0 26px rgba(196, 113, 237, 0.18);
+}
+
+/* ── Global spotlight ── */
+.smb-global-spotlight {
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+  z-index: 200 !important;
+  pointer-events: none;
+}

@@ -17,6 +17,7 @@ const QuizModal = dynamic(() => import("@/components/QuizModal"), { ssr: false }
 const MindMap = dynamic(() => import("@/components/MindMap"), { ssr: false });
 const FlashcardDeck = dynamic(() => import("@/components/FlashcardDeck"), { ssr: false });
 const Lightfall = dynamic(() => import("@/components/Lightfall"), { ssr: false });
+const MagicBento = dynamic(() => import("@/components/MagicBento"), { ssr: false });
 import DecryptedText from "@/components/DecryptedText";
 import {
   ChatCircle, Brain, Cards, ChartBar, Upload, ArrowUp,
@@ -216,8 +217,8 @@ export default function Home() {
       className="min-h-screen text-[#eef2f9] relative overflow-hidden"
       style={{ background: "#000000" }}
     >
-      {/* Lightfall — fixed full-viewport nebula streaks background */}
-      <div
+      {/* Lightfall — only on landing page; app view stays pure black */}
+      {!doc && <div
         aria-hidden
         style={{
           position: "fixed",
@@ -244,7 +245,7 @@ export default function Home() {
           mouseRadius={0.7}
           mouseDampening={0.2}
         />
-      </div>
+      </div>}
 
       {/* Focus mode backdrop */}
       {focusMode && (
@@ -676,78 +677,74 @@ export default function Home() {
                 </details>
               </div>
 
-              {/* Left tab panel */}
-              <div
-                className="flex-1 rounded-xl overflow-hidden flex flex-col min-h-0"
-                style={{
-                  background: "#0d0d0d",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
-                {/* Tab bar */}
-                <div
-                  className="flex items-center shrink-0"
-                  style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-                >
-                  <div className="flex flex-1 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-                    {LEFT_TABS.map((tab) => (
-                      <button
-                        key={tab.id}
-                        onClick={() => setLeftTab(tab.id)}
-                        className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium whitespace-nowrap border-b-2 flex-1 justify-center active:scale-[0.97]"
-                        title={tab.label}
-                        style={{
-                          borderColor: leftTab === tab.id ? "#f5c518" : "transparent",
-                          color: leftTab === tab.id ? "#f5c518" : "#475569",
-                          background: leftTab === tab.id ? "rgba(245,197,24,0.04)" : "transparent",
-                          transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
-                        }}
-                        onMouseEnter={(e) => {
-                          if (leftTab !== tab.id) e.currentTarget.style.color = "#94a3b8";
-                        }}
-                        onMouseLeave={(e) => {
-                          if (leftTab !== tab.id) e.currentTarget.style.color = "#475569";
-                        }}
-                      >
-                        <span>{tab.icon}</span>
-                        <span className="hidden lg:inline">{tab.label}</span>
-                      </button>
-                    ))}
-                  </div>
+              {/* Left panel — MagicBento nav + tab content */}
+              <div className="flex-1 flex flex-col gap-3 min-h-0 overflow-hidden">
 
-                  {/* Fullscreen toggle */}
-                  <button
-                    onClick={() => setLeftMaximized(true)}
-                    title="Fullscreen"
-                    className="shrink-0 w-8 h-8 mx-1.5 rounded-lg flex items-center justify-center active:scale-[0.97]"
-                    style={{
-                      color: "#475569",
-                      border: "1px solid transparent",
-                      transition: "color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "#f5c518";
-                      e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.08)";
-                      e.currentTarget.style.borderColor = "rgba(245,197,24,0.2)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "#475569";
-                      e.currentTarget.style.backgroundColor = "transparent";
-                      e.currentTarget.style.borderColor = "transparent";
-                    }}
-                  >
-                    <IconExpand />
-                  </button>
+                {/* MagicBento feature grid */}
+                <div
+                  className="shrink-0 rounded-xl p-3"
+                  style={{
+                    background: "#000000",
+                    border: "1px solid rgba(255,255,255,0.05)",
+                  }}
+                >
+                  <MagicBento
+                    onSelect={(action) => setLeftTab(action)}
+                    activeTab={leftTab}
+                    textAutoHide={false}
+                    enableStars={true}
+                    enableSpotlight={true}
+                    enableBorderGlow={true}
+                    enableTilt={true}
+                    enableMagnetism={true}
+                    clickEffect={true}
+                    spotlightRadius={220}
+                    particleCount={8}
+                    glowColor="196, 113, 237"
+                  />
                 </div>
 
-                {/* Tab content */}
-                <div className="flex-1 overflow-hidden p-3 min-h-0">
-                  {leftTab === "notes" && <NotesPanel documentContent={doc.documentContent} filename={doc.filename} />}
-                  {leftTab === "mindmap" && <MindMap documentContent={doc.documentContent} onNodeClick={handleMindMapNodeClick} />}
-                  {leftTab === "formulas" && <FormulaExtractor documentContent={doc.documentContent} onExplain={handleFormulaExplain} />}
-                  {leftTab === "flashcards" && <FlashcardDeck documentContent={doc.documentContent} filename={doc.filename} />}
-                  {leftTab === "studyplan" && <StudyPlan documentContent={doc.documentContent} />}
-                  {leftTab === "dashboard" && <ProgressDashboard />}
+                {/* Tab content panel */}
+                <div
+                  className="flex-1 rounded-xl overflow-hidden flex flex-col min-h-0"
+                  style={{
+                    background: "#000000",
+                    border: "1px solid rgba(255,255,255,0.05)",
+                  }}
+                >
+                  {/* Content header */}
+                  <div
+                    className="flex items-center justify-between px-3 py-2 shrink-0"
+                    style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+                  >
+                    <span className="text-xs font-medium" style={{ color: "#94a3b8" }}>
+                      {LEFT_TABS.find(t => t.id === leftTab)?.icon}{" "}
+                      {LEFT_TABS.find(t => t.id === leftTab)?.label}
+                    </span>
+                    <button
+                      onClick={() => setLeftMaximized(true)}
+                      title="Fullscreen"
+                      className="w-7 h-7 rounded-lg flex items-center justify-center active:scale-[0.97]"
+                      style={{
+                        color: "#475569",
+                        transition: "color 150ms ease, background-color 150ms ease, transform 150ms ease",
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = "#f5c518"; e.currentTarget.style.backgroundColor = "rgba(245,197,24,0.08)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = "#475569"; e.currentTarget.style.backgroundColor = "transparent"; }}
+                    >
+                      <IconExpand />
+                    </button>
+                  </div>
+
+                  {/* Tab content */}
+                  <div className="flex-1 overflow-hidden p-3 min-h-0">
+                    {leftTab === "notes"      && <NotesPanel documentContent={doc.documentContent} filename={doc.filename} />}
+                    {leftTab === "mindmap"    && <MindMap documentContent={doc.documentContent} onNodeClick={handleMindMapNodeClick} />}
+                    {leftTab === "formulas"   && <FormulaExtractor documentContent={doc.documentContent} onExplain={handleFormulaExplain} />}
+                    {leftTab === "flashcards" && <FlashcardDeck documentContent={doc.documentContent} filename={doc.filename} />}
+                    {leftTab === "studyplan"  && <StudyPlan documentContent={doc.documentContent} />}
+                    {leftTab === "dashboard"  && <ProgressDashboard />}
+                  </div>
                 </div>
               </div>
             </div>
