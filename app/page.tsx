@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 import FileUpload from "@/components/FileUpload";
 import ChatPanel from "@/components/ChatPanel";
 import NotesPanel from "@/components/NotesPanel";
@@ -24,6 +26,7 @@ import {
 } from "@phosphor-icons/react";
 
 interface DocumentState {
+  id?: string;          // Supabase document id (set after save)
   filename: string;
   fileSize: number;
   charCount: number;
@@ -172,6 +175,7 @@ function loadSession(): { doc: DocumentState; doc2: DocumentState | null; leftTa
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
   const [doc, setDoc] = useState<DocumentState | null>(null);
   const [doc2, setDoc2] = useState<DocumentState | null>(null);
   const [compareMode, setCompareMode] = useState(false);
@@ -186,6 +190,16 @@ export default function Home() {
   const [leftMaximized, setLeftMaximized] = useState(false);
   const [showDocPanel, setShowDocPanel] = useState(false);
   const [sessionRestored, setSessionRestored] = useState(false);
+
+  // ── Auth: get current user and listen for changes ──
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   // ── Restore session on mount (before first paint shows landing page) ──
   useEffect(() => {
@@ -214,27 +228,59 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const handleUploadComplete = (data: DocumentState) => {
+  const saveDocToSupabase = async (data: DocumentState): Promise<string | null> => {
+    try {
+      const res = await fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          filename: data.filename,
+          file_size: data.fileSize,
+          char_count: data.charCount,
+          document_content: data.documentContent,
+          summary: data.summary,
+          suggested_questions: data.suggestedQuestions,
+        }),
+      });
+      const json = await res.json();
+      return json.id ?? null;
+    } catch { return null; }
+  };
+
+  const handleUploadComplete = async (data: DocumentState) => {
     setDoc(data);
     setLeftTab("notes");
     setMobileShowRight(true);
     setCompareMode(false);
     saveDocToLibrary(data);
-    saveSession(data, doc2, "notes", false);
+    // Save to Supabase and attach id for chat history linking
+    const id = await saveDocToSupabase(data);
+    const enriched = id ? { ...data, id } : data;
+    setDoc(enriched);
+    saveSession(enriched, doc2, "notes", false);
     try {
       const prev = parseInt(localStorage.getItem("studymind_docs_count") ?? "0", 10);
       localStorage.setItem("studymind_docs_count", String(prev + 1));
     } catch { /* ignore */ }
   };
 
-  const handleUpload2Complete = (data: DocumentState) => {
+  const handleUpload2Complete = async (data: DocumentState) => {
     setDoc2(data);
     saveDocToLibrary(data);
-    saveSession(doc, data, leftTab, compareMode);
+    const id = await saveDocToSupabase(data);
+    const enriched = id ? { ...data, id } : data;
+    setDoc2(enriched);
+    saveSession(doc, enriched, leftTab, compareMode);
     try {
       const prev = parseInt(localStorage.getItem("studymind_docs_count") ?? "0", 10);
       localStorage.setItem("studymind_docs_count", String(prev + 1));
     } catch { /* ignore */ }
+  };
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    handleReset();
   };
 
   const handleSelectFromLibrary = (libDoc: LibraryDoc) => {
@@ -515,6 +561,39 @@ export default function Home() {
                     <span className="hidden sm:inline">New File</span>
                   </button>
                 </>
+              )}
+
+              {/* ── User avatar + sign-out ── */}
+              {user && (
+                <div className="flex items-center gap-2 ml-1">
+                  {/* Avatar */}
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 overflow-hidden"
+                    style={{ background: "rgba(196,113,237,0.15)", border: "1px solid rgba(196,113,237,0.3)", color: "#c471ed" }}
+                    title={user.email ?? ""}
+                  >
+                    {user.user_metadata?.avatar_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={user.user_metadata.avatar_url} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      (user.email?.[0] ?? "U").toUpperCase()
+                    )}
+                  </div>
+                  <button
+                    onClick={handleSignOut}
+                    className="text-xs font-medium px-2.5 py-1.5 rounded-lg active:scale-[0.97]"
+                    style={{
+                      color: "#475569",
+                      border: "1px solid rgba(255,255,255,0.06)",
+                      background: "rgba(13,13,13,0.6)",
+                      transition: "color 150ms ease, background-color 150ms ease, transform 150ms ease",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = "#f87171"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = "#475569"; }}
+                  >
+                    Sign out
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -914,6 +993,7 @@ export default function Home() {
                 {/* Chat panel */}
                 <div className="flex-1 overflow-hidden min-h-0">
                   <ChatPanel
+                    documentId={doc.id}
                     documentContent={doc.documentContent}
                     documentContent2={compareMode && doc2 ? doc2.documentContent : undefined}
                     compareMode={compareMode && !!doc2}

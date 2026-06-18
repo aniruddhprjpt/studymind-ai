@@ -9,6 +9,7 @@ interface Message {
 }
 
 interface ChatPanelProps {
+  documentId?: string;     // Supabase document id for history persistence
   documentContent: string;
   documentContent2?: string;
   compareMode?: boolean;
@@ -105,7 +106,15 @@ const AI_ICON = (
 
 // ── Chat Panel ───────────────────────────────────────────────────────────────
 
+const WELCOME_MESSAGE = (filename: string, summary: string, compareMode?: boolean, filename2?: string): Message => ({
+  role: "assistant",
+  content: compareMode
+    ? `## Compare Mode Active 📚\n\nI have both documents loaded. Ask me to compare them!\n\n**Doc 1:** ${filename}\n**Doc 2:** ${filename2 ?? "Document 2"}`
+    : `## Document Loaded: ${filename}\n\n${summary}\n\n---\n\n*Ask me anything about this document! I'll only answer based on its content.*`,
+});
+
 export default function ChatPanel({
+  documentId,
   documentContent,
   documentContent2,
   compareMode,
@@ -116,18 +125,44 @@ export default function ChatPanel({
   preFillMessage,
 }: ChatPanelProps) {
   const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: compareMode
-        ? `## Compare Mode Active 📚\n\nI have both documents loaded. Ask me to compare them!\n\n**Doc 1:** ${filename}\n**Doc 2:** ${filename2 ?? "Document 2"}`
-        : `## Document Loaded: ${filename}\n\n${summary}\n\n---\n\n*Ask me anything about this document! I'll only answer based on its content.*`,
-    },
+    WELCOME_MESSAGE(filename, summary, compareMode, filename2),
   ]);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [eli5Mode, setEli5Mode] = useState(false);
   const [ratings, setRatings] = useState<Record<number, RatingAction>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // ── Load chat history from Supabase ──
+  useEffect(() => {
+    if (!documentId) { setHistoryLoaded(true); return; }
+    fetch(`/api/messages?document_id=${documentId}`)
+      .then((r) => r.json())
+      .then(({ messages: history }) => {
+        if (history && history.length > 0) {
+          setMessages([
+            WELCOME_MESSAGE(filename, summary, compareMode, filename2),
+            ...history.map((m: { role: "user" | "assistant"; content: string }) => ({
+              role: m.role,
+              content: m.content,
+            })),
+          ]);
+        }
+      })
+      .catch(() => {/* ignore — history unavailable */})
+      .finally(() => setHistoryLoaded(true));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [documentId]);
+
+  const saveMessage = (role: "user" | "assistant", content: string) => {
+    if (!documentId) return;
+    fetch("/api/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ document_id: documentId, role, content }),
+    }).catch(() => {/* best-effort */});
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -172,9 +207,11 @@ export default function ChatPanel({
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
+    saveMessage("user", userMessage.content);
     try {
       const reply = await callChatAPI(newMessages);
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      saveMessage("assistant", reply);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Unknown error";
       const isRateLimit = msg.toLowerCase().includes("rate limit") || msg.includes("429");
