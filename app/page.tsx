@@ -457,6 +457,35 @@ export default function Home() {
                   Powered by LLaMA 3
                 </p>
               </div>
+
+              {/* Sign In button — visible when not logged in */}
+              {!user && (
+                <>
+                  <div style={{
+                    width: 1, height: 24, margin: "0 11px",
+                    background: "rgba(196,113,237,0.22)", borderRadius: 99, flexShrink: 0,
+                  }} />
+                  <a
+                    href="/auth/login"
+                    style={{
+                      padding: "6px 14px",
+                      borderRadius: 10,
+                      background: "rgba(196,113,237,0.15)",
+                      border: "1px solid rgba(196,113,237,0.35)",
+                      color: "#c471ed",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      textDecoration: "none",
+                      whiteSpace: "nowrap",
+                      transition: "background-color 150ms ease",
+                    }}
+                    onMouseEnter={(e) => { (e.target as HTMLElement).style.backgroundColor = "rgba(196,113,237,0.25)"; }}
+                    onMouseLeave={(e) => { (e.target as HTMLElement).style.backgroundColor = "rgba(196,113,237,0.15)"; }}
+                  >
+                    Sign In
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </header>
