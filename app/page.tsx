@@ -20,6 +20,7 @@ const MindMap = dynamic(() => import("@/components/MindMap"), { ssr: false });
 const FlashcardDeck = dynamic(() => import("@/components/FlashcardDeck"), { ssr: false });
 const Lightfall = dynamic(() => import("@/components/Lightfall"), { ssr: false });
 const MagicBento = dynamic(() => import("@/components/MagicBento"), { ssr: false });
+const ParticleText = dynamic(() => import("@/components/ParticleText"), { ssr: false });
 import DecryptedText from "@/components/DecryptedText";
 import {
   ChatCircle, Brain, Cards, ChartBar, Upload, ArrowUp,
@@ -683,26 +684,47 @@ export default function Home() {
                   ))}
                 </div>
 
-                {/* Display headline — Sora, display scale, solid colors */}
-                <h1
-                  className="font-extrabold leading-[1.05] mb-5"
-                  style={{
-                    fontFamily: "var(--font-sora, 'Sora', system-ui)",
-                    fontSize: "clamp(2.8rem, 6vw, 4.5rem)",
-                    letterSpacing: "-0.03em",
-                    textWrap: "balance",
-                    textShadow: "0 2px 24px rgba(0,0,0,0.7)",
-                  }}
-                >
-                  {/* "Study Smarter." — pure white, high contrast always */}
-                  <span style={{ color: "#ffffff", display: "block" }}>
-                    Study Smarter.
-                  </span>
-                  {/* "Not Harder." — nebula accent, still solid + readable */}
-                  <span style={{ color: "#C471ED", display: "block" }}>
-                    Not Harder.
-                  </span>
-                </h1>
+                {/* Display headline — ParticleText canvas animation */}
+                <div className="mb-5" style={{ width: "100%", maxWidth: 560, margin: "0 auto 20px" }}>
+                  <ParticleText
+                    text="Study Smarter."
+                    color="#ffffff"
+                    highlightColor="#c471ed"
+                    fontSize="clamp(2.4rem, 5.5vw, 4rem)"
+                    fontWeight={800}
+                    fontFamily="var(--font-sora, 'Sora', system-ui, sans-serif)"
+                    particleSize={1.8}
+                    density={3}
+                    scatter={200}
+                    gatherDuration={1400}
+                    stagger={380}
+                    pointerRepel={50}
+                    repelRadius={130}
+                    idleDrift={0.5}
+                    glow={true}
+                    trigger="mount"
+                    style={{ height: "clamp(72px, 10vw, 110px)" }}
+                  />
+                  <ParticleText
+                    text="Not Harder."
+                    color="#c471ed"
+                    highlightColor="#ffffff"
+                    fontSize="clamp(2.4rem, 5.5vw, 4rem)"
+                    fontWeight={800}
+                    fontFamily="var(--font-sora, 'Sora', system-ui, sans-serif)"
+                    particleSize={1.8}
+                    density={3}
+                    scatter={200}
+                    gatherDuration={1600}
+                    stagger={400}
+                    pointerRepel={50}
+                    repelRadius={130}
+                    idleDrift={0.6}
+                    glow={true}
+                    trigger="mount"
+                    style={{ height: "clamp(72px, 10vw, 110px)", marginTop: -8 }}
+                  />
+                </div>
 
                 {/* Subtitle — high contrast, dark shadow halo for any bg frame */}
                 <p
